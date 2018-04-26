@@ -47,12 +47,11 @@ public class MainActivity extends AppCompatActivity{
     private Button plusButton;
     private Button minusButton;
     HashMap<String,String> hashMap = new HashMap<>();
-    HttpParse httpParse = new HttpParse();
     private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
     ProgressDialog progressDialog;
     private int id;
-    private String JSONOutput = "";
+    String Output;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +60,8 @@ public class MainActivity extends AppCompatActivity{
         scoreText = (TextView)findViewById(R.id.scoreContainer);
         plusButton = (Button)findViewById(R.id.plusButton);
         minusButton = (Button)findViewById(R.id.minusButton);
-        scoreText.setText(getStringValue("score"));
+        Output = "xd";
+        //String currentScore = getStringValue("score");
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 changeScore(10);
@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity{
             alertbox.setCancelable(false);
             finish();
         }
+        getScore("score");
     }
     @Override
     public boolean onKeyDown(int keyCode,KeyEvent event){
@@ -164,17 +165,12 @@ public class MainActivity extends AppCompatActivity{
         requestQueue.add(stringRequest);
     }
 
-    private String getStringValue(final String column) {
+    private void getScore(final String column) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, receiveURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            JSONObject jObject = new JSONObject(response);
-                            JSONOutput = jObject.getString(column);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        onPersonalScoreReceive(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -194,6 +190,10 @@ public class MainActivity extends AppCompatActivity{
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-        return JSONOutput;
+    }
+
+    private void onPersonalScoreReceive(String response){
+        Output = response.split(",")[0];
+        scoreText.setText(response.split(",")[0]);
     }
 }
