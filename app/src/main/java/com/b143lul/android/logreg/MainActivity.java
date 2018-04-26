@@ -88,26 +88,29 @@ public class MainActivity extends AppCompatActivity{
     public boolean onKeyDown(int keyCode,KeyEvent event){
 
         if (keyCode==KeyEvent.KEYCODE_BACK){
-            AlertDialog.Builder alertbox=new AlertDialog.Builder(MainActivity.this);
-            alertbox.setTitle("You tryna sign out? cmonBruh ?");
-            alertbox.setCancelable(true);
-            alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    boolean sharedPreferences = MainActivity.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE).edit().clear().commit();
-                    finish();
-                }
-            });
-            alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            });
-            alertbox.show();
+            trynaSignout();
         }
         return super.onKeyDown(keyCode,event);
     }
 
+    private void trynaSignout() {
+        AlertDialog.Builder alertbox=new AlertDialog.Builder(MainActivity.this);
+        alertbox.setTitle("You tryna sign out? cmonBruh ?");
+        alertbox.setCancelable(true);
+        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                boolean sharedPreferences = MainActivity.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE).edit().clear().commit();
+                finish();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertbox.show();
+    }
 
     // For Option Menu
     @Override
@@ -124,8 +127,8 @@ public class MainActivity extends AppCompatActivity{
 
             return true;
         }
-        if (id==R.id.id_set){
-
+        if (id==R.id.id_signout){
+            trynaSignout();
             //Write own logic
             return true;
         }

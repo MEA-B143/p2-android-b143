@@ -1,7 +1,9 @@
 package com.b143lul.android.logreg;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +16,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
+import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class Signup extends AppCompatActivity {
     EditText edit_username;
@@ -45,6 +50,12 @@ public class Signup extends AppCompatActivity {
                 startActivity(intentLogin);
             }
         });
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        boolean loggedIn = sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false);
+        if (loggedIn) {
+            Intent intentLogin=new Intent(Signup.this,Login.class);
+            startActivity(intentLogin);
+        }
     }
 
     private void registerUser() {
