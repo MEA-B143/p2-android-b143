@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity{
         plusButton = (Button)findViewById(R.id.plusButton);
         minusButton = (Button)findViewById(R.id.minusButton);
         Output = "xd";
-        String currentScore = getStringValue("score");
+        //String currentScore = getStringValue("score");
         plusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 changeScore(10);
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity{
             alertbox.setCancelable(false);
             finish();
         }
-        scoreText.setText(currentScore);
+        getScore("score");
     }
     @Override
     public boolean onKeyDown(int keyCode,KeyEvent event){
@@ -165,20 +165,12 @@ public class MainActivity extends AppCompatActivity{
         requestQueue.add(stringRequest);
     }
 
-    private String getStringValue(final String column) {
+    private void getScore(final String column) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, receiveURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //String[] columns = response.split(",");
-                        //String firstcolumn = columns[0];
-                        try {
-                            JSONObject json = new JSONObject(response);
-                            Log.i("This", json.toString());
-                            Output = json.getString(column);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        onPersonalScoreReceive(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -198,6 +190,10 @@ public class MainActivity extends AppCompatActivity{
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-        return Output;
+    }
+
+    private void onPersonalScoreReceive(String response){
+        Output = response.split(",")[0];
+        scoreText.setText(response.split(",")[0]);
     }
 }
