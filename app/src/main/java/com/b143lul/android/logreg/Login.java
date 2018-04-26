@@ -1,6 +1,7 @@
 package com.b143lul.android.logreg;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,6 +61,10 @@ public class Login extends AppCompatActivity {
 
         }
 
+        final ProgressDialog progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage("Authenticating...");
+        progressDialog.show();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -78,17 +83,18 @@ public class Login extends AppCompatActivity {
                             editor.putInt(ID_SHARED_PREF, id);
 
                             editor.commit();
-
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                         } else{
                             Toast.makeText(Login.this, response, Toast.LENGTH_LONG).show();
                         }
+                        progressDialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        progressDialog.dismiss();
                     }
                 }){
             @Override
@@ -112,8 +118,6 @@ public class Login extends AppCompatActivity {
         String password = sharedPreferences.getString(KEY_PASSWORD, null);
         if(loggedIn){
             login(email, password);
-            Intent intent = new Intent(Login.this, MainActivity.class);
-            startActivity(intent);
         }
     }
 }
