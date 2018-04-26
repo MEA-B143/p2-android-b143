@@ -89,11 +89,12 @@ public class MainActivity extends AppCompatActivity{
 
         if (keyCode==KeyEvent.KEYCODE_BACK){
             AlertDialog.Builder alertbox=new AlertDialog.Builder(MainActivity.this);
-            alertbox.setTitle("Do you want to exit? lol wtf");
-            alertbox.setCancelable(false);
+            alertbox.setTitle("You tryna sign out? cmonBruh ?");
+            alertbox.setCancelable(true);
             alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    boolean sharedPreferences = MainActivity.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE).edit().clear().commit();
                     finish();
                 }
             });
