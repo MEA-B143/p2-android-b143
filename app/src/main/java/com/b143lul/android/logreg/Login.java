@@ -163,10 +163,10 @@ public class Login extends AppCompatActivity {
 
     private void onGroupCodeResponse(String response) {
         String code = response.split(",")[0];
-        if (code.equals("null")) {
+        //if (code.equals("null")) {
             // Not in a group.
             Intent groupJoinScreen = new Intent(Login.this, CreateJoinClass.class);
             startActivity(groupJoinScreen);
-        }
+        //}
     }
 }
