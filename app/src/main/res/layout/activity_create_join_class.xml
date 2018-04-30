@@ -6,4 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".CreateJoinClass">
 
+    <Button
+        android:id="@+id/create"
+        android:layout_width="0dp"
+        android:layout_height="260dp"
+        android:text="@string/title_create"
+        app:layout_constraintEnd_toEndOf="@+id/joinbutton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/joinbutton"
+        android:layout_width="400dp"
+        android:layout_height="0dp"
+        android:text="@string/title_join"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create" />
+
 </android.support.constraint.ConstraintLayout>
