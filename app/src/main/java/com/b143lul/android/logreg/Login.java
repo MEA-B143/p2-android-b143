@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +33,8 @@ public class Login extends AppCompatActivity {
     public static final String EMAIL_SHARED_PREF="email";
     public static final String LOGGEDIN_SHARED_PREF="loggedin";
     public static final String ID_SHARED_PREF = "userid";
+    private final String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
+    private static final String TAG = "MyActivity";
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button BtnLogin;
@@ -81,8 +84,9 @@ public class Login extends AppCompatActivity {
                             String[] retvals = response.trim().split(",");
                             int id = Integer.parseInt(retvals[1].trim());
                             editor.putInt(ID_SHARED_PREF, id);
-
                             editor.commit();
+
+                            checkGroup("groupcode", id, progressDialog);
                             Intent intent = new Intent(Login.this, MainActivity.class);
                             startActivity(intent);
                         } else{
@@ -118,6 +122,51 @@ public class Login extends AppCompatActivity {
         String password = sharedPreferences.getString(KEY_PASSWORD, null);
         if(loggedIn){
             login(email, password);
+        }
+    }
+
+    private void checkGroup(final String column, final int id, final ProgressDialog progressDialog) {
+        // We need to check if the person is in a group before determining which activity to start next.
+
+        progressDialog.setMessage("Checking for any group information...");
+        // Booting up the progress dialog.
+
+        // Building the requesting of group code from the server.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, receiveURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onGroupCodeResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG,Log.getStackTraceString(error));
+                        // Print any errors to the console.
+                        progressDialog.dismiss();
+                        // We also need to stop the progress dialog from staying up because then the app can continue.
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("id", Integer.toString(id));
+                prams.put("field", column);
+
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void onGroupCodeResponse(String response) {
+        String code = response.split(",")[0];
+        if (code.equals("null")) {
+            // Not in a group.
+            Intent groupJoinScreen = new Intent(Login.this, CreateJoinClass.class);
+            startActivity(groupJoinScreen);
         }
     }
 }
