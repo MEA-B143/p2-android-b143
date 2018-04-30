@@ -3,4 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="step_counter">
+         android.hardware.sensor.stepcounter
+   </string>
+
+
+    <string name="step_detector">
+         android.hardware.sensor.stepdetector
+   </string>
+
 </resources>
