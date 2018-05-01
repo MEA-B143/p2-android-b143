@@ -36,9 +36,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Signup"></activity>
-        <activity android:name=".Login"></activity>
-        <activity android:name=".CreateJoinClass"></activity>
+        <activity android:name=".Signup" />
+        <activity android:name=".Login" />
+        <activity android:name=".CreateJoinClass" />
+        <activity
+            android:name=".CreateGroup"
+            android:label="@string/title_activity_create_group"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
