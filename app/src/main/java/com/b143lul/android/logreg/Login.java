@@ -34,7 +34,7 @@ public class Login extends AppCompatActivity {
     public static final String LOGGEDIN_SHARED_PREF="loggedin";
     public static final String ID_SHARED_PREF = "userid";
     private final String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
-    private static final String TAG = "MyActivity";
+    private static final String TAG = "Login.class";
     private EditText editTextEmail;
     private EditText editTextPassword;
     private Button BtnLogin;
