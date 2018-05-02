@@ -1,8 +1,10 @@
 package com.b143lul.android.logreg;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class Splash_Screen extends AppCompatActivity {
 
@@ -10,6 +12,15 @@ public class Splash_Screen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
+        if (!areStepsBeingCounted()) {
+
+            // Mark Service as Started
+            Preferences.setServiceRun(this, false);
+
+            // Start Step Counting service
+            Intent serviceIntent = new Intent(this, PedometerService.class);
+            startService(serviceIntent);
+        }
 
         Thread th = new Thread() {
             @Override
@@ -32,6 +43,16 @@ public class Splash_Screen extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         finish();
+    }
+
+    private boolean areStepsBeingCounted() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.b143lul.android.logreg.PedometerService".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

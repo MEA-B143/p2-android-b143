@@ -1,5 +1,5 @@
 package com.b143lul.android.logreg;
-
+/*
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,3 +18,4 @@ public class MessageReceiver extends ResultReceiver {
         message.displayMessage(resultCode, resultData);
     }
 }
+*/

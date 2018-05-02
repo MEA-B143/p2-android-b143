@@ -1,11 +1,8 @@
 package com.b143lul.android.logreg;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
@@ -19,16 +16,34 @@ public class Pedometer extends AppCompatActivity {
         setContentView(R.layout.activity_pedometer);
         tvSteps = (TextView) findViewById(R.id.tvSteps);
 
-        MessageReceiver receiver = new MessageReceiver(new Message());
+        //MessageReceiver receiver = new MessageReceiver(new Message());
 
-        Intent intent = new Intent(this, PedometerService.class);
-        intent.putExtra("receiver",receiver);
-        startService(intent);
+        if (!areStepsBeingCounted()) {
+
+            // Mark Service as Started
+            Preferences.setServiceRun(this, false);
+
+            // Start Step Counting service
+            Intent serviceIntent = new Intent(this, PedometerService.class);
+            startService(serviceIntent);
+        }
+
+        tvSteps.setText(Preferences.getStepCount(Pedometer.this));
     }
-
+/*
     public class Message {
         public void displayMessage(int resultCode, Bundle resultData) {
 
         }
+*/
+
+    private boolean areStepsBeingCounted() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.b143lul.android.logreg.PedometerService".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }
