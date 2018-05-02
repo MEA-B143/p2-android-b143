@@ -1,6 +1,7 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -51,6 +52,8 @@ public class CreateGroup extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             // The response will be something like "success,12345"
                             editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
+                            Intent goTrackMap = new Intent(CreateGroup.this, TrackMap.class);
+                            startActivity(goTrackMap);
                         }
                     }
                 },
