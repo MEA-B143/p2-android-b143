@@ -1,6 +1,5 @@
 package com.b143lul.android.logreg;
 
-import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -169,6 +168,8 @@ public class Login extends AppCompatActivity {
             startActivity(groupJoinScreen);
         } else {
             Log.e(TAG, code);
+            Intent launchMap = new Intent(Login.this, TrackMap.class);
+            startActivity(launchMap);
         }
     }
 

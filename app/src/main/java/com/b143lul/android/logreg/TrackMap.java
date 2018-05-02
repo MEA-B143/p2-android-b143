@@ -29,7 +29,6 @@ public class TrackMap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_map);
 
-
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
@@ -39,6 +38,8 @@ public class TrackMap extends AppCompatActivity {
             alertbox.setCancelable(false);
             finish();
         }
+
+        getGroupParticipants();
     }
 
     private void getGroupParticipants(){
