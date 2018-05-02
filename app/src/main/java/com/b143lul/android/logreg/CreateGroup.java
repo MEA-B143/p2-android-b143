@@ -28,7 +28,7 @@ import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class CreateGroup extends AppCompatActivity {
-    final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
+    private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
     private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

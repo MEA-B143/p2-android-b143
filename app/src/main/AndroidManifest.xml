@@ -42,7 +42,8 @@
         <activity
             android:name=".CreateGroup"
             android:label="@string/title_activity_create_group"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TrackMap"></activity>
     </application>
 
 </manifest>
