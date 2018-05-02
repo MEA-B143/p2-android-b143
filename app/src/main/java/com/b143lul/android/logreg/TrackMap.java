@@ -58,7 +58,6 @@ public class TrackMap extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
-                prams.put("id", Integer.toString(id));
                 prams.put("groupCode", "12345");
                 return prams;
             }
