@@ -1,40 +1,31 @@
 package com.b143lul.android.logreg;
 
-import android.app.IntentService;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.os.ResultReceiver;
-import android.util.Log;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 
-public class PedometerService extends IntentService {
+public class PedometerService extends Service implements SensorEventListener {
 
-    public PedometerService() {
-        super("Pedometer Service");
-    }
 
     private SensorManager mSensorManager;
     private Sensor mStepCounterSensor;
     private Sensor mStepDetectorSensor;
 
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate();
-        Log.v("Pedometer", "Pedometer service has started.");
+    public void onStartCommand() {
 
         mSensorManager = (SensorManager)
                 getSystemService(Context.SENSOR_SERVICE);
         mStepCounterSensor = mSensorManager
                 .getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        mStepDetectorSensor = mSensorManager
-                .getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-    }
 
-    @Override
-    public void onHandleIntent(Intent intent){
-        ResultReceiver receiver = intent.getParcelableExtra("receiver");
     }
 
     public void onSensorChanged(SensorEvent event) {
@@ -46,15 +37,23 @@ public class PedometerService extends IntentService {
             value = (int) values[0];
         }
         if (sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            //Send "value" to activity somehow
+            Intent intent = new Intent("YourAction");
             Bundle bundle = new Bundle();
-            bundle.putString("message","Steps counted");
-            receiver.send(value, bundle);
+            bundle.putString("StepCount", String.valueOf(value));
+            intent.putExtras(bundle);
+            LocalBroadcastManager.getInstance(PedometerService.this).sendBroadcast(intent);
         }
-
     }
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
     }
 
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 }
