@@ -29,20 +29,19 @@ public class TrackMap extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(CreateGroup.this, response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TrackMap.this, response, Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //Log.e("CreateGroup.java", error.toString());
                         error.printStackTrace();
                     }
                 }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
-                prams.put("id", Integer.toString(id));
+                //prams.put("id", Integer.toString(id));
                 prams.put("groupCode", "12345");
                 return prams;
             }

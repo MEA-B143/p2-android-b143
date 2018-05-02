@@ -29,19 +29,11 @@ public class CreateGroup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_join_class);
+        setContentView(R.layout.activity_creategroup);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        /*fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
-        SharedPreferences sharedPreferences = CreateGroup.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = CreateGroup.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
@@ -54,7 +46,12 @@ public class CreateGroup extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(CreateGroup.this, response, Toast.LENGTH_SHORT).show();
+                        if (response.startsWith("success")) {
+                            Toast.makeText(CreateGroup.this, response, Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            // The response will be something like "success,12345"
+                            editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
+                        }
                     }
                 },
                 new Response.ErrorListener() {
