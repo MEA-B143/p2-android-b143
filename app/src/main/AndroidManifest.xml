@@ -37,12 +37,15 @@
         <activity android:name=".Signup"></activity>
         <activity android:name=".Login"></activity>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <service android:name=".PedometerService"/>
 
 
 
 
 =======
+=======
+>>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
         <activity android:name=".Pedometer"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
@@ -53,6 +56,9 @@
             ></activity>
         <service android:name=".PedometerService"
             android:exported="false"/>
+<<<<<<< HEAD
+>>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
+=======
 >>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
     </application>
 
