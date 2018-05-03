@@ -24,6 +24,7 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 public class TrackMap extends AppCompatActivity {
     private int id;
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
+    private int localGroupCode;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +39,9 @@ public class TrackMap extends AppCompatActivity {
             alertbox.setCancelable(false);
             finish();
         }
-
+        localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         getGroupParticipants();
-    }
+        }
 
     private void getGroupParticipants(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getGroupParticipantsURL,
@@ -59,7 +60,7 @@ public class TrackMap extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
-                prams.put("groupCode", "12345");
+                prams.put("groupCode", Integer.toString(localGroupCode));
                 return prams;
             }
         };
