@@ -12,6 +12,7 @@ public class SettingsScreen extends AppCompatActivity {
     SharedPreferences sharedPreferences = SettingsScreen.this.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
     SharedPreferences.Editor editor = sharedPreferences.edit();
     private boolean switch_settings=false;
+    private boolean text_settings=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
