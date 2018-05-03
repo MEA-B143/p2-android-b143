@@ -1,6 +1,7 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ public class SettingsScreen extends AppCompatActivity {
     public static final String SETTINGS="tech";
     SharedPreferences sharedPreferences = SettingsScreen.this.getSharedPreferences(SETTINGS, Context.MODE_PRIVATE);
     SharedPreferences.Editor editor = sharedPreferences.edit();
+    private boolean settings=false;
     private boolean switch_settings=false;
     private boolean text_settings=false;
 
