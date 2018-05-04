@@ -2,6 +2,7 @@ package com.b143lul.android.logreg;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,16 +15,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TooManyListenersException;
 
+import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
+import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class JoinGroup extends AppCompatActivity {
 
     private final String JoinGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/JoinGroup.php";
-    private int localGroupCode;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +37,15 @@ public class JoinGroup extends AppCompatActivity {
         setContentView(R.layout.activity_join_group);
 
         SharedPreferences sharedPreferences = JoinGroup.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
-
-        localGroupCode = sharedPreferences.getInt("groupcode", 00000);
+            if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
+                id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
+            } else {
+                AlertDialog.Builder alertbox=new AlertDialog.Builder(JoinGroup.this);
+                alertbox.setTitle("Ania is stupid");
+                alertbox.setCancelable(false);
+                finish();
+        }
+        //localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         getGroupInfo();
     }
 
@@ -41,7 +54,19 @@ public class JoinGroup extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        String groupResponse = response;
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.has("NoGroupCode")){ //If the entered group code doesn't exist.
+                                String ErrorMessage = "Group code doesn't exist.";
+                                //TODO - Display this in the activity later.
+                            }
+                            else if (jsonObject.has("groupcode")){ //If everything is successful and the group information is retrieved.
+                                String groupDetailsString = jsonObject.getString("groupcode");
+                                String[] groupDetails = groupDetailsString.split(",");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -52,7 +77,8 @@ public class JoinGroup extends AppCompatActivity {
                 }){
         protected Map<String, String> getParams () throws AuthFailureError {
             Map<String, String> prams = new HashMap<>();
-            prams.put("groupCode", Integer.toString(localGroupCode));
+            prams.put("groupCode", "12345");
+            prams.put("id", Integer.toString(id));
             return prams;
         }
     };

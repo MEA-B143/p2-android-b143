@@ -1,6 +1,7 @@
 package com.b143lul.android.logreg;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,13 @@ public class CreateJoinClass extends AppCompatActivity {
             public void onClick(View view) {
                 Intent createGroup = new Intent(CreateJoinClass.this, CreateGroup.class);
                 startActivity(createGroup);
+            }
+        });
+        joinButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent joinGroup = new Intent(CreateJoinClass.this, JoinGroup.class);
+                startActivity(joinGroup);
             }
         });
     }
