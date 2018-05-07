@@ -168,6 +168,11 @@ public class Login extends AppCompatActivity {
             startActivity(groupJoinScreen);
         } else {
             Log.e(TAG, code);
+            SharedPreferences sharedPreferences = Login.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            int debug = Integer.parseInt(code.trim());
+            editor.putInt("groupcode", Integer.parseInt(code.trim()));
+            editor.commit();
             Intent launchMap = new Intent(Login.this, TrackMap.class);
             startActivity(launchMap);
         }
