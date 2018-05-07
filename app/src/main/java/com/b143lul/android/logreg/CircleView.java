@@ -23,7 +23,7 @@ public class CircleView extends View {
     }
     public void init() {
         paint1 = new Paint();
-        paint1.setColor(Color.RED);
+        paint1.setColor(Color.BLUE);
         this.setWillNotDraw(false);
     }
     protected void onDraw(Canvas canvas) {
@@ -37,7 +37,7 @@ public class CircleView extends View {
                         int userscore = 0;
                             userscore = Integer.parseInt(groupScores.getString(name));
                         // Now let's actually draw the stuff.
-                        canvas.drawCircle(posX(userscore), posY(userscore), 100, paint1);
+                        canvas.drawCircle(getWidth()/5+posX(userscore), posY(userscore), 50, paint1);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -51,9 +51,9 @@ public class CircleView extends View {
         invalidate();
     }
 
-    private float posX(int points) {
-        int maxPoints = 1000;
-        int width = getWidth();
+    private float posX(float points) {
+        float maxPoints = 1000;
+        float width = getWidth();
 
         if (points < maxPoints/5) {                                    //These If-statements divide the maxPoints into 5, as there are 5 sections of the track. This one is the first piece (horizontal).
             return (points/(maxPoints/5))*((width/5)*3);                  //Dividing the points with the amount of points needed for the piece an then multiplying it by where it needs to "fit", makes it fit there. Its multiplied by width/5*3 because there is width/5 on each side of the track.
@@ -68,9 +68,9 @@ public class CircleView extends View {
         }
     }
 
-    private float posY(int points) {                                                    //The same applies to the if-statements here, as above.
-        int maxPoints = 1000;
-        int height = getHeight();
+    private float posY(float points) {                                                    //The same applies to the if-statements here, as above.
+        float maxPoints = 1000;
+        float height = getHeight();
 
         if (points < maxPoints/5) {
             return height/5;                                    //This ensures that the first horizontal piece is height/5 from the top.
