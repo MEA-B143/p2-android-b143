@@ -45,7 +45,10 @@ public class CircleView extends View {
                             userscore = Integer.parseInt(groupScores.getString(name));
                             if (!name.equals(localUsername)) {
                                 // Now let's actually draw the stuff.
+                                paint1.setTextAlign(Paint.Align.CENTER);
+                                paint1.setTextSize(40);
                                 canvas.drawCircle(getWidth() / 5 + posX(userscore), posY(userscore), 50, paint1);
+                                canvas.drawText(name, getWidth()/5 + posX(userscore), posY(userscore)+100, paint1);
                             }
                         }
                     }
@@ -56,7 +59,9 @@ public class CircleView extends View {
             try {
                 int yourScore = groupScores.getInt(localUsername);
                 paint1.setColor(Color.RED);
+                paint1.setTextAlign(Paint.Align.CENTER);
                 canvas.drawCircle(getWidth() / 5 + posX(yourScore), posY(yourScore), 50, paint1);
+                canvas.drawText(localUsername, getWidth()/5 + posX(yourScore), posY(yourScore)+100, paint1);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
