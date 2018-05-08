@@ -27,8 +27,11 @@
 
             <!-- android:label="@string/main" > -->
         </activity>
+        <activity android:name=".Splash_Screen"></activity>
+        <activity android:name=".Signup"></activity>
+        <activity android:name=".Login"></activity>
         <activity
-            android:name=".Splash_Screen"
+            android:name=".SettingsScreen"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,9 +39,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Signup"></activity>
-        <activity android:name=".Login"></activity>
-        <activity android:name=".SettingsScreen"></activity>
     </application>
 
 </manifest>
