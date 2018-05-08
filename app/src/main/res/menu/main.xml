@@ -4,13 +4,13 @@
 
 
     <item
-        android:title="Profile"
+        android:title="Yikers"
         android:id="@+id/id_profile"
         android:orderInCategory="100"
         app:showAsAction="never" />
     <item
-        android:title="setting"
-        android:id="@+id/id_set"
+        android:title="Sign out"
+        android:id="@+id/id_signout"
         android:orderInCategory="101"
         app:showAsAction="never" />
 
