@@ -40,7 +40,7 @@
         <activity android:name=".Login" />
         <activity android:name=".CreateJoinClass" />
         <activity
-            android:name=".CreateGroup"
+            android:name=".ChallengeDetails"
             android:label="@string/title_activity_create_group"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TrackMap" />

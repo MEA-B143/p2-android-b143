@@ -24,21 +24,21 @@ import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
-public class CreateGroup extends AppCompatActivity {
-    private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
+public class ChallengeDetails extends AppCompatActivity {
+    private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/ChallengeDetails.php";
     private int id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_creategroup);
+        setContentView(R.layout.activity_challenge_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final SharedPreferences sharedPreferences = CreateGroup.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = ChallengeDetails.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
-            AlertDialog.Builder alertbox=new AlertDialog.Builder(CreateGroup.this);
+            AlertDialog.Builder alertbox=new AlertDialog.Builder(ChallengeDetails.this);
             alertbox.setTitle("How tf did u get here???");
             alertbox.setCancelable(false);
             finish();
@@ -48,12 +48,12 @@ public class CreateGroup extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         if (response.startsWith("success")) {
-                            Toast.makeText(CreateGroup.this, response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChallengeDetails.this, response, Toast.LENGTH_SHORT).show();
                             SharedPreferences.Editor editor = sharedPreferences.edit();
                             // The response will be something like "success,12345"
                             editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
                             editor.commit();
-                            Intent goTrackMap = new Intent(CreateGroup.this, TrackMap.class);
+                            Intent goTrackMap = new Intent(ChallengeDetails.this, TrackMap.class);
                             startActivity(goTrackMap);
                         }
                     }
@@ -61,7 +61,7 @@ public class CreateGroup extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //Log.e("CreateGroup.java", error.toString());
+                        //Log.e("ChallengeDetails.java", error.toString());
                         error.printStackTrace();
                     }
                 }){
@@ -71,9 +71,7 @@ public class CreateGroup extends AppCompatActivity {
                 prams.put("id", Integer.toString(id));
                 prams.put("name", "Test group");
                 prams.put("daylimit", "1");
-                prams.put("hourlimit", "3");
                 prams.put("playerlimit", "10");
-
                 return prams;
             }
         };
