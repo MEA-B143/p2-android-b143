@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -41,7 +42,7 @@ public class JoinGroup extends AppCompatActivity {
                 id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
             } else {
                 AlertDialog.Builder alertbox=new AlertDialog.Builder(JoinGroup.this);
-                alertbox.setTitle("Ania is stupid");
+                alertbox.setTitle("Ania is stupid, sry its true");
                 alertbox.setCancelable(false);
                 finish();
         }
@@ -58,7 +59,11 @@ public class JoinGroup extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(response);
                             if (jsonObject.has("NoGroupCode")){ //If the entered group code doesn't exist.
                                 String ErrorMessage = "Group code doesn't exist.";
-                                //TODO - Display this in the activity later.
+                                //TODO - Display this message in the activity later.
+                            }
+                            else if(jsonObject.has("TooManyPlayers")){ //If the playerlimit is reached and there is no space for this player.
+                                Toast.makeText(JoinGroup.this, "Too many players.", Toast.LENGTH_SHORT);
+                                //TODO - Display this message in the activity later.
                             }
                             else if (jsonObject.has("groupcode")){ //If everything is successful and the group information is retrieved.
                                 String groupDetailsString = jsonObject.getString("groupcode");
