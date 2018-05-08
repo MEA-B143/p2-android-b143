@@ -13,6 +13,7 @@ import org.json.JSONObject;
 public class CircleView extends View {
     JSONObject groupScores;
     Paint paint1;
+    String localUsername = "";
     public CircleView(Context context) {
         super(context);
         init();
@@ -32,26 +33,45 @@ public class CircleView extends View {
             for (int i = 0; i < groupScores.names().length(); i++) {
                 try {
                     if (!groupScores.names().getString(i).isEmpty()) {
-                        // Get all the values to paint the circles.
-                        String name = groupScores.names().getString(i);
                         int userscore = 0;
+                        // This plan died so this if statement don't work RN LOL who gives af tho
+                        if (groupScores.names().getString(i).equals("yourscore")) {
+                            paint1.setColor(Color.RED);
+                            userscore = Integer.parseInt(groupScores.getString(groupScores.names().getString(i)).split(",")[1]);
+                        } else {
+                            paint1.setColor(Color.BLUE);
+                            // Get all the values that aren't yours to paint the circles.
+                            String name = groupScores.names().getString(i);
                             userscore = Integer.parseInt(groupScores.getString(name));
-                        // Now let's actually draw the stuff.
-                        canvas.drawCircle(getWidth()/5+posX(userscore), posY(userscore), 50, paint1);
+                            if (!name.equals(localUsername)) {
+                                // Now let's actually draw the stuff.
+                                canvas.drawCircle(getWidth() / 5 + posX(userscore), posY(userscore), 50, paint1);
+                            }
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            try {
+                int yourScore = groupScores.getInt(localUsername);
+                paint1.setColor(Color.RED);
+                canvas.drawCircle(getWidth() / 5 + posX(yourScore), posY(yourScore), 50, paint1);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void update(JSONObject allGroupScores) {
+    public void update(JSONObject allGroupScores, String username) {
         groupScores = allGroupScores;
+        localUsername = username;
         invalidate();
+        // Invalidate refreshes the draw function
     }
 
     private float posX(float points) {
+        // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;
         float width = getWidth();
 
@@ -69,6 +89,7 @@ public class CircleView extends View {
     }
 
     private float posY(float points) {                                                    //The same applies to the if-statements here, as above.
+        // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;
         float height = getHeight();
 

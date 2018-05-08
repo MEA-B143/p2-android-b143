@@ -32,6 +32,7 @@ public class Login extends AppCompatActivity {
     public static final String EMAIL_SHARED_PREF="email";
     public static final String LOGGEDIN_SHARED_PREF="loggedin";
     public static final String ID_SHARED_PREF = "userid";
+    public static final String USERNAME_SHARED_PREF = "username";
     private final String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
     private static final String TAG = "Login.class";
     private EditText editTextEmail;
@@ -49,19 +50,19 @@ public class Login extends AppCompatActivity {
         BtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String email = editTextEmail.getText().toString().trim();
+                final String username = editTextEmail.getText().toString().trim();
                 final String password = editTextPassword.getText().toString().trim();
-                login(email, password);
+                login(username, password);
             }
         });
         progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
     }
 
-    private void login(final String email, final String password) {
-        if (email.isEmpty()) {
+    private void login(final String username, final String password) {
+        if (username.isEmpty()) {
 
         }
-        if (!email.contains("@")) {
+        if (!username.contains("@")) {
 
         }
         progressDialog.setIndeterminate(true);
@@ -78,7 +79,8 @@ public class Login extends AppCompatActivity {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
 
                             editor.putBoolean(LOGGEDIN_SHARED_PREF, true);
-                            editor.putString(EMAIL_SHARED_PREF, email);
+                            //editor.putString(EMAIL_SHARED_PREF, email);
+                            editor.putString(USERNAME_SHARED_PREF, username);
                             editor.putString(KEY_PASSWORD, password);
                             String[] retvals = response.trim().split(",");
                             int id = Integer.parseInt(retvals[1].trim());
@@ -101,7 +103,7 @@ public class Login extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
-                prams.put(KEY_EMAIL, email);
+                prams.put("username", username);
                 prams.put(KEY_PASSWORD, password);
 
                 return prams;
@@ -177,14 +179,4 @@ public class Login extends AppCompatActivity {
             startActivity(launchMap);
         }
     }
-
-    private Runnable changeMessage = new Runnable() {
-        @Override
-        public void run() {
-            //Log.v(TAG, strCharacters);
-            //progressDialog.incrementProgressBy(1);
-            progressDialog.setMessage("Checking for any group information...");
-            progressDialog.show();
-        }
-    };
 }

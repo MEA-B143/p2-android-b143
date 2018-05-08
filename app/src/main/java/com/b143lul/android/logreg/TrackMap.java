@@ -2,7 +2,6 @@ package com.b143lul.android.logreg;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -33,9 +32,9 @@ public class TrackMap extends AppCompatActivity {
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
     private int localGroupCode;
     private JSONObject groupScores;
-    Paint paint;
     CircleView circleView;
     private final int REFRESH_TIME = 5000;
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +42,7 @@ public class TrackMap extends AppCompatActivity {
         setContentView(circleView);
         //final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "username");
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
@@ -53,19 +53,8 @@ public class TrackMap extends AppCompatActivity {
         }
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         getGroupParticipants();
-        paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        scheduleGetScores();
+        startGetScores();
     }
-    /*
-    Handler handler = new Handler(Looper.getMainLooper());
-    Runnable PaintScoresEvery15Seconds = new Runnable() {
-        @Override
-        public void run() {
-            getGroupParticipants();
-            handler.postDelayed(this, 5000);
-        }
-    };
-    */
 
     private void getGroupParticipants(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getGroupParticipantsURL,
@@ -86,6 +75,7 @@ public class TrackMap extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
                 prams.put("groupCode", Integer.toString(localGroupCode));
+                prams.put("id", Integer.toString(id));
                 return prams;
             }
         };
@@ -97,13 +87,13 @@ public class TrackMap extends AppCompatActivity {
         String responseCheck = response;
         try {
             groupScores = new JSONObject(response);
-            circleView.update(groupScores);
+            circleView.update(groupScores, username);
         } catch (JSONException e) {
-            Toast.makeText(TrackMap.this, "An error occurred.  No users probably have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
         }
     }
     Handler handler = new Handler(Looper.getMainLooper());
-    public void scheduleGetScores() {
+    public void startGetScores() {
         handler.postDelayed(new Runnable() {
             public void run() {
                 getGroupParticipants();          // this method will contain your almost-finished HTTP calls
