@@ -36,9 +36,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Signup"></activity>
-        <activity android:name=".Login"></activity>
-        <activity android:name=".SettingsScreen"></activity>
-    </application>
+        <activity android:name=".Signup" />
+        <activity android:name=".Login" />
+        <activity android:name=".CreateJoinClass" />
+        <activity
+            android:name=".CreateGroup"
+            android:label="@string/title_activity_create_group"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TrackMap" />
+        <activity android:name=".JoinGroup"></activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+     </application>
 
 </manifest>
