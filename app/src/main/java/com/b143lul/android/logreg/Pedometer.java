@@ -1,7 +1,6 @@
 package com.b143lul.android.logreg;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -105,21 +104,6 @@ public class Pedometer extends AppCompatActivity {
         steps.setText('"' + String.valueOf(countedStep) + '"' + " Steps Counted");
 
 =======
-=======
-import android.content.Context;
-import android.content.Intent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
-
-public class Pedometer extends AppCompatActivity {
-    private TextView tvSteps;
-
->>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,9 +121,6 @@ public class Pedometer extends AppCompatActivity {
         public void displayMessage(int resultCode, Bundle resultData) {
 
         }
-<<<<<<< HEAD
->>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
-=======
 >>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
     }
 }

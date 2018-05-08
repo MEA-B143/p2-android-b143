@@ -1,7 +1,6 @@
 package com.b143lul.android.logreg;
 
 <<<<<<< HEAD
-<<<<<<< HEAD
 
 import android.app.Service;
 import android.content.Intent;
@@ -11,16 +10,10 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 >>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
-=======
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
->>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-<<<<<<< HEAD
 <<<<<<< HEAD
 import android.os.IBinder;
 import android.util.Log;
@@ -165,8 +158,6 @@ public class PedometerService extends Service implements SensorEventListener {
     // ___________________________________________________________________________ \\
 
 =======
-=======
->>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -216,8 +207,5 @@ public class PedometerService extends Service implements SensorEventListener {
     public IBinder onBind(Intent intent) {
         return null;
     }
-<<<<<<< HEAD
->>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
-=======
 >>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
 }
