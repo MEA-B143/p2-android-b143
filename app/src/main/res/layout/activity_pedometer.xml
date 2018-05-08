@@ -7,7 +7,7 @@
     tools:context=".Pedometer">
 
     <TextView
-        android:id="@+id/tvSteps"
+        android:id="@+id/steps"
         android:layout_width="95dp"
         android:layout_height="98dp"
         android:layout_marginBottom="8dp"
@@ -22,4 +22,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startgame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="start game"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="186dp" />
 </android.support.constraint.ConstraintLayout>

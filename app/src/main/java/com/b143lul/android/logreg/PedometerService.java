@@ -1,71 +1,79 @@
 package com.b143lul.android.logreg;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.os.Handler;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.IBinder;
-import android.widget.Toast;
+import android.util.Log;
+
 
 public class PedometerService extends Service implements SensorEventListener {
 
-    private static final Integer NOTIFICATION_ID = 7837;
-    private Notification.Builder mBuilder;
-    private NotificationManager mNotificationManager;
+    SensorManager sensorManager;
+    Sensor stepCounterSensor;
+    Sensor stepDetectorSensor;
+
+
+    int currentStepsDetected;
+
+    int stepCounter;
+    int newStepCounter;
+
+    boolean serviceStopped;
+
+    Intent intent;
+
+    private static final String TAG = "StepService";
+    public static final String BROADCAST_ACTION = "com.websmithing.elina.mybroadcast";
+
+    private final android.os.Handler handler = new android.os.Handler() {
+    };
+    int counter = 0;
+
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        intent = new Intent(BROADCAST_ACTION);
+
+    }
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
+        Log.v("Service", "Start");
 
-        // Get Notification Manager
-        mBuilder = new Notification.Builder(this);
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        stepCounterSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        stepDetectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+        sensorManager.registerListener(this, stepCounterSensor, 0);
+        sensorManager.registerListener(this, stepDetectorSensor, 0);
 
-        // Setup Step Counter
-        SensorManager sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        Sensor countSensor = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
-        if (countSensor != null) {
-            Toast.makeText(this, "Started Counting Steps", Toast.LENGTH_LONG).show();
-            sensorManager.registerListener(this, countSensor, SensorManager.SENSOR_DELAY_UI);
-        } else {
-            Toast.makeText(this, "Device not Compatible!", Toast.LENGTH_LONG).show();
-            this.stopSelf();
-        }
+        //currentStepCount = 0;
+        currentStepsDetected = 0;
+        stepCounter = 0;
+        newStepCounter = 0;
 
-        // Setup First Notification
-        updateNotification(true);
+        serviceStopped = false;
 
-        // Setup Shared Preference Change Listener
-        SharedPreferences sharedPreferences = getSharedPreferences("stepcounter_prefs", MODE_PRIVATE);
-        SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
-            @Override
-            public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-                // Update Notification Bar
-                updateNotification(false);
-            }
-        };
-        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
+        // --------------------------------------------------------------------------- \\
+        // ___ (3) start handler ___ \\
+        /////if (serviceStopped == false) {
+        // remove any existing callbacks to the handler
+        handler.removeCallbacks(updateBroadcastData);
+        // call our handler with or without delay.
+        handler.post(updateBroadcastData); // 0 seconds
+        /////}
+        // ___________________________________________________________________________ \\
 
-        // Restart the service if its killed
         return START_STICKY;
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-
-        // Record Step Count
-        Preferences.setStepCount(this, (int) event.values[0]);
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
     @Override
@@ -73,50 +81,73 @@ public class PedometerService extends Service implements SensorEventListener {
         return null;
     }
 
-    private void updateNotification(boolean firstTime) {
 
-        // Update Step Count
-        mBuilder.setContentTitle(Preferences.getStepCount(this) + " steps taken");
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.v("Service", "Stop");
 
-        Notification notification;
+        serviceStopped = true;
 
-        // First Time Setup
-        if (firstTime) {
-            mBuilder.setSmallIcon(R.drawable.ic_notifications_black_24dp);
-            //mBuilder.setPriority(-1);
-            mBuilder.setContentText("Step Counter - Counting");
-            mBuilder.setOngoing(true);
-            mBuilder.setAutoCancel(false);
-            mBuilder.setOnlyAlertOnce(true);
-            //mBuilder.setVisibility(Notification.VISIBILITY_SECRET);
+    }
 
-            // Share Button
-            Intent shareIntent = new Intent(this, NotificationReceiver.class);
-            shareIntent.setAction("SHARE");
-            PendingIntent pShareIntent = PendingIntent.getBroadcast(this, 0, shareIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.addAction(1, "Share", pShareIntent);
+    /** Called when the overall system is running low on memory, and actively running processes should trim their memory usage. */
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
 
-            // Reset Button
-            Intent resetIntent = new Intent(this, NotificationReceiver.class);
-            resetIntent.setAction("RESET");
-            PendingIntent pResetIntent = PendingIntent.getBroadcast(this, 0, resetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.addAction(2, "Reset", pResetIntent);
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+            int countSteps = (int) event.values[0];
 
-            // Close Button
-            Intent closeIntent = new Intent(this, NotificationReceiver.class);
-            closeIntent.setAction("CLOSE");
-            PendingIntent pCloseIntent = PendingIntent.getBroadcast(this, 0, closeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            mBuilder.addAction(3, "Close", pCloseIntent);
 
-            notification = mBuilder.build();
 
-            // Set Service to run in the Foreground
-            startForeground(NOTIFICATION_ID, notification);
-        } else {
-            notification = mBuilder.build();
+
+            if (stepCounter == 0) {
+                stepCounter = (int) event.values[0];
+            }
+            //figure this out
+            newStepCounter = countSteps - stepCounter;
         }
 
-        mNotificationManager.notify(NOTIFICATION_ID, notification);
+
+        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+            int detectSteps = (int) event.values[0];
+            currentStepsDetected += detectSteps; //steps = steps + detectSteps; // This variable will be initialised with the STEP_DETECTOR event value (1), and will be incremented by itself (+1) for as long as steps are detected.
+        }
+
+        Log.v("Service Counter", String.valueOf(newStepCounter));
+
     }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    }
+
+    private Runnable updateBroadcastData = new Runnable() {
+        public void run() {
+            if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
+                // Call the method that broadcasts the data to the Activity..
+                broadcastSensorValue();
+                // Call "handler.postDelayed" again, after a specified delay.
+                handler.postDelayed(this, 1000);
+            }
+        }
+    };
+
+    private void broadcastSensorValue() {
+        Log.d(TAG, "Data to Activity");
+        // add step counter to intent.
+        intent.putExtra("Counted_Step_Int", newStepCounter);
+        intent.putExtra("Counted_Step", String.valueOf(newStepCounter));
+        // add step detector to intent.
+        intent.putExtra("Detected_Step_Int", currentStepsDetected);
+        intent.putExtra("Detected_Step", String.valueOf(currentStepsDetected));
+        // call sendBroadcast with that intent  - which sends a message to whoever is registered to receive it.
+        sendBroadcast(intent);
+    }
+    // ___________________________________________________________________________ \\
 
 }
