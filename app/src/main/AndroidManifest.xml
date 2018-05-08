@@ -36,13 +36,6 @@
         <activity android:name=".Splash_Screen"></activity>
         <activity android:name=".Signup"></activity>
         <activity android:name=".Login"></activity>
-<<<<<<< HEAD
-        <service android:name=".PedometerService"/>
-
-
-
-
-=======
         <activity android:name=".Pedometer"
             android:theme="@style/Theme.AppCompat.NoActionBar" >
             <intent-filter>
@@ -51,10 +44,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             ></activity>
+<<<<<<< HEAD
+
+
+=======
         <service android:name=".PedometerService"
             android:exported="false"/>
 >>>>>>> b8e8e68394cecbd6d6b165bc2b76576e02d93396
     </application>
+
 
 
 </manifest>
