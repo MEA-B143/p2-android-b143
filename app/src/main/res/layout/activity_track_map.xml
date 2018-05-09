@@ -5,5 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TrackMap">
+    <com.b143lul.android.logreg.CircleView android:id="@+id/CircleView"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"></com.b143lul.android.logreg.CircleView>
 
 </android.support.constraint.ConstraintLayout>

@@ -1,7 +1,6 @@
 package com.b143lul.android.logreg;
 
 import android.content.Intent;
-import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,7 +19,7 @@ public class CreateJoinClass extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent createGroup = new Intent(CreateJoinClass.this, CreateGroup.class);
+                Intent createGroup = new Intent(CreateJoinClass.this, ChallengeDetails.class);
                 startActivity(createGroup);
             }
         });
