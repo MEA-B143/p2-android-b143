@@ -87,6 +87,7 @@ public class TrackMap extends AppCompatActivity {
         String responseCheck = response;
         try {
             groupScores = new JSONObject(response);
+            SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
             circleView.update(groupScores, username);
         } catch (JSONException e) {
             Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();

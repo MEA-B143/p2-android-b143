@@ -1,33 +1,44 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
+
 public class CircleView extends View {
+    SharedPreferences sharedPreferences;
     JSONObject groupScores;
     Paint paint1;
     String localUsername = "";
     public CircleView(Context context) {
         super(context);
-        init();
+        init(context);
     }
     public CircleView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
-    public void init() {
+    public void init(Context context) {
         paint1 = new Paint();
         paint1.setColor(Color.BLUE);
         this.setWillNotDraw(false);
+        sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
     protected void onDraw(Canvas canvas) {
+        //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        Drawable d = getResources().getDrawable(R.drawable.resized_track_2);
+        d.setBounds(0, 0, getWidth(), (int)(getHeight()*1.1));
+
+        d.draw(canvas);
         //super.onDraw(canvas);
         if (groupScores != null) {
             for (int i = 0; i < groupScores.names().length(); i++) {
@@ -96,18 +107,18 @@ public class CircleView extends View {
     private float posY(float points) {                                                    //The same applies to the if-statements here, as above.
         // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;
-        float height = getHeight();
-
+        float height = (float) (getHeight()*0.82);
+        float startHeight = height/15;
         if (points < maxPoints/5) {
-            return height/5;                                    //This ensures that the first horizontal piece is height/5 from the top.
+            return height/5+startHeight;                                    //This ensures that the first horizontal piece is height/5 from the top.
         } else if (points >= maxPoints/5 && points < (maxPoints/5)*2) {
-            return ((points/(maxPoints/5))*((height/5)*3)/2)-height/10; //And this makes the first vertical piece go for height/5*3/2, because we have height/5 on the top and bottom, so theres height/5*3 left in the middle, but we have 2 vertical pieces, so its height/5*3/2.
+            return ((points/(maxPoints/5))*((height/5)*3)/2)-height/10+startHeight; //And this makes the first vertical piece go for height/5*3/2, because we have height/5 on the top and bottom, so theres height/5*3 left in the middle, but we have 2 vertical pieces, so its height/5*3/2.
         } else if (points >= (maxPoints/5)*2 && points < (maxPoints/5)*3) {
-            return height/2;                                       //Again, this is to make sure the second horizontal piece is in the right plac, which is in the middle.
+            return height/2+startHeight;                                       //Again, this is to make sure the second horizontal piece is in the right plac, which is in the middle.
         } else if (points >= (maxPoints/5)*3 && points < (maxPoints/5)*4) {
-            return ((points/(maxPoints/5))*((height/5)*3)/2)-height/5*2;         //This second vertical piece is basically the same as the first, except for the alignment, so it's further down.
+            return ((points/(maxPoints/5))*((height/5)*3)/2)-height/5*2+startHeight;         //This second vertical piece is basically the same as the first, except for the alignment, so it's further down.
         } else {
-            return height/5*4;      //And finally this makes the last horizontal piece appear height/5 from the bottom.
+            return height/5*4+startHeight;      //And finally this makes the last horizontal piece appear height/5 from the bottom.
         }
     }
 }
