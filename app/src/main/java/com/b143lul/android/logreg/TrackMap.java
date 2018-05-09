@@ -39,7 +39,8 @@ public class TrackMap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         circleView = new CircleView(this);
-        setContentView(circleView);
+
+        setContentView(R.layout.activity_track_map);
         //final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");

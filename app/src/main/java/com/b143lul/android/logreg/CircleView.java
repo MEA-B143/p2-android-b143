@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -35,10 +34,11 @@ public class CircleView extends View {
     }
     protected void onDraw(Canvas canvas) {
         //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        Drawable d = getResources().getDrawable(R.drawable.resized_track_2);
-        d.setBounds(0, 0, getWidth(), (int)(getHeight()*1.1));
+        //Drawable d = getResources().getDrawable(R.drawable.resized_track_2);
+        //d.setBounds(0, 0, getWidth(), (int)(getHeight()*1.1));
 
-        d.draw(canvas);
+        //d.draw(canvas);
+
         //super.onDraw(canvas);
         if (groupScores != null) {
             for (int i = 0; i < groupScores.names().length(); i++) {
