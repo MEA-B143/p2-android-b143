@@ -60,17 +60,161 @@
 
     <TextView
         android:id="@+id/tvInformation"
-        android:layout_width="248dp"
-        android:layout_height="96dp"
+        android:layout_width="320dp"
+        android:layout_height="119dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:gravity="center"
         android:text="You can customise your challenge here! Choose a name, set a maximum amount of players allowed, and the time frame."
+        android:textColor="#555555"
+        android:textSize="18sp"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#bfbfbf"
+        app:layout_constraintBottom_toTopOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvInformation" />
+
+    <TextView
+        android:id="@+id/tvPlayerLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="PLAYER LIMIT:"
+        android:textColor="#555555"
+        android:textSize="20sp"
+        app:fontFamily="@font/muli_extralight"
+        app:layout_constraintBottom_toTopOf="@+id/tvTimeLimit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.034"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#bfbfbf"
+        app:layout_constraintBottom_toTopOf="@+id/tvTimeLimit"
+        app:layout_constraintTop_toBottomOf="@+id/tvPlayerLimit"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tvTimeLimit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="228dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="TIME LIMIT:"
+        android:textColor="#555555"
+        android:textSize="20sp"
+        app:fontFamily="@font/muli_extralight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.03"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/view3"
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#bfbfbf"
+        app:layout_constraintBottom_toTopOf="@+id/tvPlayerLimit"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.5dp"
+        android:layout_="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:background="#bfbfbf"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeLimit"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="NAME:"
+        android:textColor="#555555"
+        android:textSize="20sp"
+        app:fontFamily="@font/muli_extralight"
+        app:layout_constraintBottom_toTopOf="@+id/tvPlayerLimit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnJoin"
+        android:layout_width="163dp"
+        android:layout_height="171dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        app:backgroundTint="#ff8217"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTimeLimit"
+        app:layout_constraintVertical_bias="0.75"
+        app:rippleColor="@android:color/transparent"
+        app:srcCompat="@drawable/btn_create_challenge"
+        android:focusable="true" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="211dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="RACE"
+        android:inputType="textPersonName"
+        app:fontFamily="@font/muli_extralight"
+        app:layout_constraintBottom_toTopOf="@+id/view3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.666" />
+
 
 </android.support.constraint.ConstraintLayout>
