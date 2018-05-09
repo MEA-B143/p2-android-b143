@@ -1,14 +1,13 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,7 +24,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TooManyListenersException;
 
 import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
@@ -37,6 +35,7 @@ public class JoinGroup extends AppCompatActivity {
     private int id;
     EditText edit_groupcode;
     FloatingActionButton btn_join;
+    SharedPreferences sharedPreferences;
 
 
     @Override
@@ -65,7 +64,7 @@ public class JoinGroup extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sharedPreferences = JoinGroup.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = JoinGroup.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
             if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
                 id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
             } else {
@@ -93,6 +92,11 @@ public class JoinGroup extends AppCompatActivity {
                             else if (jsonObject.has("groupcode")){ //If everything is successful and the group information is retrieved.
                                 String groupDetailsString = jsonObject.getString("groupcode");
                                 String[] groupDetails = groupDetailsString.split(",");
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("groupcode", Integer.parseInt(groupDetails[0].trim()));
+                                editor.commit();
+                                Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
+                                startActivity(goMap);
                                 //TODO - Enter TrackMap
                             }
                         } catch (JSONException e) {
@@ -114,7 +118,7 @@ public class JoinGroup extends AppCompatActivity {
         }
     };
     RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+    requestQueue.add(stringRequest);
     }
 }
 
