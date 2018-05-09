@@ -44,7 +44,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <ImageButton
             android:id="@+id/imgBtnBack"
@@ -82,13 +82,12 @@
     <TextView
         android:id="@+id/tvInformation"
         android:layout_width="320dp"
-        android:layout_height="119dp"
+        android:layout_height="148dp"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="4dp"
         android:gravity="center"
         android:text="You can customise your challenge here! Choose a name, set a maximum amount of players allowed, and the time frame."
         android:textColor="#555555"
@@ -108,6 +107,7 @@
         android:background="#bfbfbf"
         app:layout_constraintBottom_toTopOf="@+id/tvName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInformation" />
 
@@ -116,10 +116,6 @@
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="PLAYER LIMIT:"
         android:textColor="#555555"
@@ -127,10 +123,9 @@
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/tvDayLimit"
         app:layout_constraintEnd_toStartOf="@+id/etPlayerLimit2"
-        app:layout_constraintHorizontal_bias="0.347"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.952" />
+        app:layout_constraintVertical_bias="0.973" />
 
 
     <TextView
@@ -139,9 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="DAY LIMIT:"
         android:textColor="#555555"
@@ -149,10 +142,9 @@
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etDayLimit"
-        app:layout_constraintHorizontal_bias="0.14"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.643" />
+        app:layout_constraintVertical_bias="0.597" />
 
     <View
         android:id="@+id/view4"
@@ -163,6 +155,7 @@
         android:background="#bfbfbf"
         app:layout_constraintBottom_toTopOf="@+id/tvDayLimit"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvPlayerLimit" />
 
@@ -170,13 +163,14 @@
         android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
-        android:layout_marginBottom="12dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
         android:background="#bfbfbf"
-        app:layout_constraintBottom_toTopOf="@+id/tvPlayerLimit"
+        app:layout_constraintBottom_toTopOf="@+id/etPlayerLimit2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvName" />
+        app:layout_constraintTop_toBottomOf="@+id/etName"
+        app:layout_constraintVertical_bias="1.0" />
 
     <View
         android:id="@+id/view5"
@@ -187,6 +181,7 @@
         android:background="#bfbfbf"
         app:layout_constraintBottom_toTopOf="@+id/btnCreate"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvDayLimit" />
 
@@ -194,20 +189,18 @@
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
         android:text="NAME:"
         android:textColor="#555555"
         android:textSize="20sp"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/tvPlayerLimit"
         app:layout_constraintEnd_toStartOf="@+id/etName"
-        app:layout_constraintHorizontal_bias="0.026"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.96" />
+        app:layout_constraintVertical_bias="0.953" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCreate"
@@ -235,8 +228,8 @@
         android:layout_width="211dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginStart="60dp"
+        android:layout_marginLeft="51dp"
+        android:layout_marginStart="51dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:ems="10"
@@ -247,7 +240,7 @@
         app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit2"
         app:layout_constraintStart_toEndOf="@+id/tvDayLimit"
         app:layout_constraintTop_toBottomOf="@+id/view4"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/etPlayerLimit2"
@@ -255,10 +248,10 @@
         android:layout_height="39dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="18dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="100dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginTop="7dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="EDIT PLAYER LIMIT"
@@ -266,24 +259,23 @@
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/view4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvName"
+        app:layout_constraintStart_toEndOf="@+id/tvPlayerLimit"
         app:layout_constraintTop_toBottomOf="@+id/view3" />
 
     <EditText
         android:id="@+id/etName"
-        android:layout_width="197dp"
+        android:layout_width="210dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="70dp"
-        android:layout_marginStart="70dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginLeft="85dp"
+        android:layout_marginStart="85dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="EDIT RACE NAME"
         android:inputType="textPersonName"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit2"
         app:layout_constraintStart_toEndOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
