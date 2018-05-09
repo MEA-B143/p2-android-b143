@@ -31,11 +31,46 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/title_join"
+            android:text="CHALLENGE DETAILS"
             android:textColor="#555555"
             android:textSize="23sp"
             app:fontFamily="@font/muli_extralight" />
 
+        <ImageButton
+            android:id="@+id/imgBtnBack"
+            android:layout_width="56dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp"
+            android:adjustViewBounds="false"
+            android:background="@android:color/transparent"
+            android:cropToPadding="false"
+            app:srcCompat="@drawable/btn_back" />
+
+        <ImageButton
+            android:id="@+id/btn_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="11dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            app:srcCompat="@drawable/menu_icon" />
+
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tvInformation"
+        android:layout_width="248dp"
+        android:layout_height="96dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="You can customise your challenge here! Choose a name, set a maximum amount of players allowed, and the time frame."
+        app:fontFamily="@font/muli_extralight"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout" />
 
 </android.support.constraint.ConstraintLayout>
