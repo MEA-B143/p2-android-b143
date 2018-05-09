@@ -117,10 +117,10 @@ public class Login extends AppCompatActivity {
         super.onResume();
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
         loggedIn = sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false);
-        String email = sharedPreferences.getString(EMAIL_SHARED_PREF, null);
+        String username = sharedPreferences.getString(USERNAME_SHARED_PREF, null);
         String password = sharedPreferences.getString(KEY_PASSWORD, null);
         if(loggedIn){
-            login(email, password);
+            login(username, password);
         }
     }
 
