@@ -122,7 +122,7 @@
         android:textSize="20sp"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/tvDayLimit"
-        app:layout_constraintEnd_toStartOf="@+id/etPlayerLimit2"
+        app:layout_constraintEnd_toStartOf="@+id/etPlayerLimit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.973" />
@@ -165,7 +165,7 @@
         android:layout_height="1.5dp"
         android:layout_marginBottom="8dp"
         android:background="#bfbfbf"
-        app:layout_constraintBottom_toTopOf="@+id/etPlayerLimit2"
+        app:layout_constraintBottom_toTopOf="@+id/etPlayerLimit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -237,13 +237,13 @@
         android:inputType="textPersonName"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/view5"
-        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit2"
+        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit"
         app:layout_constraintStart_toEndOf="@+id/tvDayLimit"
         app:layout_constraintTop_toBottomOf="@+id/view4"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/etPlayerLimit2"
+        android:id="@+id/etPlayerLimit"
         android:layout_width="211dp"
         android:layout_height="39dp"
         android:layout_marginBottom="8dp"
@@ -275,7 +275,7 @@
         android:inputType="textPersonName"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit2"
+        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit"
         app:layout_constraintStart_toEndOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/view2" />
 
