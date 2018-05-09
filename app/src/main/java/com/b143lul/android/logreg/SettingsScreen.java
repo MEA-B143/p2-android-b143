@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
+
 public class SettingsScreen extends AppCompatActivity {
 
     Switch switch1;
@@ -28,6 +29,7 @@ public class SettingsScreen extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = SettingsScreen.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.commit();
 
         switch1 = (Switch) findViewById(R.id.switch1);
         switch2 = (Switch) findViewById(R.id.switch2);
