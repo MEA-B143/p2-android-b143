@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -27,6 +30,14 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 public class ChallengeDetails extends AppCompatActivity {
     private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/ChallengeDetails.php";
     private int id;
+
+    EditText et_Name;
+    EditText et_PlayerLimit;
+    EditText et_DayLimit;
+    ImageButton btn_back;
+    ImageButton btn_menu;
+    FloatingActionButton btn_create;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
