@@ -3,8 +3,11 @@ package com.b143lul.android.logreg;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -13,6 +16,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,12 +31,18 @@ public class TrackMap extends AppCompatActivity {
     private int id;
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
     private int localGroupCode;
+    private JSONObject groupScores;
+    CircleView circleView;
+    private final int REFRESH_TIME = 5000;
+    private String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_track_map);
-
+        circleView = new CircleView(this);
+        setContentView(circleView);
+        //final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        username = sharedPreferences.getString("username", "username");
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
@@ -41,14 +53,16 @@ public class TrackMap extends AppCompatActivity {
         }
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         getGroupParticipants();
-        }
+        startGetScores();
+    }
 
     private void getGroupParticipants(){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, getGroupParticipantsURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        String fourtwenty = response;
+                        // This will return all the scores.
+                        drawGroupMembers(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -61,12 +75,30 @@ public class TrackMap extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
                 prams.put("groupCode", Integer.toString(localGroupCode));
+                prams.put("id", Integer.toString(id));
                 return prams;
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
-
     }
 
+    private void drawGroupMembers(String response) {
+        String responseCheck = response;
+        try {
+            groupScores = new JSONObject(response);
+            circleView.update(groupScores, username);
+        } catch (JSONException e) {
+            Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    Handler handler = new Handler(Looper.getMainLooper());
+    public void startGetScores() {
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                getGroupParticipants();          // this method will contain your almost-finished HTTP calls
+                handler.postDelayed(this, REFRESH_TIME);
+            }
+        }, REFRESH_TIME);
+    }
 }
