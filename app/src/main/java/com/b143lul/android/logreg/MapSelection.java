@@ -18,6 +18,7 @@ public class MapSelection extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_selection);
         BtnTrack1 = (ImageButton)findViewById(R.id.btn_track1);
+        BtnBack = (ImageButton)findViewById(R.id.btn_back);
 
         BtnTrack1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,5 +27,12 @@ public class MapSelection extends AppCompatActivity {
                 startActivity(goChallengeDetails);
             }
         });
+        BtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
+
 }

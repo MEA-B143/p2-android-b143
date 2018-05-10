@@ -36,7 +36,7 @@ public class ChallengeDetails extends AppCompatActivity {
     EditText et_Name;
     EditText et_PlayerLimit;
     EditText et_DayLimit;
-    ImageButton btn_back;
+    ImageButton BtnBack;
     ImageButton btn_menu;
     FloatingActionButton btn_create;
 
@@ -50,6 +50,14 @@ public class ChallengeDetails extends AppCompatActivity {
         et_PlayerLimit = (EditText) findViewById(R.id.etPlayerLimit);
         et_DayLimit = (EditText) findViewById(R.id.etDayLimit);
         btn_create = (FloatingActionButton) findViewById(R.id.btnCreate);
+        BtnBack = (ImageButton)findViewById(R.id.btn_back);
+
+        BtnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         btn_create.setOnClickListener(new View.OnClickListener() {
             @Override
