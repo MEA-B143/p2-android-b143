@@ -86,7 +86,7 @@ public class TrackMap extends AppCompatActivity {
     private void drawGroupMembers(String response) {
         String responseCheck = response;
         try {
-            groupScores = new JSONObject(response);
+            groupScores = new JSONObject(responseCheck);
             SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
             circleView.update(groupScores, username);
         } catch (JSONException e) {
