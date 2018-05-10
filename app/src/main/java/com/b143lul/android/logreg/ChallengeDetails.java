@@ -29,7 +29,7 @@ import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class ChallengeDetails extends AppCompatActivity {
-    private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/ChallengeDetails.php";
+    private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
     private int id;
     SharedPreferences sharedPreferences;
 
@@ -62,10 +62,10 @@ public class ChallengeDetails extends AppCompatActivity {
                     Toast.makeText(ChallengeDetails.this, "You have to put something in every field.", Toast.LENGTH_SHORT).show();
                 } else if (playerLimit.equals(0) || dayLimit.equals(0)) {
                     Toast.makeText(ChallengeDetails.this, "Player limit and day limit can't be 0.", Toast.LENGTH_SHORT).show();
-                } else if (challengeName.length() > 14) {
-                    Toast.makeText(ChallengeDetails.this, "Maximum name length is 14.", Toast.LENGTH_SHORT).show();
-                } else if (playerLimit.length() > 2) {
-                    Toast.makeText(ChallengeDetails.this, "Maximum player limit is 99.", Toast.LENGTH_SHORT).show();
+                } else if (challengeName.length() > 15) {
+                    Toast.makeText(ChallengeDetails.this, "Maximum name length is 15.", Toast.LENGTH_SHORT).show();
+                } else if (playerLimit.length() > 1) {
+                    Toast.makeText(ChallengeDetails.this, "Maximum player limit is 9.", Toast.LENGTH_SHORT).show();
                 } else if (et_DayLimit.length() > 1) {
                     Toast.makeText(ChallengeDetails.this, "Maximum day limit is 9.", Toast.LENGTH_SHORT).show();
                 } else {
@@ -76,7 +76,7 @@ public class ChallengeDetails extends AppCompatActivity {
             }
         });
 
-        final SharedPreferences sharedPreferences = ChallengeDetails.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = ChallengeDetails.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         if (sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
