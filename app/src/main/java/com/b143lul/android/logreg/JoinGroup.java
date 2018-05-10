@@ -44,7 +44,7 @@ public class JoinGroup extends AppCompatActivity {
         setContentView(R.layout.activity_join_group);
 
         edit_groupcode = (EditText) findViewById(R.id.etEnterGC);
-        btn_join = (FloatingActionButton) findViewById(R.id .btnJoin);
+        btn_join = (FloatingActionButton) findViewById(R.id .btnLetsGo);
 
         btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
