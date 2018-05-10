@@ -121,7 +121,7 @@ public class Login extends AppCompatActivity {
         loggedIn = sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false);
         String username = sharedPreferences.getString(USERNAME_SHARED_PREF, null);
         String password = sharedPreferences.getString(KEY_PASSWORD, null);
-        String username = sharedPreferences.getString(USERNAME_SHARED_PREF,null);
+        //String username = sharedPreferences.getString(USERNAME_SHARED_PREF,null);
         if(loggedIn){
             login(username, password);
         }
