@@ -37,22 +37,35 @@ public class Login extends AppCompatActivity {
     private static final String TAG = "Login.class";
     private EditText editTextEmail;
     private EditText editTextPassword;
+    private EditText editTextUsername;
     private Button BtnLogin;
+    private Button BtnNewUser;
     private boolean loggedIn=false;
     ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        editTextEmail=(EditText)findViewById(R.id.editText_email);
+        //editTextEmail=(EditText)findViewById(R.id.editText_email);
+        editTextUsername = (EditText) findViewById(R.id.editText_username);
         editTextPassword=(EditText)findViewById(R.id.editText_password);
         BtnLogin=(Button)findViewById(R.id.btn_login);
+        BtnNewUser = (Button)findViewById(R.id.btn_new_user);
+
         BtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String username = editTextEmail.getText().toString().trim();
+                final String username = editTextUsername.getText().toString().trim();
                 final String password = editTextPassword.getText().toString().trim();
                 login(username, password);
+            }
+        });
+
+        BtnNewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentSignUp=new Intent(Login.this,Signup.class);
+                startActivity(intentSignUp);
             }
         });
         progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
@@ -119,6 +132,7 @@ public class Login extends AppCompatActivity {
         loggedIn = sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false);
         String username = sharedPreferences.getString(USERNAME_SHARED_PREF, null);
         String password = sharedPreferences.getString(KEY_PASSWORD, null);
+        //String username = sharedPreferences.getString(USERNAME_SHARED_PREF,null);
         if(loggedIn){
             login(username, password);
         }

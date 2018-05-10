@@ -49,8 +49,7 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <activity android:name=".MapSelection"></activity>
+        <activity android:name=".createdgroupcode"></activity>
     </application>
 
 </manifest>
