@@ -39,6 +39,7 @@ public class Login extends AppCompatActivity {
     private EditText editTextPassword;
     private EditText editTextUsername;
     private Button BtnLogin;
+    private Button BtnNewUser;
     private boolean loggedIn=false;
     ProgressDialog progressDialog;
     @Override
@@ -49,12 +50,22 @@ public class Login extends AppCompatActivity {
         editTextUsername = (EditText) findViewById(R.id.editText_username);
         editTextPassword=(EditText)findViewById(R.id.editText_password);
         BtnLogin=(Button)findViewById(R.id.btn_login);
+        BtnNewUser = (Button)findViewById(R.id.btn_new_user);
+
         BtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final String username = editTextUsername.getText().toString().trim();
                 final String password = editTextPassword.getText().toString().trim();
                 login(username, password);
+            }
+        });
+
+        BtnNewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intentSignUp=new Intent(Login.this,Signup.class);
+                startActivity(intentSignUp);
             }
         });
         progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
