@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/resized_traq"
     tools:context=".TrackMap">
+    <com.b143lul.android.logreg.CircleView android:id="@+id/CircleView"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:background="@drawable/resized_track_2"
+        ></com.b143lul.android.logreg.CircleView>
 
     <!--
     <ImageView
@@ -25,9 +29,14 @@
         app:layout_constraintTop_toTopOf="@+id/CircleView"
         app:srcCompat="@drawable/resized_traq" />
         -->
-
-    <com.b143lul.android.logreg.CircleView android:id="@+id/CircleView"
+    <!--
+    <view
+        class="com.b143lul.android.logreg.CircleView"
+        id="@+id/circlesDrawn"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"></com.b143lul.android.logreg.CircleView>
+        android:background="@drawable/resized_track_2"
+        android:padding="0dp" />
+        -->
 
 </android.support.constraint.ConstraintLayout>

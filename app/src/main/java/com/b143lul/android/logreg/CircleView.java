@@ -86,6 +86,11 @@ public class CircleView extends View {
         // Invalidate refreshes the draw function
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
     private float posX(float points) {
         // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;

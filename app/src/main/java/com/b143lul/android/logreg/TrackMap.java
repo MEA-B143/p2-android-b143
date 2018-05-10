@@ -39,8 +39,11 @@ public class TrackMap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         circleView = new CircleView(this);
-
+        //circleView = (CircleView)findViewById(R.id.CircleView);
+        //setContentView(circleView);
         setContentView(R.layout.activity_track_map);
+
+
         //final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
@@ -87,7 +90,7 @@ public class TrackMap extends AppCompatActivity {
     private void drawGroupMembers(String response) {
         String responseCheck = response;
         try {
-            groupScores = new JSONObject(response);
+            groupScores = new JSONObject(responseCheck);
             SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
             circleView.update(groupScores, username);
         } catch (JSONException e) {
