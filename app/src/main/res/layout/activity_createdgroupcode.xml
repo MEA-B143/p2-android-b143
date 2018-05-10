@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".createdgroupcode">
+    tools:context=".createdGroupCode">
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -22,7 +23,7 @@
         android:layout_height="1.5dp"
         android:layout_alignParentBottom="true"
         android:background="#bfbfbf"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/tvTitle"
@@ -64,8 +65,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.641" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -76,20 +77,19 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInputGroup"
-        app:layout_constraintVertical_bias="0.842"
+        app:layout_constraintVertical_bias="0.272"
         app:srcCompat="@drawable/btn_groupcode" />
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnJoin"
+        android:id="@+id/btnLetsGo"
         android:layout_width="163dp"
         android:layout_height="171dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -121,10 +121,28 @@
         android:textColor="#555555"
         android:textSize="18sp"
         app:fontFamily="@font/muli_extralight"
-        app:layout_constraintBottom_toTopOf="@+id/btnJoin"
+        app:layout_constraintBottom_toTopOf="@+id/btnLetsGo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvInputGroup"
         app:layout_constraintVertical_bias="0.805" />
+
+    <TextView
+        android:id="@+id/groupcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="hej"
+        android:textColor="@android:color/white"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
 </android.support.constraint.ConstraintLayout>

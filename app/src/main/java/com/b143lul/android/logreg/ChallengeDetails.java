@@ -97,8 +97,8 @@ public class ChallengeDetails extends AppCompatActivity {
                                 // The response will be something like "success,12345"
                                 editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
                                 editor.commit();
-                                Intent goTrackMap = new Intent(ChallengeDetails.this, TrackMap.class);
-                                startActivity(goTrackMap);
+                                Intent IntentGroupCode = new Intent(ChallengeDetails.this, createdGroupCode.class);
+                                startActivity(IntentGroupCode);
                             }
                         }
                     },
