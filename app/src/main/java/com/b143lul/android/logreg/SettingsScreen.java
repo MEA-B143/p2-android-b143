@@ -20,7 +20,6 @@ public class SettingsScreen extends AppCompatActivity {
     TextView settings_title;
     TextView notifications;
     TextView sounds;
-    boolean switch_trigger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +39,33 @@ public class SettingsScreen extends AppCompatActivity {
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences sharedPreferences = SettingsScreen.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (switch1.isChecked()) {
+                    editor.putBoolean("notifications", true);
                     notifications.setText("Switch notifications on");
+                    editor.commit();
                 } else {
+                    editor.putBoolean("notification", false);
                     notifications.setText("Switch notifcations off");
+                    editor.commit();
                 }
             }
         });
+
         switch2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                SharedPreferences sharedPreferences = SettingsScreen.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
                 if (switch2.isChecked()) {
+                    editor.putBoolean("sounds", true);
                     sounds.setText("Switch sounds on");
+                    editor.commit();
                 } else {
+                    editor.putBoolean("sounds", false);
                     sounds.setText("Switch sounds off");
+                    editor.commit();
                 }
             }
         });
