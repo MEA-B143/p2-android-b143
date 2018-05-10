@@ -19,8 +19,8 @@ public class CreateJoinClass extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent createGroup = new Intent(CreateJoinClass.this, ChallengeDetails.class);
-                startActivity(createGroup);
+                Intent goMapSelection = new Intent(CreateJoinClass.this, MapSelection.class);
+                startActivity(goMapSelection);
             }
         });
         joinButton.setOnClickListener(new View.OnClickListener() {

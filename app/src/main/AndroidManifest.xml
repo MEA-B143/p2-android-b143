@@ -45,6 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TrackMap" />
         <activity android:name=".JoinGroup" />
+        <activity android:name=".MapSelection"/>
 
         <meta-data
             android:name="preloaded_fonts"
