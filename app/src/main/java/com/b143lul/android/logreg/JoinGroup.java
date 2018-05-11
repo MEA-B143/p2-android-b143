@@ -95,9 +95,9 @@ public class JoinGroup extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt("groupcode", Integer.parseInt(groupDetails[0].trim()));
                                 editor.commit();
-                                Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
+                                Intent goMap = new Intent(JoinGroup.this, Leaderboard.class);
+                                //TODO MAKE THIS GO TO TRACKMAP
                                 startActivity(goMap);
-                                //TODO - Enter TrackMap
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
