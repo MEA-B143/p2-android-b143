@@ -1,7 +1,10 @@
 package com.b143lul.android.logreg;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -35,6 +38,17 @@ public class TrackMap extends AppCompatActivity {
     CircleView circleView;
     private final int REFRESH_TIME = 5000;
     private String username;
+
+    // From Pedometer class:
+    static final String State_Count = "Counter";
+    static final String State_Detect = "Detector";
+    boolean isServiceStopped;
+    private Intent intent;
+    private static final String TAG = "SensorEvent";
+    /////////////////////////////
+
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
