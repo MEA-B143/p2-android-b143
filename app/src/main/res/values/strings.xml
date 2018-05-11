@@ -1,6 +1,9 @@
 <resources>
-    <string name="app_name">LogReg</string>
+    <string name="app_name">TRAC</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="title_join">JOIN A CHALLENGE</string>
+    <string name="title_create">CREATE A CHALLENGE</string>
+    <string name="title_activity_create_group">""</string>
 </resources>

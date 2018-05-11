@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
 
         <!--
         <activity
@@ -27,11 +27,8 @@
 
             <!-- android:label="@string/main" > -->
         </activity>
-        <activity android:name=".Splash_Screen"></activity>
-        <activity android:name=".Signup"></activity>
-        <activity android:name=".Login"></activity>
         <activity
-            android:name=".SettingsScreen"
+            android:name=".Splash_Screen"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +36,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Signup" />
+        <activity android:name=".Login" />
+        <activity android:name=".CreateJoinClass" />
+        <activity
+            android:name=".ChallengeDetails"
+            android:label="@string/title_activity_create_group"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".TrackMap" />
+        <activity android:name=".JoinGroup" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".createdgroupcode" />
+        <activity android:name=".Menu"></activity>
     </application>
 
 </manifest>
