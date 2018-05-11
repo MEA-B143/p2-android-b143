@@ -33,13 +33,6 @@ public class CircleView extends View {
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
     protected void onDraw(Canvas canvas) {
-        //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        //Drawable d = getResources().getDrawable(R.drawable.resized_track_2);
-        //d.setBounds(0, 0, getWidth(), (int)(getHeight()*1.1));
-
-        //d.draw(canvas);
-
-        //super.onDraw(canvas);
         if (groupScores != null) {
             for (int i = 0; i < groupScores.names().length(); i++) {
                 try {
@@ -96,7 +89,6 @@ public class CircleView extends View {
         int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
         int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
         this.setMeasuredDimension(parentWidth, parentHeight);
-        //this.setLayoutParams(new ConstraintLayout.LayoutParams(parentWidth,parentHeight));
     }
 
     private float posX(float points) {
@@ -120,8 +112,8 @@ public class CircleView extends View {
     private float posY(float points) {                                                    //The same applies to the if-statements here, as above.
         // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;
-        float height = (float) (getHeight()*0.82);
-        float startHeight = height/15;
+        float height = (float) (getHeight()*0.75);
+        float startHeight = height/16;
         if (points < maxPoints/5) {
             return height/5+startHeight;                                    //This ensures that the first horizontal piece is height/5 from the top.
         } else if (points >= maxPoints/5 && points < (maxPoints/5)*2) {
