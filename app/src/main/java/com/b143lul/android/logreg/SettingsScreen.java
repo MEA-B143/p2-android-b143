@@ -2,8 +2,6 @@ package com.b143lul.android.logreg;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.CompoundButton;
@@ -70,4 +68,4 @@ public class SettingsScreen extends AppCompatActivity {
             }
         });
     }
-    }
+}
