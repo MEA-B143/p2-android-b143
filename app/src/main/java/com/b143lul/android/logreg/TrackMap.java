@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -48,6 +49,7 @@ public class TrackMap extends AppCompatActivity {
     boolean isServiceStopped;
     private Intent intent;
     private static final String TAG = "SensorEvent";
+    private TextView steps;
     /////////////////////////////
 
 
@@ -57,7 +59,7 @@ public class TrackMap extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_map);
         circleView = (CircleView)findViewById(R.id.CircleView);
-
+        steps = (TextView)findViewById(R.id.textView3);
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
@@ -100,7 +102,7 @@ public class TrackMap extends AppCompatActivity {
         Log.d(TAG, String.valueOf(countedStep));
         Log.d(TAG, String.valueOf(DetectedStep));
 
-        //steps.setText('"' + String.valueOf(countedStep) + '"' + " Steps Counted");
+        steps.setText('"' + String.valueOf(countedStep) + '"' + " Steps Counted");
 
     }
 
