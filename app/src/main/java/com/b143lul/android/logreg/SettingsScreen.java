@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
-
 public class SettingsScreen extends AppCompatActivity {
 
     Switch switch1;

@@ -30,6 +30,8 @@
     <Switch
         android:id="@+id/switch1"
         android:layout_width="wrap_content"
+        android:checked = "false"
+        android:switchMinWidth="60dp"
         android:layout_height="wrap_content"
         android:text="On/off "
         android:textColor="#808080"
@@ -47,6 +49,7 @@
     <Switch
         android:id="@+id/switch2"
         android:layout_width="wrap_content"
+        android:switchMinWidth="60dp"
         android:layout_height="wrap_content"
         android:text="On/off "
         android:textColor="#808080"
