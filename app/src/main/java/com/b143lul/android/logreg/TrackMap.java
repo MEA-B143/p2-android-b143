@@ -1,8 +1,10 @@
 package com.b143lul.android.logreg;
 
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -66,8 +69,39 @@ public class TrackMap extends AppCompatActivity {
             finish();
         }
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
+
+        // For pedometer, from Pedometer.class
+        intent = new Intent(this, PedometerService.class);
+        startDaServiceCUH();
+
         getGroupParticipants();
         startGetScores();
+    }
+
+    private void startDaServiceCUH() {
+        // start Service.
+        startService(new Intent(getBaseContext(), PedometerService.class));
+        // register our BroadcastReceiver by passing in an IntentFilter. * identifying the message that is broadcasted by using static string "BROADCAST_ACTION".
+        registerReceiver(broadcastReceiver, new IntentFilter(PedometerService.BROADCAST_ACTION));
+        isServiceStopped = false;
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // call updateUI passing in our intent which is holding the data to display.
+            updateViews(intent);
+        }
+    };
+    private void updateViews(Intent intent) {
+        // retrieve data out of the intent.
+        String countedStep = intent.getStringExtra("Counted_Step");
+        String DetectedStep = intent.getStringExtra("Detected_Step");
+        Log.d(TAG, String.valueOf(countedStep));
+        Log.d(TAG, String.valueOf(DetectedStep));
+
+        //steps.setText('"' + String.valueOf(countedStep) + '"' + " Steps Counted");
+
     }
 
     private void getGroupParticipants(){
