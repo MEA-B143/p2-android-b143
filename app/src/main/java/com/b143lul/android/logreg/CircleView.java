@@ -29,7 +29,7 @@ public class CircleView extends View {
     public void init(Context context) {
         paint1 = new Paint();
         paint1.setColor(Color.BLUE);
-        this.setWillNotDraw(false);
+        setWillNotDraw(false);
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
     protected void onDraw(Canvas canvas) {
@@ -89,6 +89,14 @@ public class CircleView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        this.setMeasuredDimension(parentWidth, parentHeight);
+        //this.setLayoutParams(new ConstraintLayout.LayoutParams(parentWidth,parentHeight));
     }
 
     private float posX(float points) {

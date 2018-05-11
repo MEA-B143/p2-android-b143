@@ -5,11 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TrackMap">
-    <com.b143lul.android.logreg.CircleView android:id="@+id/CircleView"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:background="@drawable/resized_track_2"
-        ></com.b143lul.android.logreg.CircleView>
+
+    <com.b143lul.android.logreg.CircleView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/CircleView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@drawable/resized_track_2" />
 
     <!--
     <ImageView
