@@ -69,8 +69,8 @@ public class Leaderboard extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // This will return all the scores.
-                        String responseCheck = response;
-                        try {
+                            String responseCheck = response;
+                            try {
                             groupScores = new JSONObject(responseCheck);
 
                             String[] nameArr = new String[groupScores.names().length()];
