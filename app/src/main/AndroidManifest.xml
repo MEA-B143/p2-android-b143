@@ -45,12 +45,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".TrackMap" />
         <activity android:name=".JoinGroup" />
-        <activity android:name=".MapSelection"/>
+        <activity android:name=".MapSelection" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-        <activity android:name=".createdGroupCode"></activity>
+
+        <activity android:name=".createdGroupCode" />
+        <activity android:name=".Menu"></activity>
     </application>
 
 </manifest>

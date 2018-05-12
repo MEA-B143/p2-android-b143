@@ -51,6 +51,16 @@ public class ChallengeDetails extends AppCompatActivity {
         et_DayLimit = (EditText) findViewById(R.id.etDayLimit);
         btn_create = (FloatingActionButton) findViewById(R.id.btnCreate);
         BtnBack = (ImageButton)findViewById(R.id.btn_back);
+        btn_menu=(ImageButton) findViewById(R.id.btn_menu);
+
+       btn_menu.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent IntentMenu = new Intent(ChallengeDetails.this, Menu.class);
+               startActivity(IntentMenu);
+
+           }
+       });
 
         BtnBack.setOnClickListener(new View.OnClickListener() {
             @Override

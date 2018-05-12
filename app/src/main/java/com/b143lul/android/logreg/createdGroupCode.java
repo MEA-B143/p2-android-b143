@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
@@ -22,6 +23,7 @@ public class createdGroupCode extends AppCompatActivity {
     private int localGroupCode;
     FloatingActionButton btn_LetsGo;
     TextView crGroupCode;
+    ImageButton btn_menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,18 @@ public class createdGroupCode extends AppCompatActivity {
         SharedPreferences sharedPreferences = createdGroupCode.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         showGroupCode(localGroupCode);
+
+        btn_menu = (ImageButton) findViewById(R.id.btn_menu);
+
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent IntentMenu = new Intent(createdGroupCode.this, Menu.class);
+                startActivity(IntentMenu);
+
+            }
+        });
+
 
         btn_LetsGo.setOnClickListener(new View.OnClickListener() {
             @Override
