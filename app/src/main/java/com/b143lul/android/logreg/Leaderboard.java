@@ -34,7 +34,7 @@ public class Leaderboard extends AppCompatActivity {
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
     private int localGroupCode;
     private String username;
-    private JSONObject groupScores;
+    private JSONObject jsonOutput;
     private int id;
     String[] nameArr;
     int[] scoreArr;
@@ -69,23 +69,7 @@ public class Leaderboard extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // This will return all the names and scores from the current challenge.
-                            String responseCheck = response;
-                            try {
-                            groupScores = new JSONObject(responseCheck);
-
-                            String[] nameArr = new String[groupScores.names().length()];
-                            int[] scoreArr = new int[groupScores.names().length()];
-
-                            for (int i = 0; i < groupScores.names().length(); i++) {
-                                nameArr[i] = groupScores.names().getString(i);
-                                scoreArr[i] = Integer.parseInt(groupScores.getString(nameArr[i]));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        CustomAdapter customAdapter = new CustomAdapter();
-                        listView.setAdapter(customAdapter);
+                        getScoresAndNames(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -104,6 +88,25 @@ public class Leaderboard extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    private void getScoresAndNames(String response) {
+        String responseCheck = response;
+        try {
+            jsonOutput = new JSONObject(responseCheck);
+
+            String[] nameArr = new String[jsonOutput.names().length()];
+            int[] scoreArr = new int[jsonOutput.names().length()];
+
+            for (int i = 0; i < jsonOutput.names().length(); i++) {
+                nameArr[i] = jsonOutput.names().getString(i);
+                scoreArr[i] = Integer.parseInt(jsonOutput.getString(nameArr[i]));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        CustomAdapter customAdapter = new CustomAdapter();
+        listView.setAdapter(customAdapter);
     }
 
     class CustomAdapter extends BaseAdapter {
