@@ -6,4 +6,9 @@
     <string name="title_join">JOIN A CHALLENGE</string>
     <string name="title_create">CREATE A CHALLENGE</string>
     <string name="title_activity_create_group">""</string>
+    <string name="title_menu">"MENU"</string>
+    <string name="title_my_profile">"MY PROFILE"</string>
+    <string name="title_leaderboard">"LEADERBOARD"</string>
+    <string name="title_settings">"SETTINGS"</string>
+    <string name="title_logout">"LOGOUT"</string>
 </resources>

@@ -8,7 +8,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -36,6 +38,7 @@ public class JoinGroup extends AppCompatActivity {
     EditText edit_groupcode;
     FloatingActionButton btn_join;
     SharedPreferences sharedPreferences;
+    ImageButton btn_menu;
 
 
     @Override
@@ -45,6 +48,17 @@ public class JoinGroup extends AppCompatActivity {
 
         edit_groupcode = (EditText) findViewById(R.id.etEnterGC);
         btn_join = (FloatingActionButton) findViewById(R.id .btnLetsGo);
+        btn_menu=(ImageButton) findViewById(R.id.btn_menu);
+
+        btn_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent IntentMenu = new Intent(JoinGroup.this, Menu.class);
+                startActivity(IntentMenu);
+
+            }
+        });
+
 
         btn_join.setOnClickListener(new View.OnClickListener() {
             @Override
