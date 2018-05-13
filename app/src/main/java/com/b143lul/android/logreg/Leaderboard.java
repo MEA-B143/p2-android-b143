@@ -68,7 +68,7 @@ public class Leaderboard extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        // This will return all the scores.
+                        // This will return all the names and scores from the current challenge.
                             String responseCheck = response;
                             try {
                             groupScores = new JSONObject(responseCheck);
