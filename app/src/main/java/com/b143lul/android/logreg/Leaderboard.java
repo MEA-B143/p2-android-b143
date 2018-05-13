@@ -40,7 +40,9 @@ public class Leaderboard extends AppCompatActivity {
     int[] scoreArr;
     TextView tvName;
     TextView tvSteps;
+    TextView tvPlacement;
     ListView listView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +97,17 @@ public class Leaderboard extends AppCompatActivity {
         try {
             jsonOutput = new JSONObject(responseCheck);
 
-            String[] nameArr = new String[jsonOutput.names().length()];
-            int[] scoreArr = new int[jsonOutput.names().length()];
+            //nameArr = new String[]{"Anna Maria Maj", "Tom Nightingale", "Morten Bach Jakobsen", "Poul Anker","Daniel Aalykke"};
+            //scoreArr = new int[]{5, 800, 502, 10, 235};
+            nameArr = new String[jsonOutput.names().length()];
+            scoreArr = new int[jsonOutput.names().length()];
 
             for (int i = 0; i < jsonOutput.names().length(); i++) {
                 nameArr[i] = jsonOutput.names().getString(i);
                 scoreArr[i] = Integer.parseInt(jsonOutput.getString(nameArr[i]));
             }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -132,9 +138,11 @@ public class Leaderboard extends AppCompatActivity {
 
             TextView tvName = (TextView)view.findViewById(R.id.tv_name);
             TextView tvSteps = (TextView)view.findViewById(R.id.tv_steps);
+            TextView tvPlacement = (TextView)view.findViewById(R.id.tv_placement);
 
             tvName.setText(nameArr[i]);
-            tvSteps.setText(scoreArr[i] + "steps");
+            tvSteps.setText(scoreArr[i] + " steps");
+            tvPlacement.setText(1+i +".");
             return view;
         }
     }
