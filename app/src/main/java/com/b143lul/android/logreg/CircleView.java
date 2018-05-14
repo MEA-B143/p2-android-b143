@@ -93,7 +93,7 @@ public class CircleView extends View {
 
     private float posX(float points) {
         // GOOD SHIT DANIEL :ok_hand:
-        float maxPoints = 1000;
+        float maxPoints = 10000;
         float width = getWidth();
 
         if (points < maxPoints/5) {                                    //These If-statements divide the maxPoints into 5, as there are 5 sections of the track. This one is the first piece (horizontal).
@@ -111,7 +111,7 @@ public class CircleView extends View {
 
     private float posY(float points) {                                                    //The same applies to the if-statements here, as above.
         // GOOD SHIT DANIEL :ok_hand:
-        float maxPoints = 1000;
+        float maxPoints = 10000;
         float height = (float) (getHeight()*0.75);
         float startHeight = height/16;
         if (points < maxPoints/5) {
