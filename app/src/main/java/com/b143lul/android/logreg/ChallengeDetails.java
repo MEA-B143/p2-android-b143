@@ -30,6 +30,7 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class ChallengeDetails extends AppCompatActivity {
     private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
+    private static String groupNamePrefKey = "groupname";
     private int id;
     SharedPreferences sharedPreferences;
 
@@ -116,6 +117,7 @@ public class ChallengeDetails extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 // The response will be something like "success,12345"
                                 editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
+                                editor.putInt(groupNamePrefKey, 000000);
                                 editor.commit();
                                 Intent IntentGroupCode = new Intent(ChallengeDetails.this, createdGroupCode.class);
                                 startActivity(IntentGroupCode);
