@@ -97,8 +97,6 @@ public class Leaderboard extends AppCompatActivity {
         try {
             jsonOutput = new JSONObject(responseCheck);
 
-            //nameArr = new String[]{"Anna Maria Maj", "Tom Nightingale", "Morten Bach Jakobsen", "Poul Anker","Daniel Aalykke"};
-            //scoreArr = new int[]{5, 800, 502, 10, 235};
             nameArr = new String[jsonOutput.names().length()];
             scoreArr = new int[jsonOutput.names().length()];
 
