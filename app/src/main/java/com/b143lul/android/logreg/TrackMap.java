@@ -30,6 +30,7 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 public class TrackMap extends AppCompatActivity {
     private int id;
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
+    private final String forfeitURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/forfeit.php";
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
@@ -74,6 +75,32 @@ public class TrackMap extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> prams = new HashMap<>();
+                prams.put("groupCode", Integer.toString(localGroupCode));
+                prams.put("id", Integer.toString(id));
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    void forfeit() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, forfeitURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //If successful don't expect result
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> prams = new HashMap<>();
                 prams.put("groupCode", Integer.toString(localGroupCode));
                 prams.put("id", Integer.toString(id));
                 return prams;
