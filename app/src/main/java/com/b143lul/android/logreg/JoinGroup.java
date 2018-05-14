@@ -36,6 +36,7 @@ public class JoinGroup extends AppCompatActivity {
 
     private final String JoinGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/JoinGroup.php";
     private int id;
+    private String groupname;
     EditText edit_groupcode;
     FloatingActionButton btn_join;
     SharedPreferences sharedPreferences;
@@ -120,7 +121,9 @@ public class JoinGroup extends AppCompatActivity {
                                 String[] groupDetails = groupDetailsString.split(",");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt("groupcode", Integer.parseInt(groupDetails[0].trim()));
+                                editor.putString("groupname", (response.split(",")[5]));
                                 editor.commit();
+
                                 Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
                                 startActivity(goMap);
                             }

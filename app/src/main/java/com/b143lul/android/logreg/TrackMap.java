@@ -49,9 +49,13 @@ public class TrackMap extends AppCompatActivity {
     private final int REFRESH_TIME = 5000;
     private String username;
     private SharedPreferences sharedPreferences;
+    private String name;
     Button BtnForfeit;
     ImageButton BtnMenu;
     TextView currentScore;
+    TextView challengeName;
+    TextView groupcode;
+
 
 
     // From Pedometer class:
@@ -79,14 +83,17 @@ public class TrackMap extends AppCompatActivity {
                 startActivity(IntentForfeit);
             }
         });
-
+        sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        String checkGroupname = sharedPreferences.getString("groupname","Name");
+        String GroupName = checkGroupname.substring(0, checkGroupname.length()-2);
         circleView = (CircleView)findViewById(R.id.CircleView);
         steps = (TextView)findViewById(R.id.textView3);
-        sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
         int stepScore = sharedPreferences.getInt("score", -1);
         currentScore = (TextView)findViewById(R.id.currentScore);
         currentScore.setText(String.valueOf(stepScore));
+        challengeName = (TextView) findViewById(R.id.challengeName);
+        challengeName.setText(GroupName);
 
 
         BtnMenu = (ImageButton) findViewById(R.id.btn_menu1);
@@ -109,7 +116,10 @@ public class TrackMap extends AppCompatActivity {
             alertbox.setCancelable(false);
             finish();
         }
+
+        groupcode = (TextView) findViewById(R.id.groupcode);
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
+        groupcode.setText("Group Code: " + String.valueOf(localGroupCode));
 
         // For pedometer, from Pedometer.class
         intent = new Intent(this, PedometerService.class);

@@ -31,7 +31,7 @@
 
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/challengeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/title_menu"
@@ -55,7 +55,7 @@
             android:background="@android:color/transparent"
             app:layout_constraintEnd_toEndOf="@+id/toolbar"
             app:layout_constraintHorizontal_bias="0.909"
-            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintStart_toEndOf="@+id/challengeName"
             app:srcCompat="@drawable/btn_menu_close"
             tools:layout_editor_absoluteY="4dp" />
 
