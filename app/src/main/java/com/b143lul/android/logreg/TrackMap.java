@@ -51,6 +51,7 @@ public class TrackMap extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     Button BtnForfeit;
     ImageButton BtnMenu;
+    TextView currentScore;
 
 
     // From Pedometer class:
@@ -83,6 +84,10 @@ public class TrackMap extends AppCompatActivity {
         steps = (TextView)findViewById(R.id.textView3);
         sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
+        int stepScore = sharedPreferences.getInt("score", -1);
+        currentScore = (TextView)findViewById(R.id.currentScore);
+        currentScore.setText(String.valueOf(stepScore));
+
 
         BtnMenu = (ImageButton) findViewById(R.id.btn_menu1);
         BtnMenu.setOnClickListener(new View.OnClickListener() {
