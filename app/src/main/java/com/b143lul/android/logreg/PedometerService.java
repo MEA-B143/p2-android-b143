@@ -129,7 +129,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private void loopSendingRaceCompleteToServer() {
         final Handler handler3 = new Handler();
-        final int delaytime = 10000;
+        final int delaytime = 5000;
         handler3.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -330,7 +330,7 @@ public class PedometerService extends Service implements SensorEventListener {
             changeScore(newStepCounter);
             // Call "handler.postDelayed" again, after a specified delay (of a minute).
             Log.d(TAG, Integer.toString(newStepCounter));
-            handler2.postDelayed(this, 60000);
+            handler2.postDelayed(this, 10000);
         }
         }
     };
@@ -358,7 +358,7 @@ public class PedometerService extends Service implements SensorEventListener {
         // add new score to intent.
         intent.putExtra("New_score", scoreText);
 
-        intent.putExtra("LaunchEnd", launchEnd);
+        //intent.putExtra("LaunchEnd", launchEnd);
         // call sendBroadcast with that intent  - which sends a message to whoever is registered to receive it.
         sendBroadcast(intent);
     }
