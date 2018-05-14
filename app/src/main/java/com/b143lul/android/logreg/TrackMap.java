@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,11 +36,13 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 public class TrackMap extends AppCompatActivity {
     private int id;
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
+    private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
     private final int REFRESH_TIME = 5000;
     private String username;
+    private SharedPreferences sharedPreferences;
 
     // From Pedometer class:
     static final String State_Count = "Counter";
@@ -60,7 +61,7 @@ public class TrackMap extends AppCompatActivity {
         setContentView(R.layout.activity_track_map);
         circleView = (CircleView)findViewById(R.id.CircleView);
         steps = (TextView)findViewById(R.id.textView3);
-        SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
@@ -97,13 +98,17 @@ public class TrackMap extends AppCompatActivity {
     };
     private void updateViews(Intent intent) {
         // retrieve data out of the intent.
-        String countedStep = intent.getStringExtra("Counted_Step");
-        String DetectedStep = intent.getStringExtra("Detected_Step");
-        Log.d(TAG, String.valueOf(countedStep));
-        Log.d(TAG, String.valueOf(DetectedStep));
+        int countedStep = intent.getIntExtra("Counted_Step_Int", -1);
+        if (countedStep > 0) {
+            // We got sum shit!!!
+            changeScore(countedStep);
+        } else if (countedStep == 0) {
+            // We got somethin but it aint somethin
 
-        steps.setText('"' + String.valueOf(countedStep) + '"' + " Steps Counted");
-
+        } else {
+            // It's minus 1 and we don't want no shit!!! :rage:
+        }
+        //Log.d(TAG, String.valueOf(countedStep));
     }
 
     private void getGroupParticipants(){
@@ -144,12 +149,49 @@ public class TrackMap extends AppCompatActivity {
         }
     }
     Handler handler = new Handler(Looper.getMainLooper());
-    public void startGetScores() {
+    private void startGetScores() {
         handler.postDelayed(new Runnable() {
             public void run() {
                 getGroupParticipants();          // this method will contain your almost-finished HTTP calls
                 handler.postDelayed(this, REFRESH_TIME);
             }
         }, REFRESH_TIME);
+    }
+
+    private void changeScore(final int scoreChange) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, updateURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        int newScore = 0;
+                        try {
+                            JSONObject jObject = new JSONObject(response);
+                            newScore = Integer.parseInt(jObject.getString("newScore").trim());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("score", newScore);
+                        editor.commit();
+                        PedometerService.setNewStepCounter(0);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //Log.e();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("id", Integer.toString(id));
+                prams.put("score", Integer.toString(scoreChange));
+
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

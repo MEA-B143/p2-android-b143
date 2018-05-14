@@ -40,7 +40,7 @@ public class PedometerService extends Service implements SensorEventListener {
     int currentStepsDetected;
 
     int stepCounter;
-    int newStepCounter;
+    private static int newStepCounter;
 
     boolean serviceStopped;
 
@@ -52,11 +52,12 @@ public class PedometerService extends Service implements SensorEventListener {
     private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     String scoreText;
 
-    private final android.os.Handler handler = new android.os.Handler() {
-    };
-    int counter = 0;
+    private final android.os.Handler handler = new android.os.Handler() {};
+    private final android.os.Handler handler2 = new android.os.Handler() {};
 
     int id = 0;
+
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate() {
@@ -71,7 +72,7 @@ public class PedometerService extends Service implements SensorEventListener {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.v("Service", "Start");
 
-        SharedPreferences sharedPreferences = PedometerService.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = PedometerService.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         }
@@ -98,6 +99,9 @@ public class PedometerService extends Service implements SensorEventListener {
         handler.post(updateBroadcastData); // 0 seconds
         /////}
         // ___________________________________________________________________________ \\
+
+        handler2.removeCallbacks(updateServerData);
+        handler2.post(updateServerData);
 
         return START_STICKY;
     }
@@ -152,36 +156,29 @@ public class PedometerService extends Service implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
-    private Runnable updateBroadcastData = new Runnable() {
-        public void run() {
-            if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
-                // Call the method that broadcasts the data to the Activity..
-                changeScore(newStepCounter);
-                // Call "handler.postDelayed" again, after a specified delay.
-                handler.postDelayed(this, 5000);
-            }
-        }
-    };
-
     private void changeScore(final int scoreChange) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, updateURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        // getString("newScore");
+                        int newScore = 0;
                         try {
                             JSONObject jObject = new JSONObject(response);
-                            String aJsonString = jObject.getString("newScore");
-                            scoreText = aJsonString;
+                            newScore = Integer.parseInt(jObject.getString("newScore").trim());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        broadcastSensorValue();
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("score", newScore);
+                        editor.commit();
                         newStepCounter = 0;
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
                         //Log.e();
                     }
                 }){
@@ -198,9 +195,32 @@ public class PedometerService extends Service implements SensorEventListener {
         requestQueue.add(stringRequest);
     }
 
+    private Runnable updateServerData = new Runnable() {
+        public void run() {
+        if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
+            // Call the method that updates score on the server..
+            changeScore(newStepCounter);
+            // Call "handler.postDelayed" again, after a specified delay (of a minute).
+            Log.d(TAG, Integer.toString(newStepCounter));
+            handler2.postDelayed(this, 60000);
+        }
+        }
+    };
+
+    private Runnable updateBroadcastData = new Runnable() {
+        public void run() {
+        if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
+            // Call the method that broadcasts the data to the Activity..
+            broadcastSensorValue();
+            // Call "handler.postDelayed" again, after a specified delay.
+            handler.postDelayed(this, 5000);
+        }
+        }
+    };
+
     private void broadcastSensorValue() {
 
-        Log.d(TAG, "Data to Activity");
+        //Log.d(TAG, "Data to Activity");
         // add step counter to intent.
         intent.putExtra("Counted_Step_Int", newStepCounter);
         intent.putExtra("Counted_Step", String.valueOf(newStepCounter));
@@ -214,4 +234,7 @@ public class PedometerService extends Service implements SensorEventListener {
     }
     // ___________________________________________________________________________ \\
 
+    public static void setNewStepCounter(int value) {
+        newStepCounter = value;
+    }
 }
