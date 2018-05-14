@@ -19,7 +19,6 @@ public class Menu extends AppCompatActivity {
     Button settings;
     Button logout;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,8 +82,6 @@ public class Menu extends AppCompatActivity {
 
             }
         });
-
-
 
     }
 }
