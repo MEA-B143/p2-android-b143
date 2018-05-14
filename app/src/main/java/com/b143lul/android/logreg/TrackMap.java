@@ -12,6 +12,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +46,8 @@ public class TrackMap extends AppCompatActivity {
     private final int REFRESH_TIME = 5000;
     private String username;
     private SharedPreferences sharedPreferences;
+    Button BtnForfeit;
+
 
     // From Pedometer class:
     static final String State_Count = "Counter";
@@ -60,6 +64,17 @@ public class TrackMap extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_track_map);
+
+        BtnForfeit = (Button)findViewById(R.id.btn_forfeit);
+        BtnForfeit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                forfeit();
+                Intent IntentForfeit = new Intent(TrackMap.this, CreateJoinClass.class);
+                startActivity(IntentForfeit);
+            }
+        });
+
         circleView = (CircleView)findViewById(R.id.CircleView);
         steps = (TextView)findViewById(R.id.textView3);
         sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
