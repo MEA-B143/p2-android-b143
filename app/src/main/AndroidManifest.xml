@@ -3,6 +3,12 @@
     package="com.b143lul.android.logreg">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature
+        android:name="@string/step_detector" android:required="false"/>
+
+    <uses-feature
+        android:name="@string/step_counter" android:required="false"/>
+
 
     <application
         android:allowBackup="true"
@@ -12,32 +18,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <!--
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
         <activity android:name=".MainActivity">
-
-            <!-- android:label="@string/main" > -->
         </activity>
         <activity
             android:name=".Splash_Screen"
-            android:theme="@style/Theme.AppCompat.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:theme="@style/AppTheme.NoActionBar">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
         </activity>
-        <activity android:name=".Signup" />
-        <activity android:name=".Login" />
+        <activity android:name=".Signup"></activity>
+        <activity android:name=".Login"></activity>
         <activity android:name=".CreateJoinClass" />
         <activity
             android:name=".ChallengeDetails"
@@ -54,6 +47,9 @@
         <activity android:name=".createdGroupCode" />
         <activity android:name=".Menu" />
         <activity android:name=".MyProfile"></activity>
+
+        <service android:name=".PedometerService"
+            android:exported="false"/>
     </application>
 
 </manifest>

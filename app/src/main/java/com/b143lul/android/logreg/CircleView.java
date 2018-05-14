@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -30,16 +29,10 @@ public class CircleView extends View {
     public void init(Context context) {
         paint1 = new Paint();
         paint1.setColor(Color.BLUE);
-        this.setWillNotDraw(false);
+        setWillNotDraw(false);
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
     protected void onDraw(Canvas canvas) {
-        //canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-        Drawable d = getResources().getDrawable(R.drawable.resized_track_2);
-        d.setBounds(0, 0, getWidth(), (int)(getHeight()*1.1));
-
-        d.draw(canvas);
-        //super.onDraw(canvas);
         if (groupScores != null) {
             for (int i = 0; i < groupScores.names().length(); i++) {
                 try {
@@ -86,6 +79,18 @@ public class CircleView extends View {
         // Invalidate refreshes the draw function
     }
 
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+    }
+
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec){
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        int parentHeight = MeasureSpec.getSize(heightMeasureSpec);
+        this.setMeasuredDimension(parentWidth, parentHeight);
+    }
+
     private float posX(float points) {
         // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;
@@ -107,8 +112,8 @@ public class CircleView extends View {
     private float posY(float points) {                                                    //The same applies to the if-statements here, as above.
         // GOOD SHIT DANIEL :ok_hand:
         float maxPoints = 1000;
-        float height = (float) (getHeight()*0.82);
-        float startHeight = height/15;
+        float height = (float) (getHeight()*0.75);
+        float startHeight = height/16;
         if (points < maxPoints/5) {
             return height/5+startHeight;                                    //This ensures that the first horizontal piece is height/5 from the top.
         } else if (points >= maxPoints/5 && points < (maxPoints/5)*2) {

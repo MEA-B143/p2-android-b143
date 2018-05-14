@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/resized_traq"
+    android:background="@drawable/resized_track3"
     tools:context=".TrackMap">
 
     <android.support.constraint.ConstraintLayout
@@ -38,14 +38,15 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CHALLENGE DETAILS"
+            android:text="Challenge Name"
             android:textColor="#555555"
-            android:textSize="23sp"
+            android:textSize="21sp"
             app:fontFamily="@font/muli_extralight"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/imageLogo"
@@ -73,25 +74,68 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <com.b143lul.android.logreg.CircleView android:id="@+id/CircleView"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"></com.b143lul.android.logreg.CircleView>
+    <com.b143lul.android.logreg.CircleView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/CircleView"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="389dp"
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="52dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:contentDescription="@string/app_name"
-        android:cropToPadding="false"
-        android:scaleType="fitXY"
-        app:layout_constraintEnd_toEndOf="@+id/CircleView"
-        app:layout_constraintHorizontal_bias="0.476"
+        android:layout_marginTop="8dp"
+        android:text="Steps:"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tv_groupcode"
+        android:layout_width="wrap_content"
+        android:layout_height="21dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Group Code: 12345"
+        app:fontFamily="@font/muli_extralight"
+        app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/CircleView"
-        app:srcCompat="@drawable/resized_traq" />
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/btn_forfeit"
+        android:layout_width="57dp"
+        android:layout_height="25dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/transparent"
+        app:fontFamily="@font/muli_extralight"
+        android:textColor="#808080"
+        android:text="FORFEIT"
+        android:textSize="11sp"
+        app:layout_constraintBottom_toBottomOf="@+id/CircleView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="1.0" />
+
 
 </android.support.constraint.ConstraintLayout>
