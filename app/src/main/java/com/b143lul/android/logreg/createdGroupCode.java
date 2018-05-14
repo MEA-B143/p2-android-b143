@@ -18,7 +18,7 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class createdGroupCode extends AppCompatActivity {
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
-    private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
+    //private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
     private int id;
     private int localGroupCode;
     FloatingActionButton btn_LetsGo;

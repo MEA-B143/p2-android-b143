@@ -52,7 +52,8 @@
             android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".createdGroupCode" />
-        <activity android:name=".Menu"></activity>
+        <activity android:name=".Menu" />
+        <activity android:name=".MyProfile"></activity>
     </application>
 
 </manifest>

@@ -18,7 +18,7 @@ public class CreateJoinClass extends AppCompatActivity {
         setContentView(R.layout.activity_create_join_class);
         createButton = (Button)findViewById(R.id.create);
         joinButton = (Button) findViewById(R.id.joinbutton);
-        btn_menu= (ImageButton)findViewById(R.id.btn_menu);
+        btn_menu = (ImageButton) findViewById(R.id.btn_menu);
 
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
