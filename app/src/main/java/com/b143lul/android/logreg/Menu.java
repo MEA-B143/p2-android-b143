@@ -10,13 +10,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class Menu extends AppCompatActivity {
+//import static com.b143lul.android.logreg.Login.className;
 
+public class Menu extends AppCompatActivity {
     ImageButton x;
     Button profile;
     Button leaderboard;
     Button settings;
     Button logout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,24 +28,29 @@ public class Menu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         x = (ImageButton) findViewById(R.id.x);
         profile= (Button) findViewById(R.id.profile);
         leaderboard = (Button) findViewById(R.id.leaderboard);
         settings = (Button) findViewById(R.id.settings);
         logout = (Button) findViewById(R.id.logout);
 
+        Intent intent = getIntent();
+        final String nameOfClass = intent.getExtras().getString("className");
+
         x.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                finish();
             }
         });
 
        profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IntentProfile = new Intent(Menu.this, MyProfile.class);
-                startActivity(IntentProfile);
+                    Intent IntentProfile = new Intent(Menu.this, MyProfile.class);
+                    IntentProfile.putExtra("nameOfClass", nameOfClass);
+                    startActivity(IntentProfile);
 
             }
         });
@@ -74,6 +81,7 @@ public class Menu extends AppCompatActivity {
 
             }
         });
+
 
 
     }

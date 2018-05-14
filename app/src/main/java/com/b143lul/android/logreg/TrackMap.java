@@ -1,12 +1,15 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -35,14 +38,28 @@ public class TrackMap extends AppCompatActivity {
     CircleView circleView;
     private final int REFRESH_TIME = 5000;
     private String username;
+    //ImageButton BtnMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //BtnMenu = (ImageButton) findViewById(R.id.btn_menu1);
         circleView = new CircleView(this);
         setContentView(circleView);
         //final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) this.findViewById(android.R.id.content)).getChildAt(0);
         SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
+
+        /*BtnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String className = "TrackMap";
+                Intent IntentMenu = new Intent(TrackMap.this, Menu.class);
+                IntentMenu.putExtra("className", className);
+                startActivity(IntentMenu);
+            }
+        });
+        */
+
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
@@ -54,6 +71,7 @@ public class TrackMap extends AppCompatActivity {
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         getGroupParticipants();
         startGetScores();
+
     }
 
     private void getGroupParticipants(){

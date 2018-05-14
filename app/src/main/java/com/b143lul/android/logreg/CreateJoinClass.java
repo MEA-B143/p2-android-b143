@@ -23,7 +23,9 @@ public class CreateJoinClass extends AppCompatActivity {
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String className = "CreateJoinClass";
                 Intent IntentMenu = new Intent(CreateJoinClass.this, Menu.class);
+                IntentMenu.putExtra("className", className);
                 startActivity(IntentMenu);
 
             }

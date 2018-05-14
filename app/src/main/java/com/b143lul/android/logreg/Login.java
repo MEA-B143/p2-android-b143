@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Login extends AppCompatActivity {
+    //public static String className;
     public static final String LOGIN_URL="http://b143servertesting.gearhostpreview.com/LogReg2/login.php";
     public static final String KEY_EMAIL="email";
     public static final String KEY_PASSWORD="password";
@@ -193,4 +194,5 @@ public class Login extends AppCompatActivity {
             startActivity(launchMap);
         }
     }
+
 }

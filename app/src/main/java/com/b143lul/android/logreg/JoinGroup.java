@@ -53,7 +53,9 @@ public class JoinGroup extends AppCompatActivity {
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String className = "JoinGroup";
                 Intent IntentMenu = new Intent(JoinGroup.this, Menu.class);
+                IntentMenu.putExtra("className", className);
                 startActivity(IntentMenu);
 
             }

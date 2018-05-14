@@ -11,14 +11,15 @@ import android.widget.ImageButton;
 public class MapSelection extends AppCompatActivity {
     ImageButton BtnTrack1;
     ImageButton BtnBack;
-    ImageButton Menu;
+    ImageButton BtnMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_selection);
-        BtnTrack1 = (ImageButton)findViewById(R.id.btn_track1);
-        BtnBack = (ImageButton)findViewById(R.id.btn_back);
+        BtnTrack1 = (ImageButton) findViewById(R.id.btn_track1);
+        BtnBack = (ImageButton) findViewById(R.id.btn_back);
+        BtnMenu = (ImageButton) findViewById(R.id.btn_menu);
 
         BtnTrack1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -32,6 +33,18 @@ public class MapSelection extends AppCompatActivity {
             public void onClick(View view) {
                 finish();
             }
+        });
+
+
+        BtnMenu.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String className = "MapSelection";
+                Intent IntentMenu = new Intent(MapSelection.this, Menu.class);
+                IntentMenu.putExtra("className", className);
+                startActivity(IntentMenu);
+
+            }
+
         });
     }
 

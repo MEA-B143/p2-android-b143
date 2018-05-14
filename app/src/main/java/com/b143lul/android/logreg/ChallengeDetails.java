@@ -56,7 +56,9 @@ public class ChallengeDetails extends AppCompatActivity {
        btn_menu.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               String className = "ChallengeDetails";
                Intent IntentMenu = new Intent(ChallengeDetails.this, Menu.class);
+               IntentMenu.putExtra("className", className);
                startActivity(IntentMenu);
 
            }

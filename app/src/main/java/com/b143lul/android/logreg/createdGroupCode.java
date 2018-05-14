@@ -40,7 +40,9 @@ public class createdGroupCode extends AppCompatActivity {
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String className = "createdGroupCode";
                 Intent IntentMenu = new Intent(createdGroupCode.this, Menu.class);
+                IntentMenu.putExtra("className", className);
                 startActivity(IntentMenu);
 
             }
