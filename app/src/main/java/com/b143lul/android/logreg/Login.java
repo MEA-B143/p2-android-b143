@@ -187,8 +187,7 @@ public class Login extends AppCompatActivity {
             int debug = Integer.parseInt(code.trim());
             editor.putInt("groupcode", Integer.parseInt(code.trim()));
             editor.commit();
-            Intent launchMap = new Intent(Login.this, Leaderboard.class);
-            //TODO MAKE THIS GO TO TRACKMAP AS WELL
+            Intent launchMap = new Intent(Login.this, TrackMap.class);
             startActivity(launchMap);
         }
     }

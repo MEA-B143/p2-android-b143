@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class Leaderboard extends AppCompatActivity {
     TextView tvSteps;
     TextView tvPlacement;
     ListView listView;
-
+    ImageButton btn_back;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,8 @@ public class Leaderboard extends AppCompatActivity {
         setContentView(R.layout.activity_leaderboard);
         SharedPreferences sharedPreferences = Leaderboard.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
+        btn_back = (ImageButton) findViewById(R.id.btn_back);
+
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
         } else {
@@ -58,6 +61,13 @@ public class Leaderboard extends AppCompatActivity {
             alertbox.setCancelable(false);
             finish();
         }
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
 
         listView = (ListView) findViewById(R.id.listView);

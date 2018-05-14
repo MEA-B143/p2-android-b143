@@ -55,16 +55,18 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-        /*leaderboard.setOnClickListener(new View.OnClickListener() {
+        leaderboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IntentLeaderboard = new Intent(Menu.this, leaderboard.class);
-                startActivity(IntentLeaderboard);
+                if(nameOfClass.equals("TrackMap")) {
+                    Intent IntentLeaderboard = new Intent(Menu.this, Leaderboard.class);
+                    startActivity(IntentLeaderboard);
+                }
 
             }
         });
 
-        settings.setOnClickListener(new View.OnClickListener() {
+        /*settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent IntentSettings = new Intent(Menu.this, settings.class);
