@@ -1,6 +1,7 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,7 @@ public class Leaderboard extends AppCompatActivity {
     TextView tvSteps;
     TextView tvPlacement;
     ListView listView;
+    ImageButton X;
     ImageButton btn_back;
 
     @Override
@@ -50,6 +52,9 @@ public class Leaderboard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leaderboard);
         SharedPreferences sharedPreferences = Leaderboard.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        X = (ImageButton) findViewById(R.id.x);
+        Intent intent = getIntent();
+        final String nameOfClass = intent.getExtras().getString("nameOfClass");
         username = sharedPreferences.getString("username", "username");
         btn_back = (ImageButton) findViewById(R.id.btn_back);
 
@@ -61,6 +66,39 @@ public class Leaderboard extends AppCompatActivity {
             alertbox.setCancelable(false);
             finish();
         }
+        X.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent profIntent;
+
+                if (nameOfClass.equals("CreateJoinClass")) {
+                    profIntent = new Intent(Leaderboard.this, CreateJoinClass.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    profIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(profIntent);
+                } else if (nameOfClass.equals("MapSelection")) {
+                    profIntent = new Intent(Leaderboard.this, MapSelection.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    profIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(profIntent);
+                } else if(nameOfClass.equals("ChallengeDetails")){
+                    profIntent = new Intent(Leaderboard.this, ChallengeDetails.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    profIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(profIntent);
+                } else if(nameOfClass.equals("JoinGroup")){
+                    profIntent = new Intent(Leaderboard.this, JoinGroup.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    profIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(profIntent);
+                } else if(nameOfClass.equals("TrackMap")){
+                    profIntent = new Intent(Leaderboard.this, TrackMap.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    profIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(profIntent);
+                } else if(nameOfClass.equals("createdGroupCode")){
+                    profIntent = new Intent(Leaderboard.this, createdGroupCode.class).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    profIntent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(profIntent);
+                }
+
+            }
+        });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override

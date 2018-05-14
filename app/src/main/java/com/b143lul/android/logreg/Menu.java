@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 //import static com.b143lul.android.logreg.Login.className;
 
@@ -59,20 +60,23 @@ public class Menu extends AppCompatActivity {
             public void onClick(View v) {
                 if(nameOfClass.equals("TrackMap")) {
                     Intent IntentLeaderboard = new Intent(Menu.this, Leaderboard.class);
+                    IntentLeaderboard.putExtra("nameOfClass", nameOfClass);
                     startActivity(IntentLeaderboard);
+                } else {
+                    Toast.makeText(Menu.this, "Leaderboard is only accessible in a challenge.", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
-        /*settings.setOnClickListener(new View.OnClickListener() {
+        settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IntentSettings = new Intent(Menu.this, settings.class);
+                Intent IntentSettings = new Intent(Menu.this, SettingsScreen.class);
+                IntentSettings.putExtra("nameOfClass", nameOfClass);
                 startActivity(IntentSettings);
-
             }
-        });*/
+        });
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override

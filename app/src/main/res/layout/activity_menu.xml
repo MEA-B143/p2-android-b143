@@ -5,11 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Menu">
-
-<<<<<<< HEAD
-
-
-
     <android.support.constraint.ConstraintLayout
 
         android:id="@+id/relativeLayout"
@@ -153,6 +148,3 @@
 
 
 </android.support.constraint.ConstraintLayout>
-=======
-</android.support.constraint.ConstraintLayout>
->>>>>>> origin/Settings-screen
