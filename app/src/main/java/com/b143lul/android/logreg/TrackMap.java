@@ -42,7 +42,8 @@ public class TrackMap extends AppCompatActivity {
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
     private final String forfeitURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/forfeit.php";
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
-    private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
+    private final String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
+    private final String checkGroupCompletion = "http://b143servertesting.gearhostpreview.com/GetVals/CheckGroupCompletion.php";
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
@@ -123,13 +124,58 @@ public class TrackMap extends AppCompatActivity {
 
         // For pedometer, from Pedometer.class
         intent = new Intent(this, PedometerService.class);
-        startDaServiceCUH();
+        checkGroupCompleted();
 
         checkEndReachedLoop();
 
         getGroupParticipants();
         startGetScores();
 
+    }
+
+    private void checkGroupCompleted() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, checkGroupCompletion,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.has("completed")) {
+                                // Success
+                                int getval = Integer.parseInt(jsonObject.getString("completed"));
+                                if (getval == 0) {
+                                    startDaServiceCUH();
+                                } else if (getval == 1) {
+                                    stopService(new Intent(TrackMap.this, PedometerService.class));
+
+                                    startActivity(new Intent(getApplicationContext(), WinScreen.class));
+                                }
+                            } else {
+                                Log.e(TAG, "Error: " + jsonObject.getString("Error"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            startDaServiceCUH();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        //Log.e();
+                        startDaServiceCUH();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("groupcode", Integer.toString(sharedPreferences.getInt("groupcode", 0)));
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     private void checkEndReachedLoop() {
