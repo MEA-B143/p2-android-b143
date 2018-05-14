@@ -1,11 +1,11 @@
 package com.b143lul.android.logreg;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -20,6 +20,8 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
+
 public class WinScreen extends AppCompatActivity {
 
     ImageButton btnOkay;
@@ -29,7 +31,7 @@ public class WinScreen extends AppCompatActivity {
     private int id;
     private int localGroupCode;
     SharedPreferences sharedPreferences;
-
+    private int placement;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +48,10 @@ public class WinScreen extends AppCompatActivity {
                 startActivity(IntentCreateJoin);
             }
         });
+        tvPlacement = (TextView)findViewById(R.id.tvPlacement);
+        sharedPreferences = WinScreen.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        placement = sharedPreferences.getInt("placement", 0);
+        tvPlacement.setText("No. " + String.valueOf(placement));
     }
     private void forfeit() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, forfeitURL,
@@ -57,7 +63,6 @@ public class WinScreen extends AppCompatActivity {
                         editor.remove("groupcode");
                         editor.remove("groupname");
                         editor.commit();
-
                         Intent IntentForfeit = new Intent(WinScreen.this, CreateJoinClass.class);
                         startActivity(IntentForfeit);
                     }

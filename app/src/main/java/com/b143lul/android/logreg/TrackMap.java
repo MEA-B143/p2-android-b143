@@ -146,8 +146,10 @@ public class TrackMap extends AppCompatActivity {
                                     startDaServiceCUH();
                                 } else if (getval == 1) {
                                     stopService(new Intent(TrackMap.this, PedometerService.class));
-
-                                    startActivity(new Intent(getApplicationContext(), WinScreen.class));
+                                    handler.removeCallbacksAndMessages(null);
+                                    Intent launchEnd = new Intent(getApplicationContext(), WinScreen.class);
+                                    launchEnd.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    startActivity(launchEnd);
                                 }
                             } else {
                                 Log.e(TAG, "Error: " + jsonObject.getString("Error"));
@@ -284,6 +286,7 @@ public class TrackMap extends AppCompatActivity {
         stopService(new Intent(getBaseContext(), PedometerService.class));
         isServiceStopped = true;
         Intent launchWinScreen = new Intent(TrackMap.this, WinScreen.class);
+        launchWinScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(launchWinScreen);
     }
 
@@ -353,7 +356,9 @@ public class TrackMap extends AppCompatActivity {
         try {
             groupScores = new JSONObject(responseCheck);
             circleView.update(groupScores, username);
-            placementText.setText("# " + String.valueOf(getPlacing(groupScores, username)));
+            int placement = getPlacing(groupScores, username);
+            placementText.setText("# " + String.valueOf(placement));
+            sharedPreferences.edit().putInt("placement", placement).commit();
         } catch (JSONException e) {
             Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
         }
