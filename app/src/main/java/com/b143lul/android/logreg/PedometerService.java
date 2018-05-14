@@ -129,26 +129,26 @@ public class PedometerService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
-            int countSteps = (int) event.values[0];
+        if (sharedPreferences.getInt("score", -1) < 10000) {
+            if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
+                int countSteps = (int) event.values[0];
 
-
-
-
-            if (stepCounter == 0) {
-                stepCounter = (int) event.values[0];
+                if (stepCounter == 0) {
+                    stepCounter = (int) event.values[0];
+                }
+                // NewStepCounter is the steps total for the session, constantly reset from all over the place
+                newStepCounter = countSteps - stepCounter;
             }
-            //figure this out
-            newStepCounter = countSteps - stepCounter;
+
+
+            if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+                int detectSteps = (int) event.values[0];
+                currentStepsDetected += detectSteps; //steps = steps + detectSteps; // This variable will be initialised with the STEP_DETECTOR event value (1), and will be incremented by itself (+1) for as long as steps are detected.
+
+            }
+
+            Log.v("Service Counter", String.valueOf(newStepCounter));
         }
-
-
-        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
-            int detectSteps = (int) event.values[0];
-            currentStepsDetected += detectSteps; //steps = steps + detectSteps; // This variable will be initialised with the STEP_DETECTOR event value (1), and will be incremented by itself (+1) for as long as steps are detected.
-        }
-
-        Log.v("Service Counter", String.valueOf(newStepCounter));
 
     }
 
@@ -157,6 +157,7 @@ public class PedometerService extends Service implements SensorEventListener {
     }
 
     private void changeScore(final int scoreChange) {
+        // This thing is run every minute at updateServerData()
         StringRequest stringRequest = new StringRequest(Request.Method.POST, updateURL,
                 new Response.Listener<String>() {
                     @Override

@@ -62,9 +62,6 @@ public class Login extends AppCompatActivity {
         if (username.isEmpty()) {
 
         }
-        if (!username.contains("@")) {
-
-        }
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();

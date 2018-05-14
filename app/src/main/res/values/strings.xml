@@ -8,11 +8,11 @@
     <string name="title_activity_create_group">CreateGroup</string>
     <string name="step_counter">
          android.hardware.sensor.stepcounter
-   </string>
-
-
+    </string>
     <string name="step_detector">
          android.hardware.sensor.stepdetector
-   </string>
+    </string>
+    <string name="channel_name">NotificationChannel</string>
+    <string name="channel_description">ChannelDesc</string>
 
 </resources>
