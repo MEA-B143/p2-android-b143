@@ -12,10 +12,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageButton;
-import android.widget.Button;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,7 +56,7 @@ public class TrackMap extends AppCompatActivity {
     TextView currentScore;
     TextView challengeName;
     TextView groupcode;
-
+    TextView placementText;
 
 
     // From Pedometer class:
@@ -93,6 +93,7 @@ public class TrackMap extends AppCompatActivity {
         currentScore.setText(String.valueOf(stepScore));
         challengeName = (TextView) findViewById(R.id.challengeName);
         challengeName.setText(GroupName);
+        placementText = (TextView)findViewById(R.id.placement);
 
 
         BtnMenu = (ImageButton) findViewById(R.id.btn_menu1);
@@ -352,10 +353,30 @@ public class TrackMap extends AppCompatActivity {
         try {
             groupScores = new JSONObject(responseCheck);
             circleView.update(groupScores, username);
+            placementText.setText("# " + String.valueOf(getPlacing(groupScores, username)));
         } catch (JSONException e) {
             Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private int getPlacing(JSONObject groupScores, String username) {
+        int placing = 0;
+        for (int i = 0; i < groupScores.names().length(); i++) {
+            try {
+                if (!groupScores.names().getString(i).isEmpty()) {
+                    String name = groupScores.names().getString(i);
+                    if (name.equals(username)) {
+                        placing = i + 1;
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return placing;
+    }
+
     Handler handler = new Handler(Looper.getMainLooper());
     private void startGetScores() {
         handler.postDelayed(new Runnable() {

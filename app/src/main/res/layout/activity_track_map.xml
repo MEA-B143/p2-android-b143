@@ -61,15 +61,19 @@
             android:id="@+id/btn_menu1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginEnd="8dp"
             android:layout_marginLeft="8dp"
-            android:layout_marginRight="11dp"
+            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:adjustViewBounds="true"
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/toolbar"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintStart_toEndOf="@+id/challengeName"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/menu_icon" />
 
     </android.support.constraint.ConstraintLayout>
@@ -232,6 +236,7 @@
         android:layout_marginStart="8dp"
         android:text="placement"
         android:textColor="#ff8217"
+        android:textSize="24sp"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
