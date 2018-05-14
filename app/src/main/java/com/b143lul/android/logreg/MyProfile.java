@@ -36,6 +36,7 @@ public class MyProfile extends AppCompatActivity {
     TextView usernameName;
     TextView stepAmount;
     TextView gamesAmount;
+    ImageButton btn_back;
     ImageButton X;
     int FLAG_ACTIVITY_CLEAR_TOP;
     private JSONObject yourScore;
@@ -44,6 +45,7 @@ public class MyProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
+        btn_back = (ImageButton) findViewById(R.id.btn_back);
         usernameName = (TextView) findViewById(R.id.usernameName);
         stepAmount = (TextView) findViewById(R.id.amountOfSteps);
         gamesAmount = (TextView) findViewById(R.id.amountOfGames);
@@ -55,6 +57,13 @@ public class MyProfile extends AppCompatActivity {
         //Bundle bundle=getIntent().getExtras();
         Intent intent = getIntent();
         final String nameOfClass = intent.getExtras().getString("nameOfClass");
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
 
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {

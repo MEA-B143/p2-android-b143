@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class JoinGroup extends AppCompatActivity {
     FloatingActionButton btn_join;
     SharedPreferences sharedPreferences;
     ImageButton btn_menu;
+    ImageButton btn_back;
 
 
     @Override
@@ -49,6 +51,14 @@ public class JoinGroup extends AppCompatActivity {
         edit_groupcode = (EditText) findViewById(R.id.etEnterGC);
         btn_join = (FloatingActionButton) findViewById(R.id .btnLetsGo);
         btn_menu=(ImageButton) findViewById(R.id.btn_menu);
+        btn_back = (ImageButton) findViewById(R.id.btn_back);
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         btn_menu.setOnClickListener(new View.OnClickListener() {
             @Override

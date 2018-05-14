@@ -64,20 +64,22 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/btn_menu_close" />
 
-            <ImageView
-                android:id="@+id/logo"
-                android:layout_width="83dp"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="56dp"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="8dp"
                 android:layout_marginRight="8dp"
+                android:adjustViewBounds="false"
+                android:background="@android:color/transparent"
+                android:cropToPadding="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvTitle"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
-                app:srcCompat="@drawable/trac_logo" />
+                app:srcCompat="@drawable/btn_back" />
 
         </android.support.constraint.ConstraintLayout>
 

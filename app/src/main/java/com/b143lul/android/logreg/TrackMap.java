@@ -48,6 +48,7 @@ public class TrackMap extends AppCompatActivity {
     private String username;
     private SharedPreferences sharedPreferences;
     Button BtnForfeit;
+    ImageButton BtnMenu;
 
 
     // From Pedometer class:
@@ -81,7 +82,8 @@ public class TrackMap extends AppCompatActivity {
         sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
 
-        /*BtnMenu.setOnClickListener(new View.OnClickListener() {
+        BtnMenu = (ImageButton) findViewById(R.id.btn_menu1);
+        BtnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String className = "TrackMap";
@@ -90,7 +92,7 @@ public class TrackMap extends AppCompatActivity {
                 startActivity(IntentMenu);
             }
         });
-        */
+
 
         if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
             id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
