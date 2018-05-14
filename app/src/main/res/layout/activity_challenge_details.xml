@@ -21,6 +21,7 @@
             android:background="#f8f8f8"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,14 +52,13 @@
             android:layout_width="56dp"
             android:layout_height="match_parent"
             android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:adjustViewBounds="false"
             android:background="@android:color/transparent"
             android:cropToPadding="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/challengeName"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
@@ -106,6 +106,8 @@
         android:layout_width="wrap_content"
         android:layout_height="28dp"
         android:layout_marginBottom="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="PLAYER LIMIT:"
         android:textColor="#555555"
@@ -115,7 +117,7 @@
         app:layout_constraintEnd_toStartOf="@+id/etPlayerLimit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.973" />
+        app:layout_constraintVertical_bias="0.907" />
 
 
     <TextView
@@ -124,7 +126,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="DAY LIMIT:"
         android:textColor="#555555"
@@ -132,9 +136,9 @@
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/etDayLimit"
-        app:layout_constraintStart_toStartOf="@+id/tvName"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.597" />
+        app:layout_constraintVertical_bias="0.609" />
 
     <View
         android:id="@+id/view4"
@@ -179,7 +183,7 @@
         android:layout_width="match_parent"
         android:layout_height="1.5dp"
         android:layout_marginBottom="17dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:background="#bfbfbf"
         app:layout_constraintBottom_toTopOf="@+id/btnCreate"
         app:layout_constraintEnd_toEndOf="parent"
@@ -193,7 +197,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="NAME:"
         android:textColor="#555555"
         android:textSize="20sp"
@@ -202,7 +209,7 @@
         app:layout_constraintEnd_toStartOf="@+id/etName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.946" />
+        app:layout_constraintVertical_bias="0.916" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnCreate"
@@ -230,7 +237,9 @@
         android:layout_width="211dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="51dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="51dp"
         android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
@@ -239,7 +248,7 @@
         android:inputType="textPersonName"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/view5"
-        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvDayLimit"
         app:layout_constraintTop_toBottomOf="@+id/view4"
         app:layout_constraintVertical_bias="0.0" />
@@ -268,19 +277,21 @@
         android:id="@+id/etName"
         android:layout_width="210dp"
         android:layout_height="39dp"
-        android:layout_marginBottom="1dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginLeft="85dp"
+        android:layout_marginRight="8dp"
         android:layout_marginStart="85dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginTop="8dp"
         android:background="@android:color/transparent"
         android:ems="10"
         android:hint="EDIT RACE NAME"
         android:inputType="textPersonName"
         app:fontFamily="@font/muli_extralight"
         app:layout_constraintBottom_toTopOf="@+id/view3"
-        app:layout_constraintEnd_toEndOf="@+id/etPlayerLimit"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvName"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.b143lul.android.logreg;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 //import static com.b143lul.android.logreg.Login.className;
 
@@ -81,6 +85,10 @@ public class Menu extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SharedPreferences.Editor sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
+                sharedPreferences.clear();
+                sharedPreferences.commit();
+
                 Intent IntentLogout = new Intent(Menu.this, Login.class);
                 startActivity(IntentLogout);
 
