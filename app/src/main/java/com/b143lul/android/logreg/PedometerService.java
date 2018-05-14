@@ -275,6 +275,7 @@ public class PedometerService extends Service implements SensorEventListener {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("finishedrace", true);
                 editor.commit();
+                this.stopSelf();
             }
         }
     }
