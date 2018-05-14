@@ -67,9 +67,14 @@ public class PedometerService extends Service implements SensorEventListener {
     private final android.os.Handler handler = new android.os.Handler() {};
     private final android.os.Handler handler2 = new android.os.Handler() {};
 
+    final Handler handler3 = new Handler();
+    final int delaytime = 5000;
+
     int id = 0;
 
     SharedPreferences sharedPreferences;
+
+    private boolean gate;
 
     private static boolean launchEnd;
 
@@ -116,29 +121,21 @@ public class PedometerService extends Service implements SensorEventListener {
         /////}
         // ___________________________________________________________________________ \\
 
+
+        // Updating server data at timed interval
         handler2.removeCallbacks(updateServerData);
         handler2.post(updateServerData);
+
+        // This is the loop for sending the race completion to server
+        handler3.removeCallbacks(sendRaceComplete);
+        handler3.post(sendRaceComplete);
+
+        gate = false;
 
         // Needs to be done for creating a notification channel
         createNotificationChannel();
 
-        loopSendingRaceCompleteToServer();
-
         return START_STICKY;
-    }
-
-    private void loopSendingRaceCompleteToServer() {
-        final Handler handler3 = new Handler();
-        final int delaytime = 5000;
-        handler3.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (sharedPreferences.getBoolean("finishedrace", false)) {
-                    sendRaceCompleteToServer();
-                }
-                handler3.postDelayed(this, delaytime);
-            }
-        }, delaytime);
     }
 
     private void sendRaceCompleteToServer() {
@@ -162,6 +159,9 @@ public class PedometerService extends Service implements SensorEventListener {
                                 editor.putBoolean("showendscreen", true);
                                 editor.commit();
                                 launchEnd = true;
+                            }
+                            if (launchEnd) {
+                                handler3.removeCallbacks(sendRaceComplete);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -239,7 +239,9 @@ public class PedometerService extends Service implements SensorEventListener {
     public void onDestroy() {
         super.onDestroy();
         Log.v("Service", "Stop");
-
+        //handler.removeCallbacks(updateBroadcastData);
+        //handler2.removeCallbacks(updateServerData);
+        //handler3.removeCallbacks(sendRaceComplete);
         serviceStopped = true;
 
     }
@@ -265,6 +267,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
             if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 int detectSteps = (int) event.values[0];
+                sharedPreferences.edit().putInt("score", sharedPreferences.getInt("score", 0)).commit();
                 currentStepsDetected += detectSteps; //steps = steps + detectSteps; // This variable will be initialised with the STEP_DETECTOR event value (1), and will be incremented by itself (+1) for as long as steps are detected.
 
             }
@@ -302,6 +305,10 @@ public class PedometerService extends Service implements SensorEventListener {
                         editor.putInt("score", newScore);
                         editor.commit();
                         newStepCounter = 0;
+
+                        if (launchEnd) {
+                            handler2.removeCallbacks(updateServerData);
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -326,24 +333,34 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private Runnable updateServerData = new Runnable() {
         public void run() {
-        if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
-            // Call the method that updates score on the server..
-            changeScore(newStepCounter);
-            // Call "handler.postDelayed" again, after a specified delay (of a minute).
-            Log.d(TAG, Integer.toString(newStepCounter));
-            handler2.postDelayed(this, 10000);
-        }
+            if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
+                // Call the method that updates score on the server..
+                changeScore(newStepCounter);
+                // Call "handler.postDelayed" again, after a specified delay (of a minute).
+                Log.d(TAG, Integer.toString(newStepCounter));
+                handler2.postDelayed(this, 10000);
+            }
         }
     };
 
     private Runnable updateBroadcastData = new Runnable() {
         public void run() {
-        if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
-            // Call the method that broadcasts the data to the Activity..
-            broadcastSensorValue();
-            // Call "handler.postDelayed" again, after a specified delay.
-            handler.postDelayed(this, 5000);
+            if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
+                // Call the method that broadcasts the data to the Activity..
+                broadcastSensorValue();
+                // Call "handler.postDelayed" again, after a specified delay.
+                handler.postDelayed(this, 5000);
+            }
         }
+    };
+
+    private Runnable sendRaceComplete = new Runnable() {
+        @Override
+        public void run() {
+            if (sharedPreferences.getBoolean("finishedrace", false)) {
+                sendRaceCompleteToServer();
+            }
+            handler3.postDelayed(this, delaytime);
         }
     };
 
@@ -362,6 +379,9 @@ public class PedometerService extends Service implements SensorEventListener {
         //intent.putExtra("LaunchEnd", launchEnd);
         // call sendBroadcast with that intent  - which sends a message to whoever is registered to receive it.
         sendBroadcast(intent);
+        if (launchEnd) {
+            handler.removeCallbacks(updateBroadcastData);
+        }
     }
     // ___________________________________________________________________________ \\
 

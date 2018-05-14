@@ -42,16 +42,21 @@ public class TrackMap extends AppCompatActivity {
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
     private final String forfeitURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/forfeit.php";
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
-    private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
+    private final String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
+    private final String checkGroupCompletion = "http://b143servertesting.gearhostpreview.com/GetVals/CheckGroupCompletion.php";
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
     private final int REFRESH_TIME = 5000;
     private String username;
     private SharedPreferences sharedPreferences;
+    private String name;
     Button BtnForfeit;
     ImageButton BtnMenu;
     TextView currentScore;
+    TextView challengeName;
+    TextView groupcode;
+
 
 
     // From Pedometer class:
@@ -79,14 +84,17 @@ public class TrackMap extends AppCompatActivity {
                 startActivity(IntentForfeit);
             }
         });
-
+        sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        String checkGroupname = sharedPreferences.getString("groupname","Name");
+        String GroupName = checkGroupname.substring(0, checkGroupname.length()-2);
         circleView = (CircleView)findViewById(R.id.CircleView);
         steps = (TextView)findViewById(R.id.textView3);
-        sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "username");
         int stepScore = sharedPreferences.getInt("score", -1);
         currentScore = (TextView)findViewById(R.id.currentScore);
         currentScore.setText(String.valueOf(stepScore));
+        challengeName = (TextView) findViewById(R.id.challengeName);
+        challengeName.setText(GroupName);
 
 
         BtnMenu = (ImageButton) findViewById(R.id.btn_menu1);
@@ -109,17 +117,65 @@ public class TrackMap extends AppCompatActivity {
             alertbox.setCancelable(false);
             finish();
         }
+
+        groupcode = (TextView) findViewById(R.id.groupcode);
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
+        groupcode.setText("Group Code: " + String.valueOf(localGroupCode));
 
         // For pedometer, from Pedometer.class
         intent = new Intent(this, PedometerService.class);
-        startDaServiceCUH();
+        checkGroupCompleted();
 
         checkEndReachedLoop();
 
         getGroupParticipants();
         startGetScores();
 
+    }
+
+    private void checkGroupCompleted() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, checkGroupCompletion,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.has("completed")) {
+                                // Success
+                                int getval = Integer.parseInt(jsonObject.getString("completed"));
+                                if (getval == 0) {
+                                    startDaServiceCUH();
+                                } else if (getval == 1) {
+                                    stopService(new Intent(TrackMap.this, PedometerService.class));
+
+                                    startActivity(new Intent(getApplicationContext(), WinScreen.class));
+                                }
+                            } else {
+                                Log.e(TAG, "Error: " + jsonObject.getString("Error"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            startDaServiceCUH();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        //Log.e();
+                        startDaServiceCUH();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("groupcode", Integer.toString(sharedPreferences.getInt("groupcode", 0)));
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     private void checkEndReachedLoop() {

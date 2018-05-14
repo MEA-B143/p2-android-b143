@@ -35,7 +35,7 @@
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
         <TextView
-            android:id="@+id/tvTitle"
+            android:id="@+id/challengeName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Challenge Name"
@@ -68,7 +68,7 @@
             android:background="@android:color/transparent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/tvTitle"
+            app:layout_constraintStart_toEndOf="@+id/challengeName"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/menu_icon" />
 
@@ -104,7 +104,7 @@
         app:layout_constraintVertical_bias="0.882" />
 
     <TextView
-        android:id="@+id/tv_groupcode"
+        android:id="@+id/groupcode"
         android:layout_width="wrap_content"
         android:layout_height="21dp"
         android:layout_marginBottom="8dp"

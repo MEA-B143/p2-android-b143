@@ -30,9 +30,9 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class ChallengeDetails extends AppCompatActivity {
     private final String createGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/CreateGroup.php";
-    private static String groupNamePrefKey = "groupname";
     private int id;
     SharedPreferences sharedPreferences;
+    private String groupname;
 
     EditText et_Name;
     EditText et_PlayerLimit;
@@ -107,7 +107,7 @@ public class ChallengeDetails extends AppCompatActivity {
             finish();
         }
     }
-    void sendGroupInfo(final String challengeGroup, final String playerLimit, final String dayLimit) {
+    void sendGroupInfo(final String challengeName, final String playerLimit, final String dayLimit) {
             StringRequest stringRequest = new StringRequest(Request.Method.POST, createGroupURL,
                     new Response.Listener<String>() {
                         @Override
@@ -117,7 +117,7 @@ public class ChallengeDetails extends AppCompatActivity {
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 // The response will be something like "success,12345"
                                 editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
-                                editor.putInt(groupNamePrefKey, 000000);
+                                editor.putString("groupname", challengeName + "aa");
                                 editor.commit();
                                 Intent IntentGroupCode = new Intent(ChallengeDetails.this, createdGroupCode.class);
                                 startActivity(IntentGroupCode);
@@ -135,7 +135,7 @@ public class ChallengeDetails extends AppCompatActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> prams = new HashMap<>();
                     prams.put("id", Integer.toString(id));
-                    prams.put("name", challengeGroup);
+                    prams.put("challengename", challengeName);
                     prams.put("daylimit", dayLimit);
                     prams.put("playerlimit", playerLimit);
                     return prams;
