@@ -39,16 +39,16 @@ public class Menu extends AppCompatActivity {
             }
         });
 
-       /* profile.setOnClickListener(new View.OnClickListener() {
+       profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent IntentProfile = new Intent(Menu.this, profile.class);
+                Intent IntentProfile = new Intent(Menu.this, MyProfile.class);
                 startActivity(IntentProfile);
 
             }
         });
 
-        leaderboard.setOnClickListener(new View.OnClickListener() {
+        /*leaderboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent IntentLeaderboard = new Intent(Menu.this, leaderboard.class);
