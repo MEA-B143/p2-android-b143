@@ -81,7 +81,14 @@ public class Login extends AppCompatActivity {
                             editor.putString(KEY_PASSWORD, password);
                             String[] retvals = response.trim().split(",");
                             int id = Integer.parseInt(retvals[1].trim());
+                            int score = Integer.parseInt(retvals[2].trim());
                             editor.putInt(ID_SHARED_PREF, id);
+                            int localScore = sharedPreferences.getInt("score", 0);
+                            if (localScore > score) {
+                                editor.putInt("score", localScore);
+                            } else {
+                                editor.putInt("score", score);
+                            }
                             editor.commit();
 
                             checkGroup("groupcode", id);

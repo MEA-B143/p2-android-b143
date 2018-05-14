@@ -60,6 +60,8 @@ public class PedometerService extends Service implements SensorEventListener {
     public static final String BROADCAST_ACTION = "com.websmithing.b143lul.mybroadcast";
 
     private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
+    private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
+
     String scoreText;
 
     private final android.os.Handler handler = new android.os.Handler() {};
@@ -68,6 +70,8 @@ public class PedometerService extends Service implements SensorEventListener {
     int id = 0;
 
     SharedPreferences sharedPreferences;
+
+    private static boolean launchEnd;
 
     String CHANNEL_ID = "randchannellul";
 
@@ -115,8 +119,15 @@ public class PedometerService extends Service implements SensorEventListener {
         handler2.removeCallbacks(updateServerData);
         handler2.post(updateServerData);
 
+        // Needs to be done for creating a notification channel
         createNotificationChannel();
 
+        loopSendingRaceCompleteToServer();
+
+        return START_STICKY;
+    }
+
+    private void loopSendingRaceCompleteToServer() {
         final Handler handler3 = new Handler();
         final int delaytime = 10000;
         handler3.postDelayed(new Runnable() {
@@ -128,12 +139,10 @@ public class PedometerService extends Service implements SensorEventListener {
                 handler3.postDelayed(this, delaytime);
             }
         }, delaytime);
-
-        return START_STICKY;
     }
 
     private void sendRaceCompleteToServer() {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, updateURL,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, completedURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -148,6 +157,11 @@ public class PedometerService extends Service implements SensorEventListener {
                             } else {
                                 // YAY!! Everything worked!
                                 createNotificationForRaceWin();
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putBoolean("finishedrace", false);
+                                editor.putBoolean("showendscreen", true);
+                                editor.commit();
+                                launchEnd = true;
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -197,7 +211,7 @@ public class PedometerService extends Service implements SensorEventListener {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.trac_logo)
                 .setContentTitle("You finished the race!")
-                .setContentText("You placed 1st in your TRAC challenge!  Click here to see your victory!")
+                .setContentText("You placed 1st in your TRAC challenge!  Click here to claim your victory!")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 // Set the intent that will fire when the user taps the notification
                 .setContentIntent(pendingIntent)
@@ -257,9 +271,11 @@ public class PedometerService extends Service implements SensorEventListener {
 
             Log.v("Service Counter", String.valueOf(newStepCounter));
         } else {
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putBoolean("finishedrace", true);
-            editor.commit();
+            if (!sharedPreferences.getBoolean("finishedrace", false)) {
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("finishedrace", true);
+                editor.commit();
+            }
         }
     }
 
@@ -341,6 +357,8 @@ public class PedometerService extends Service implements SensorEventListener {
         intent.putExtra("Detected_Step", String.valueOf(currentStepsDetected));
         // add new score to intent.
         intent.putExtra("New_score", scoreText);
+
+        intent.putExtra("LaunchEnd", launchEnd);
         // call sendBroadcast with that intent  - which sends a message to whoever is registered to receive it.
         sendBroadcast(intent);
     }
@@ -348,5 +366,9 @@ public class PedometerService extends Service implements SensorEventListener {
 
     public static void setNewStepCounter(int value) {
         newStepCounter = value;
+    }
+
+    public static void setLaunchEnd(boolean value) {
+        launchEnd = value;
     }
 }

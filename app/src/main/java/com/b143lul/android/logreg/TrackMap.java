@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 public class TrackMap extends AppCompatActivity {
     private int id;
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
+    private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
     private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private int localGroupCode;
     private JSONObject groupScores;
@@ -77,8 +79,28 @@ public class TrackMap extends AppCompatActivity {
         intent = new Intent(this, PedometerService.class);
         startDaServiceCUH();
 
+        checkEndReachedLoop();
+
         getGroupParticipants();
         startGetScores();
+    }
+
+    private void checkEndReachedLoop() {
+        final Handler handler3 = new Handler();
+        final int delaytime = 1000;
+        handler3.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int localScore = sharedPreferences.getInt("score", -1);
+                if (localScore >= 10000) {
+                    launchEndScreen();
+                    Log.d(TAG, "Launched from checkEndReachedLoop");
+                    handler3.removeCallbacks(this);
+                } else {
+                    handler3.postDelayed(this, delaytime);
+                }
+            }
+        }, delaytime);
     }
 
     private void startDaServiceCUH() {
@@ -98,17 +120,79 @@ public class TrackMap extends AppCompatActivity {
     };
     private void updateViews(Intent intent) {
         // retrieve data out of the intent.
-        int countedStep = intent.getIntExtra("Counted_Step_Int", -1);
-        if (countedStep > 0) {
+        int countedSteps = intent.getIntExtra("Counted_Step_Int", -1);
+        if (countedSteps > 0) {
             // We got sum shit!!!
-            changeScore(countedStep);
-        } else if (countedStep == 0) {
+            changeScore(countedSteps);
+            int localScore = sharedPreferences.getInt("score", -1);
+            sharedPreferences.edit().putInt("score", localScore+countedSteps).apply();
+            steps.setText(localScore+countedSteps);
+        } else if (countedSteps == 0) {
             // We got somethin but it aint somethin
 
         } else {
             // It's minus 1 and we don't want no shit!!! :rage:
         }
         //Log.d(TAG, String.valueOf(countedStep));
+
+        if (intent.getBooleanExtra("Launch_End", false)) {
+            launchEndScreen();
+            Log.d(TAG, "from updateViews");
+        }
+    }
+
+    private void launchEndScreen() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, completedURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onUpdateCompleted(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        //Log.e();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("groupcode", Integer.toString(sharedPreferences.getInt("groupcode", 0)));
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void onUpdateCompleted(String response) {
+        String responseCheck = response;
+        // Expecting a success message, no data is technically received.
+        try {
+            JSONObject jsonObject = new JSONObject(responseCheck);
+            if (!jsonObject.has("success")) {
+                // Server error
+                Log.e("TrackMap.java", "Update failed.");
+                Log.e("TrackMap.java", jsonObject.getString("Error"));
+                Log.e("TrackMap.java", jsonObject.getString("groupcode"));
+            } else {
+                // YAY!! Everything worked!
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("finishedrace", false);
+                editor.putBoolean("showendscreen", true);
+                editor.commit();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        // Stop the service in background on win
+        PedometerService.setLaunchEnd(false);
+        stopService(new Intent(getBaseContext(), PedometerService.class));
+        isServiceStopped = true;
+        Intent launchWinScreen = new Intent(TrackMap.this, WinScreen.class);
+        startActivity(launchWinScreen);
     }
 
     private void getGroupParticipants(){
@@ -142,7 +226,6 @@ public class TrackMap extends AppCompatActivity {
         String responseCheck = response;
         try {
             groupScores = new JSONObject(responseCheck);
-            SharedPreferences sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
             circleView.update(groupScores, username);
         } catch (JSONException e) {
             Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
@@ -152,7 +235,7 @@ public class TrackMap extends AppCompatActivity {
     private void startGetScores() {
         handler.postDelayed(new Runnable() {
             public void run() {
-                getGroupParticipants();          // this method will contain your almost-finished HTTP calls
+                getGroupParticipants();
                 handler.postDelayed(this, REFRESH_TIME);
             }
         }, REFRESH_TIME);
