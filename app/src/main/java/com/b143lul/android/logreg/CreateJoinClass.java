@@ -27,7 +27,6 @@ public class CreateJoinClass extends AppCompatActivity {
                 Intent IntentMenu = new Intent(CreateJoinClass.this, Menu.class);
                 IntentMenu.putExtra("className", className);
                 startActivity(IntentMenu);
-
             }
         });
 

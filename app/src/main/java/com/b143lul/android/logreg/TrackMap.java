@@ -80,8 +80,6 @@ public class TrackMap extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 forfeit();
-                Intent IntentForfeit = new Intent(TrackMap.this, CreateJoinClass.class);
-                startActivity(IntentForfeit);
             }
         });
         sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -315,12 +313,20 @@ public class TrackMap extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    void forfeit() {
+    private void forfeit() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, forfeitURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        //If successful don't expect result
+                        // If successful don't expect response
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove("groupcode");
+                        editor.remove("groupname");
+                        editor.commit();
+                        ////////////////////////////////////////////////////////////////////////////////////////
+                        handler.removeCallbacksAndMessages(null);
+                        Intent IntentForfeit = new Intent(TrackMap.this, CreateJoinClass.class);
+                        startActivity(IntentForfeit);
                     }
                 },
                 new Response.ErrorListener() {
