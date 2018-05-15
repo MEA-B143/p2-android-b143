@@ -1,10 +1,13 @@
 package com.b143lul.android.logreg;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -84,14 +87,35 @@ public class Menu extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences.Editor sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
-                sharedPreferences.clear();
-                sharedPreferences.commit();
-                Intent IntentLogout = new Intent(Menu.this, Login.class);
-                startActivity(IntentLogout);
-
+                logoutPrompt();
             }
         });
 
+    }
+
+    private void logoutPrompt() {
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        alertbox.setTitle("You tryna leave?");
+        alertbox.setCancelable(true);
+        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertbox.show();
+    }
+
+    private void logout() {
+        SharedPreferences.Editor sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE).edit();
+        sharedPreferences.clear();
+        sharedPreferences.commit();
+        Intent IntentLogout = new Intent(Menu.this, Login.class);
+        startActivity(IntentLogout);
     }
 }

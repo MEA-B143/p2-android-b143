@@ -1,10 +1,13 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -43,7 +46,7 @@ public class WinScreen extends AppCompatActivity {
         btnOkay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                forfeit();
+                promptForfeit();
                 Intent IntentCreateJoin = new Intent(WinScreen.this, CreateJoinClass.class);
                 startActivity(IntentCreateJoin);
             }
@@ -53,6 +56,25 @@ public class WinScreen extends AppCompatActivity {
         placement = sharedPreferences.getInt("placement", 0);
         tvPlacement.setText("No. " + String.valueOf(placement));
     }
+
+    private void promptForfeit() {
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        alertbox.setTitle("You tryna leave?");
+        alertbox.setCancelable(true);
+        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                forfeit();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertbox.show();
+    }
+
     private void forfeit() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, forfeitURL,
                 new Response.Listener<String>() {

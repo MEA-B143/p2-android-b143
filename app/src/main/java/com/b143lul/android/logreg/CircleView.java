@@ -64,6 +64,7 @@ public class CircleView extends View {
                 int yourScore = groupScores.getInt(localUsername);
                 paint1.setColor(Color.RED);
                 paint1.setTextAlign(Paint.Align.CENTER);
+                paint1.setTextSize(40);
                 canvas.drawCircle(getWidth() / 5 + posX(yourScore), posY(yourScore), 50, paint1);
                 canvas.drawText(localUsername, getWidth()/5 + posX(yourScore), posY(yourScore)+100, paint1);
             } catch (JSONException e) {

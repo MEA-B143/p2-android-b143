@@ -3,6 +3,7 @@ package com.b143lul.android.logreg;
 import android.annotation.TargetApi;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.os.Looper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -44,6 +46,7 @@ public class TrackMap extends AppCompatActivity {
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
     private final String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private final String checkGroupCompletion = "http://b143servertesting.gearhostpreview.com/GetVals/CheckGroupCompletion.php";
+    private final String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
@@ -79,7 +82,7 @@ public class TrackMap extends AppCompatActivity {
         BtnForfeit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                forfeit();
+                promptForfeit();
             }
         });
         sharedPreferences = TrackMap.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -120,6 +123,7 @@ public class TrackMap extends AppCompatActivity {
         groupcode = (TextView) findViewById(R.id.groupcode);
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         groupcode.setText("Group Code: " + String.valueOf(localGroupCode));
+        getServerGroupCode();
 
         // For pedometer, from Pedometer.class
         intent = new Intent(this, PedometerService.class);
@@ -130,6 +134,68 @@ public class TrackMap extends AppCompatActivity {
         getGroupParticipants();
         startGetScores();
 
+    }
+
+    private void getServerGroupCode() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, receiveURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onGroupCodeResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG,Log.getStackTraceString(error));
+                        // Print any errors to the console.
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("id", Integer.toString(id));
+                prams.put("field", "groupcode");
+
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void onGroupCodeResponse(String response) {
+        String code = response.split(",")[0];
+        if (code.equals("none")) {
+            // Not in a group.
+            Intent groupJoinScreen = new Intent(getApplicationContext(), CreateJoinClass.class);
+            startActivity(groupJoinScreen);
+        } else {
+            Log.e(TAG, code);
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            int debug = Integer.parseInt(code.trim());
+            editor.putInt("groupcode", Integer.parseInt(code.trim()));
+            editor.commit();
+        }
+    }
+
+    private void promptForfeit() {
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        alertbox.setTitle("You tryna leave?");
+        alertbox.setCancelable(true);
+        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                forfeit();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertbox.show();
     }
 
     private void checkGroupCompleted() {
@@ -453,11 +519,26 @@ public class TrackMap extends AppCompatActivity {
     public void onPause() {
         super.onPause();
         handler.removeCallbacksAndMessages(null);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onStop() {
         super.onStop();
         handler.removeCallbacksAndMessages(null);
+        try {
+            unregisterReceiver(broadcastReceiver);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void onResume() {
+        super.onResume();
+        registerReceiver(broadcastReceiver, new IntentFilter(PedometerService.BROADCAST_ACTION));
     }
 }
