@@ -221,7 +221,7 @@ public class TrackMap extends AppCompatActivity {
                                     stopService(new Intent(TrackMap.this, PedometerService.class));
                                     handler.removeCallbacksAndMessages(null);
                                     Intent launchEnd = new Intent(getApplicationContext(), WinScreen.class);
-                                    launchEnd.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    launchEnd.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     startActivity(launchEnd);
                                 }
                             } else {
@@ -359,7 +359,7 @@ public class TrackMap extends AppCompatActivity {
         stopService(new Intent(getBaseContext(), PedometerService.class));
         isServiceStopped = true;
         Intent launchWinScreen = new Intent(TrackMap.this, WinScreen.class);
-        launchWinScreen.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        launchWinScreen.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(launchWinScreen);
     }
 
@@ -403,6 +403,7 @@ public class TrackMap extends AppCompatActivity {
                         ////////////////////////////////////////////////////////////////////////////////////////
                         handler.removeCallbacksAndMessages(null);
                         Intent IntentForfeit = new Intent(TrackMap.this, CreateJoinClass.class);
+                        IntentForfeit.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                         startActivity(IntentForfeit);
                     }
                 },
