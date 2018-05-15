@@ -46,7 +46,7 @@ public class WinScreen extends AppCompatActivity {
         btnOkay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                promptForfeit();
+                forfeit();
                 Intent IntentCreateJoin = new Intent(WinScreen.this, CreateJoinClass.class);
                 startActivity(IntentCreateJoin);
             }
@@ -57,23 +57,6 @@ public class WinScreen extends AppCompatActivity {
         tvPlacement.setText("No. " + String.valueOf(placement));
     }
 
-    private void promptForfeit() {
-        AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
-        alertbox.setTitle("You tryna leave?");
-        alertbox.setCancelable(true);
-        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                forfeit();
-            }
-        });
-        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        alertbox.show();
-    }
 
     private void forfeit() {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, forfeitURL,
@@ -85,8 +68,6 @@ public class WinScreen extends AppCompatActivity {
                         editor.remove("groupcode");
                         editor.remove("groupname");
                         editor.commit();
-                        Intent IntentForfeit = new Intent(WinScreen.this, CreateJoinClass.class);
-                        startActivity(IntentForfeit);
                     }
                 },
                 new Response.ErrorListener() {
