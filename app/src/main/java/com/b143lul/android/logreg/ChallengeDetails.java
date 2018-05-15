@@ -113,7 +113,6 @@ public class ChallengeDetails extends AppCompatActivity {
                         @Override
                         public void onResponse(String response) {
                             if (response.startsWith("success")) {
-                                Toast.makeText(ChallengeDetails.this, response, Toast.LENGTH_SHORT).show();
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 // The response will be something like "success,12345"
                                 editor.putInt("groupcode", Integer.parseInt(response.split(",")[1]));
