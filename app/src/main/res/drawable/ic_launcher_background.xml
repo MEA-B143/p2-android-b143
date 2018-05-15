@@ -4,6 +4,17 @@
     android:height="108dp"
     android:viewportHeight="108"
     android:viewportWidth="108">
+    <shape android:shape="rectangle"
+        android:padding="10dp">
+        <corners
+            android:bottomRightRadius="5dp"
+            android:bottomLeftRadius="5dp"
+            android:topLeftRadius="5dp"
+            android:topRightRadius="5dp" />
+    </shape>
+
+
+    <!--  OLD SHIT
     <path
         android:fillColor="#26A69A"
         android:pathData="M0,0h108v108h-108z" />
@@ -167,4 +178,5 @@
         android:pathData="M79,19L79,89"
         android:strokeColor="#33FFFFFF"
         android:strokeWidth="0.8" />
+        -->
 </vector>
