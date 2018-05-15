@@ -62,8 +62,9 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="83dp"
-            android:layout_height="wrap_content"
+            android:layout_width="84dp"
+            android:layout_height="53dp"
+            android:background="#f8f8f8"
             app:srcCompat="@drawable/trac_logo"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="0dp" />

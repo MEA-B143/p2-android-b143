@@ -121,7 +121,7 @@ public class JoinGroup extends AppCompatActivity {
                                 String[] groupDetails = groupDetailsString.split(",");
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
                                 editor.putInt("groupcode", Integer.parseInt(groupDetails[0].trim()));
-                                editor.putString("groupname", (response.split(",")[5]));
+                                editor.putString("groupname", (response.split(",")[4]));
                                 editor.commit();
 
                                 Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
