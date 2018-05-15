@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity {
 
                             checkGroup("groupcode", id);
                         } else{
-                            Toast.makeText(Login.this, response, Toast.LENGTH_LONG).show();
+                            Toast.makeText(Login.this, "Invalid Login Information", Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }

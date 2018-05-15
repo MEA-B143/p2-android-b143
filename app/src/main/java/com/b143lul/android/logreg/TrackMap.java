@@ -44,6 +44,7 @@ public class TrackMap extends AppCompatActivity {
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
     private final String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private final String checkGroupCompletion = "http://b143servertesting.gearhostpreview.com/GetVals/CheckGroupCompletion.php";
+    private final String JoinGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/JoinGroup.php";
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
@@ -120,6 +121,11 @@ public class TrackMap extends AppCompatActivity {
         groupcode = (TextView) findViewById(R.id.groupcode);
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         groupcode.setText("Group Code: " + String.valueOf(localGroupCode));
+        String txtGroupCode = String.valueOf(localGroupCode);
+        getGroupInfo(txtGroupCode);
+        checkGroupname = sharedPreferences.getString("groupname","Name");
+        GroupName = checkGroupname.substring(0, checkGroupname.length()-2);
+        challengeName.setText(GroupName);
 
         // For pedometer, from Pedometer.class
         intent = new Intent(this, PedometerService.class);
@@ -443,6 +449,47 @@ public class TrackMap extends AppCompatActivity {
                 prams.put("id", Integer.toString(id));
                 prams.put("score", Integer.toString(scoreChange));
 
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    void getGroupInfo(final String txtGroupCode) {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, JoinGroupURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            if (jsonObject.has("NoGroupCode")){ //If the entered group code doesn't exist.
+                                String ErrorMessage = "Group code doesn't exist.";
+                                Toast.makeText(TrackMap.this, ErrorMessage, Toast.LENGTH_SHORT).show();
+                            }
+                            else if (jsonObject.has("groupcode")){ //If everything is successful and the group information is retrieved.
+                                String groupDetailsString = jsonObject.getString("groupcode");
+                                String[] groupDetails = groupDetailsString.split(",");
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putInt("groupcode", Integer.parseInt(groupDetails[0].trim()));
+                                editor.putString("groupname", (response.split(",")[4]));
+                                editor.commit();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }){
+            protected Map<String, String> getParams () throws AuthFailureError {
+                Map<String, String> prams = new HashMap<>();
+                prams.put("groupCode", txtGroupCode);
+                prams.put("id", Integer.toString(id));
                 return prams;
             }
         };
