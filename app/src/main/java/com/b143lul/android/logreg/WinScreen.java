@@ -23,6 +23,8 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
+import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
 
 public class WinScreen extends AppCompatActivity {
@@ -47,13 +49,23 @@ public class WinScreen extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 promptForfeit();
-                Intent IntentCreateJoin = new Intent(WinScreen.this, CreateJoinClass.class);
-                startActivity(IntentCreateJoin);
             }
         });
         tvPlacement = (TextView)findViewById(R.id.tvPlacement);
         sharedPreferences = WinScreen.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        localGroupCode = sharedPreferences.getInt("groupcode", 0);
+        if(sharedPreferences.getBoolean(LOGGEDIN_SHARED_PREF, false)) {
+            id = sharedPreferences.getInt(ID_SHARED_PREF, -1);
+        } else {
+            AlertDialog.Builder alertbox=new AlertDialog.Builder(getApplicationContext());
+            alertbox.setTitle("How tf did u get here???");
+            alertbox.setCancelable(false);
+            finish();
+        }
         placement = sharedPreferences.getInt("placement", 0);
+        if (placement == 0) {
+
+        }
         tvPlacement.setText("No. " + String.valueOf(placement));
     }
 
