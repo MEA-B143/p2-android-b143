@@ -359,6 +359,9 @@ public class TrackMap extends AppCompatActivity {
             int placement = getPlacing(groupScores, username);
             placementText.setText("# " + String.valueOf(placement));
             sharedPreferences.edit().putInt("placement", placement).commit();
+            int score = extractScoreWithEveryoneElse(groupScores, username);
+            sharedPreferences.edit().putInt("score", score).commit();
+            currentScore.setText(String.valueOf(score));
         } catch (JSONException e) {
             Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
         }
@@ -380,6 +383,24 @@ public class TrackMap extends AppCompatActivity {
             }
         }
         return placing;
+    }
+
+    private int extractScoreWithEveryoneElse(JSONObject groupScores, String username) {
+        int score = 0;
+        for (int i = 0; i < groupScores.names().length(); i++) {
+            try {
+                if (!groupScores.names().getString(i).isEmpty()) {
+                    String name = groupScores.names().getString(i);
+                    if (name.equals(username)) {
+                        score = groupScores.getInt(name);
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return score;
     }
 
     Handler handler = new Handler(Looper.getMainLooper());
