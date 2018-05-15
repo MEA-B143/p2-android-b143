@@ -259,7 +259,7 @@ public class TrackMap extends AppCompatActivity {
             @Override
             public void run() {
                 int localScore = sharedPreferences.getInt("score", -1);
-                if (localScore >= 10000) {
+                if (localScore >= 40000) {
                     launchEndScreen();
                     Log.d(TAG, "Launched from checkEndReachedLoop");
                     handler3.removeCallbacks(this);
@@ -430,7 +430,8 @@ public class TrackMap extends AppCompatActivity {
             groupScores = new JSONObject(responseCheck);
             circleView.update(groupScores, username);
             int placement = getPlacing(groupScores, username);
-            placementText.setText("# " + String.valueOf(placement));
+            String placeDaText = "# " + String.valueOf(placement);
+            placementText.setText(placeDaText);
             sharedPreferences.edit().putInt("placement", placement).commit();
             int score = extractScoreWithEveryoneElse(groupScores, username);
             sharedPreferences.edit().putInt("score", score).commit();
