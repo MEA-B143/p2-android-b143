@@ -254,7 +254,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (sharedPreferences.getInt("score", -1) < 10000) {
+        if (sharedPreferences.getInt("score", -1) < 40000) {
             if (event.sensor.getType() == Sensor.TYPE_STEP_COUNTER) {
                 int countSteps = (int) event.values[0];
                 if (stepCounter == 0) {

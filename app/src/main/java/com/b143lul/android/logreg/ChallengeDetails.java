@@ -135,7 +135,7 @@ public class ChallengeDetails extends AppCompatActivity {
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> prams = new HashMap<>();
                     prams.put("id", Integer.toString(id));
-                    prams.put("challengename", challengeName);
+                    prams.put("name", challengeName);
                     prams.put("daylimit", dayLimit);
                     prams.put("playerlimit", playerLimit);
                     return prams;
