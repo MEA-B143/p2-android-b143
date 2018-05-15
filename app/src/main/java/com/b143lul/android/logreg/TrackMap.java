@@ -189,7 +189,7 @@ public class TrackMap extends AppCompatActivity {
 
     private void promptForfeit() {
         AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
-        alertbox.setTitle("You tryna leave?");
+        alertbox.setTitle("Are you sure you want to forfeit?");
         alertbox.setCancelable(true);
         alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
