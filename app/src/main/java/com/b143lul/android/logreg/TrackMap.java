@@ -129,7 +129,6 @@ public class TrackMap extends AppCompatActivity {
         localGroupCode = sharedPreferences.getInt("groupcode", 00000);
         groupcode.setText("Group Code: " + String.valueOf(localGroupCode));
 
-        challengeName.setText(GroupName); //If the user logged out on TrackMap, this is where they get the GroupName
 
         // For pedometer, from Pedometer.class
         intent = new Intent(this, PedometerService.class);
@@ -150,8 +149,6 @@ public class TrackMap extends AppCompatActivity {
                         onGroupCodeResponse(response);
                         String txtGroupCode = String.valueOf(localGroupCode);
                         getGroupInfo(txtGroupCode);
-                        checkGroupname = sharedPreferences.getString("groupname","Name");
-                        GroupName = checkGroupname.substring(0, checkGroupname.length()-2);
                     }
                 },
                 new Response.ErrorListener() {
@@ -544,6 +541,10 @@ public class TrackMap extends AppCompatActivity {
                                 editor.putString("groupname", (response.split(",")[4]));
                                 editor.commit();
                             }
+                            checkGroupname = sharedPreferences.getString("groupname","Name");
+                            GroupName = checkGroupname.substring(0, checkGroupname.length()-2);
+                            challengeName.setText(GroupName); //If the user logged out on TrackMap, this is where they get the GroupName
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
