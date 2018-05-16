@@ -61,7 +61,6 @@ public class ChallengeDetails extends AppCompatActivity {
                Intent IntentMenu = new Intent(ChallengeDetails.this, Menu.class);
                IntentMenu.putExtra("className", className);
                startActivity(IntentMenu);
-
            }
        });
 

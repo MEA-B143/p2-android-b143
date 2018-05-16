@@ -53,6 +53,7 @@ public class createdGroupCode extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent IntentTrackMap = new Intent(createdGroupCode.this, TrackMap.class);
+                IntentTrackMap.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(IntentTrackMap);
             }
         });

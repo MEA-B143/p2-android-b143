@@ -125,6 +125,7 @@ public class JoinGroup extends AppCompatActivity {
                                 editor.commit();
 
                                 Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
+                                goMap.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 startActivity(goMap);
                             }
                         } catch (JSONException e) {
