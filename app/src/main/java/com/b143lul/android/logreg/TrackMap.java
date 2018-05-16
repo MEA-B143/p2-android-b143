@@ -293,7 +293,7 @@ public class TrackMap extends AppCompatActivity {
             changeScore(countedSteps);
             int localScore = sharedPreferences.getInt("score", -1);
             sharedPreferences.edit().putInt("score", localScore+countedSteps).apply();
-            steps.setText(String.valueOf(localScore+countedSteps));
+            //steps.setText(String.valueOf(localScore+countedSteps));
         } else if (countedSteps == 0) {
             // We got somethin but it aint somethin
 
