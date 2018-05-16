@@ -47,9 +47,9 @@ public class PedometerService extends Service implements SensorEventListener {
     Sensor stepCounterSensor;
     Sensor stepDetectorSensor;
 
-    int currentStepsDetected;
+    private static int currentStepsDetected;
 
-    int stepCounter;
+    private static int stepCounter;
     private static int newStepCounter;
 
     boolean serviceStopped;
@@ -304,6 +304,8 @@ public class PedometerService extends Service implements SensorEventListener {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putInt("score", newScore);
                         editor.commit();
+                        currentStepsDetected = 0;
+                        stepCounter = 0;
                         newStepCounter = 0;
 
                         if (launchEnd) {
@@ -387,6 +389,8 @@ public class PedometerService extends Service implements SensorEventListener {
 
     public static void setNewStepCounter(int value) {
         newStepCounter = value;
+        currentStepsDetected = 0;
+        stepCounter = 0;
     }
 
     public static void setLaunchEnd(boolean value) {
