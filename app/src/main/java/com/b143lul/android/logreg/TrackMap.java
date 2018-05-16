@@ -295,6 +295,7 @@ public class TrackMap extends AppCompatActivity {
             changeScore(countedSteps);
             int localScore = sharedPreferences.getInt("score", -1);
             sharedPreferences.edit().putInt("score", localScore+countedSteps).apply();
+
             //steps.setText(String.valueOf(localScore+countedSteps));
         } else if (countedSteps == 0) {
             // We got somethin but it aint somethin
@@ -439,7 +440,8 @@ public class TrackMap extends AppCompatActivity {
             sharedPreferences.edit().putInt("placement", placement).commit();
             int score = extractScoreWithEveryoneElse(groupScores, username);
             sharedPreferences.edit().putInt("score", score).commit();
-            currentScore.setText(String.valueOf(score));
+            int localScore = sharedPreferences.getInt("score", -1);
+            currentScore.setText(String.valueOf(localScore));
         } catch (JSONException e) {
             Toast.makeText(TrackMap.this, "An error occurred.  Probably don't have the group code stored in the SharedPrefs.", Toast.LENGTH_SHORT).show();
         }

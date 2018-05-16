@@ -351,7 +351,7 @@ public class PedometerService extends Service implements SensorEventListener {
                 // Call the method that broadcasts the data to the Activity..
                 broadcastSensorValue();
                 // Call "handler.postDelayed" again, after a specified delay.
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, 1000);
             }
         }
     };
