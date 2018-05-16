@@ -2,11 +2,14 @@ package com.b143lul.android.logreg;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,7 +45,8 @@ public class Login extends AppCompatActivity {
     private Button BtnLogin;
     private Button BtnNewUser;
     private boolean loggedIn=false;
-    ProgressDialog progressDialog;
+
+    private final boolean shouldAllowBack = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,13 +73,13 @@ public class Login extends AppCompatActivity {
                 startActivity(intentSignUp);
             }
         });
-        progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
     }
 
     private void login(final String username, final String password) {
         if (username.isEmpty()) {
 
         }
+        final ProgressDialog progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
         progressDialog.show();
@@ -104,7 +108,7 @@ public class Login extends AppCompatActivity {
                                 editor.putInt("score", score);
                             }
                             editor.commit();
-
+                            progressDialog.dismiss();
                             checkGroup("groupcode", id);
                         } else{
                             Toast.makeText(Login.this, "Invalid Login Information", Toast.LENGTH_LONG).show();
@@ -146,6 +150,7 @@ public class Login extends AppCompatActivity {
     private void checkGroup(final String column, final int id) {
         // We need to check if the person is in a group before determining which activity to start next.
         //runOnUiThread(changeMessage);
+        final ProgressDialog progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
         progressDialog.setMessage("Checking for any group information...");
         progressDialog.show();
 
@@ -156,6 +161,7 @@ public class Login extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressDialog.dismiss();
                         onGroupCodeResponse(response);
                     }
                 },
@@ -187,6 +193,7 @@ public class Login extends AppCompatActivity {
             // Not in a group.
             Intent groupJoinScreen = new Intent(Login.this, CreateJoinClass.class);
             startActivity(groupJoinScreen);
+            finish();
         } else {
             Log.e(TAG, code);
             SharedPreferences sharedPreferences = Login.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -196,7 +203,40 @@ public class Login extends AppCompatActivity {
             editor.commit();
             Intent launchMap = new Intent(Login.this, TrackMap.class);
             startActivity(launchMap);
+            finish();
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!shouldAllowBack) {
+            endAppPopup();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void endAppPopup() {
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        alertbox.setTitle("Would you like to exit the app?");
+        alertbox.setCancelable(true);
+        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                closeApp();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertbox.show();
+    }
+
+    private void closeApp() {
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
+    }
 }

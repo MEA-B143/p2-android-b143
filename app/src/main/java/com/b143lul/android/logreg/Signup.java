@@ -2,30 +2,23 @@ package com.b143lul.android.logreg;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
@@ -44,6 +37,7 @@ public class Signup extends AppCompatActivity {
     public static final String LOGIN_SUCCESS="success";
     public static final String USERNAME_SHARED_PREF = "username";
 
+    private final boolean shouldAllowBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,8 +75,12 @@ public class Signup extends AppCompatActivity {
         String username = edit_username.getText().toString().trim().toLowerCase();
         String email = edit_email.getText().toString().trim().toLowerCase();
         String password = edit_pass.getText().toString().trim().toLowerCase();
-        register(username, password, email);
-        login(username,password);
+        if (username.trim().isEmpty() || email.trim().isEmpty() || password.trim().isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Please fill out all the fields", Toast.LENGTH_LONG).show();
+        } else {
+            register(username, password, email);
+            //login(username,password);
+        }
     }
 
     private void register(String username, String password, String email){
@@ -128,6 +126,7 @@ public class Signup extends AppCompatActivity {
         ur.execute(urlSuffix);
     }
 
+    /*
     private void login(final String username, final String password) {
         if (username.isEmpty()) {
 
@@ -182,5 +181,39 @@ public class Signup extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+    */
+
+    @Override
+    public void onBackPressed() {
+        if (!shouldAllowBack) {
+            endAppPopup();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void endAppPopup() {
+        AlertDialog.Builder alertbox = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.myDialog));
+        alertbox.setTitle("Would you like to exit the app?");
+        alertbox.setCancelable(true);
+        alertbox.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                closeApp();
+            }
+        });
+        alertbox.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertbox.show();
+    }
+
+    private void closeApp() {
+        moveTaskToBack(true);
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(1);
     }
 }

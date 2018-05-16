@@ -11,6 +11,7 @@ public class CreateJoinClass extends AppCompatActivity {
     private Button createButton;
     private Button joinButton;
     ImageButton btn_menu;
+    private final boolean shouldAllowBack = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,5 +45,14 @@ public class CreateJoinClass extends AppCompatActivity {
                 startActivity(joinGroup);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!shouldAllowBack) {
+            // Yikes...
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -48,6 +48,7 @@ public class TrackMap extends AppCompatActivity {
     private final String checkGroupCompletion = "http://b143servertesting.gearhostpreview.com/GetVals/CheckGroupCompletion.php";
     private final String JoinGroupURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/JoinGroup.php";
     private final String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
+    private final boolean shouldAllowBack = false;
     private int localGroupCode;
     private JSONObject groupScores;
     CircleView circleView;
@@ -223,6 +224,7 @@ public class TrackMap extends AppCompatActivity {
                                     Intent launchEnd = new Intent(getApplicationContext(), WinScreen.class);
                                     launchEnd.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                     startActivity(launchEnd);
+                                    finish();
                                 }
                             } else {
                                 Log.e(TAG, "Error: " + jsonObject.getString("Error"));
@@ -361,6 +363,7 @@ public class TrackMap extends AppCompatActivity {
         Intent launchWinScreen = new Intent(TrackMap.this, WinScreen.class);
         launchWinScreen.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(launchWinScreen);
+        finish();
     }
 
     private void getGroupParticipants(){
@@ -593,5 +596,14 @@ public class TrackMap extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         registerReceiver(broadcastReceiver, new IntentFilter(PedometerService.BROADCAST_ACTION));
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!shouldAllowBack) {
+            // Yikes...
+        } else {
+            super.onBackPressed();
+        }
     }
 }

@@ -118,5 +118,6 @@ public class Menu extends AppCompatActivity {
         Intent IntentLogout = new Intent(Menu.this, Login.class);
         IntentLogout.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(IntentLogout);
+        finish();
     }
 }

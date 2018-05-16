@@ -1,13 +1,11 @@
 package com.b143lul.android.logreg;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -37,6 +35,7 @@ public class WinScreen extends AppCompatActivity {
     private int localGroupCode;
     SharedPreferences sharedPreferences;
     private int placement;
+    private final boolean shouldAllowBack = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,5 +99,14 @@ public class WinScreen extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!shouldAllowBack) {
+            // Yikes...
+        } else {
+            super.onBackPressed();
+        }
     }
 }

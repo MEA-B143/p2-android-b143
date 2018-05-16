@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -127,6 +125,7 @@ public class JoinGroup extends AppCompatActivity {
                                 Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
                                 goMap.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                                 startActivity(goMap);
+                                finish();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
