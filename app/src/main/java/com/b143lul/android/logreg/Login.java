@@ -96,8 +96,8 @@ public class Login extends AppCompatActivity {
 
                             editor.putBoolean(LOGGEDIN_SHARED_PREF, true);
                             //editor.putString(EMAIL_SHARED_PREF, email);
-                            editor.putString(USERNAME_SHARED_PREF, username);
-                            editor.putString(KEY_PASSWORD, password);
+                            editor.putString(USERNAME_SHARED_PREF, username.trim().toLowerCase());
+                            editor.putString(KEY_PASSWORD, password.trim().toLowerCase());
                             String[] retvals = response.trim().split(",");
                             int id = Integer.parseInt(retvals[1].trim());
                             int score = Integer.parseInt(retvals[2].trim());
