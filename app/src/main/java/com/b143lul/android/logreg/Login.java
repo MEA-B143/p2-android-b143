@@ -62,7 +62,11 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 final String username = editTextUsername.getText().toString().trim();
                 final String password = editTextPassword.getText().toString().trim();
-                login(username, password);
+                if (username.trim().isEmpty() || password.trim().isEmpty()) {
+                    Toast.makeText(Login.this, "Please fill out all the fields", Toast.LENGTH_LONG).show();
+                } else {
+                    login(username, password);
+                }
             }
         });
 
@@ -76,9 +80,6 @@ public class Login extends AppCompatActivity {
     }
 
     private void login(final String username, final String password) {
-        if (username.isEmpty()) {
-
-        }
         final ProgressDialog progressDialog = new ProgressDialog(Login.this,R.style.Theme_AppCompat_Light);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
