@@ -595,6 +595,12 @@ public class TrackMap extends AppCompatActivity {
 
     public void onResume() {
         super.onResume();
+        checkGroupCompleted();
+
+        checkEndReachedLoop();
+
+        getGroupParticipants();
+        startGetScores();
         registerReceiver(broadcastReceiver, new IntentFilter(PedometerService.BROADCAST_ACTION));
     }
 
