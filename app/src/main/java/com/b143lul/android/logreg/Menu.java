@@ -50,6 +50,8 @@ public class Menu extends AppCompatActivity {
                                      if(nameOfClass.equals("TrackMap")) {
                                          Intent IntentTrack = new Intent(Menu.this, TrackMap.class);
                                         startActivity(IntentTrack);
+                                     } else {
+                                         finish();
                                      }
                                  }
                              });
