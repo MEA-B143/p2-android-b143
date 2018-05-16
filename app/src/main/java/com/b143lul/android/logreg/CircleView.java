@@ -51,6 +51,7 @@ public class CircleView extends View {
                                 // Now let's actually draw the stuff.
                                 paint1.setTextAlign(Paint.Align.CENTER);
                                 paint1.setTextSize(40);
+                                name = name.toUpperCase();
                                 canvas.drawCircle(getWidth() / 5 + posX(userscore), posY(userscore), 50, paint1);
                                 canvas.drawText(name, getWidth()/5 + posX(userscore), posY(userscore)+100, paint1);
                             }
@@ -65,6 +66,7 @@ public class CircleView extends View {
                 paint1.setColor(Color.RED);
                 paint1.setTextAlign(Paint.Align.CENTER);
                 paint1.setTextSize(40);
+                localUsername = localUsername.toUpperCase();
                 canvas.drawCircle(getWidth() / 5 + posX(yourScore), posY(yourScore), 50, paint1);
                 canvas.drawText(localUsername, getWidth()/5 + posX(yourScore), posY(yourScore)+100, paint1);
             } catch (JSONException e) {
