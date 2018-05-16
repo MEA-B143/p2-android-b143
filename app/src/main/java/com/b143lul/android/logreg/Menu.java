@@ -45,11 +45,14 @@ public class Menu extends AppCompatActivity {
         final String nameOfClass = intent.getExtras().getString("className");
 
         x.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+                                 @Override
+                                 public void onClick(View v) {
+                                     if(nameOfClass.equals("TrackMap")) {
+                                         Intent IntentTrack = new Intent(Menu.this, TrackMap.class);
+                                        startActivity(IntentTrack);
+                                     }
+                                 }
+                             });
 
        profile.setOnClickListener(new View.OnClickListener() {
             @Override
