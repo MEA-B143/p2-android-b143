@@ -99,9 +99,9 @@ public class Signup extends AppCompatActivity {
             protected void onPostExecute(String s) {
                 super.onPostExecute(s);
                 loading.dismiss();
-                Intent groupJoinScreen = new Intent(Signup.this, CreateJoinClass.class);
+                Intent groupJoinScreen = new Intent(Signup.this, Login.class);
                 startActivity(groupJoinScreen);
-
+                finish();
             }
 
             @Override
