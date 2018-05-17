@@ -121,6 +121,7 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Connection to the server could not be made", Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override
@@ -173,6 +174,7 @@ public class Login extends AppCompatActivity {
                         // Print any errors to the console.
                         progressDialog.dismiss();
                         // We also need to stop the progress dialog from staying up because then the app can continue.
+                        Toast.makeText(getApplicationContext(), "Connection to the server could not be made", Toast.LENGTH_LONG).show();
                     }
                 }){
             @Override

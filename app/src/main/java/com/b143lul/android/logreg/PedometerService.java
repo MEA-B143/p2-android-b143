@@ -42,6 +42,7 @@ import static android.os.SystemClock.uptimeMillis;
 import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
+import static com.b143lul.android.logreg.Login.USERNAME_SHARED_PREF;
 import static java.lang.Math.round;
 
 
@@ -66,6 +67,7 @@ public class PedometerService extends Service implements SensorEventListener {
     private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
     private final String updateSecondsURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateExerciseTime.php";
+    private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
 
     String scoreText;
 
@@ -309,8 +311,17 @@ public class PedometerService extends Service implements SensorEventListener {
                             updateUserSeconds();
                             Log.i(TAG, "tempTime = " + String.valueOf(tempTime));
                             timerStarted = false;
-                            makeTrackingStepsNotification();
-                            checkDistanceToNextPlayer();
+                            if (tempTime > 300) {
+                                // If you walk for more than 5 minutes
+                                makeTrackingStepsNotification();
+                                //Random rand = new Random();
+                                //int  n = rand.nextInt(4) + 1;
+
+                                // This notification,
+                                // if internet connection is there and you are either first or there is 500 steps to the next person,
+                                // will currently overwite the basic one in the above function :)
+                                checkDistanceToNextPlayer();
+                            }
                             tempTime = 0;
                         }
 
@@ -397,34 +408,31 @@ public class PedometerService extends Service implements SensorEventListener {
     }
 
     private void makeTrackingStepsNotification() {
-        if (tempTime > 300) {
-            Random rand = new Random();
-            int  n = rand.nextInt(4) + 1;
-            Log.i(TAG, "n is: " + String.valueOf(n));
-            String title;
-            switch (n) {
-                case 1:
-                    title = "Good stuff!";
-                    launchTrackingStepsNotification(title);
-                    break;
-                case 2:
-                    title = "Nice!";
-                    launchTrackingStepsNotification(title);
-                    break;
-                case 3:
-                    title = "Wow!";
-                    launchTrackingStepsNotification(title);
-                    break;
-                case 4:
-                    title = "You've been going ham!";
-                    launchTrackingStepsNotification(title);
-                    break;
-                default:
-                    title = "Nice!";
-                    launchTrackingStepsNotification(title);
-                    break;
-            }
-            //50 is the maximum and the 1 is our minimum
+        Random rand = new Random();
+        int  n = rand.nextInt(4) + 1;
+        Log.i(TAG, "n is: " + String.valueOf(n));
+        String title;
+        switch (n) {
+            case 1:
+                title = "Good stuff!";
+                launchTrackingStepsNotification(title);
+                break;
+            case 2:
+                title = "Nice!";
+                launchTrackingStepsNotification(title);
+                break;
+            case 3:
+                title = "Wow!";
+                launchTrackingStepsNotification(title);
+                break;
+            case 4:
+                title = "You've been going ham!";
+                launchTrackingStepsNotification(title);
+                break;
+            default:
+                title = "Nice!";
+                launchTrackingStepsNotification(title);
+                break;
         }
     }
 
@@ -448,7 +456,122 @@ public class PedometerService extends Service implements SensorEventListener {
     }
 
     private void checkDistanceToNextPlayer() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, getGroupParticipantsURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // This will return all the scores.
+                        onGroupMembersResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("groupCode", Integer.toString(sharedPreferences.getInt("groupcode", 0)));
+                prams.put("id", Integer.toString(id));
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
 
+    private void onGroupMembersResponse(String response) {
+        String responseCheck = response;
+        try {
+            JSONObject groupScores = new JSONObject(responseCheck);
+            String username = sharedPreferences.getString(USERNAME_SHARED_PREF, "null");
+            //int placement = getPlacing(groupScores, username);
+            String nextPlayer = getDistanceToNextPlayer(groupScores, username);
+            if (nextPlayer.equals("first")) {
+                ohDamnNearbyNotification("You're in 1st place!", "You're winning the race!  Keep it up!");
+            } else {
+                String[] splitNextOpponentInfo = nextPlayer.trim().split(",");
+                String theirName = splitNextOpponentInfo[0];
+                int stepsDifference = Integer.parseInt(splitNextOpponentInfo[1].trim());
+                if (stepsDifference < 500) {
+                    String title = "Overtake your friend!";
+                    String message = "You're only " + String.valueOf(stepsDifference) + " steps away from reaching " + theirName.toUpperCase() + "!  Try overtake 'em!";
+                    ohDamnNearbyNotification(title, message);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void ohDamnNearbyNotification(String title, String message) {
+        // Might switch over to launchTrackingStepsNotification(String title) idk... I thought that this made more sense and the app is like 3MB so it's not like we're tryna save space
+        Intent intent = new Intent(this, Splash_Screen.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.trac_logo)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(createID(), mBuilder.build());
+    }
+
+    private String getDistanceToNextPlayer(JSONObject groupScores, String username) {
+        String response = "";
+        for (int i = 0; i < groupScores.names().length(); i++) {
+            try {
+                if (!groupScores.names().getString(i).isEmpty()) {
+                    int userscore = 0;
+                    String name = groupScores.names().getString(i);
+                    userscore = Integer.parseInt(groupScores.getString(name));
+                    if (name.equals(username)) {
+                        if (Integer.parseInt(groupScores.getString(username)) < 40000) {
+                            if (i == 0) {
+                                response = "first";
+                            } else {
+                                String opponentAhead = groupScores.names().getString(i - 1);
+                                int opponentScore = groupScores.getInt(opponentAhead);
+                                int yourScore = groupScores.getInt(username);
+                                response = opponentAhead + "," + String.valueOf(opponentScore - yourScore);
+                            }
+                        }
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return response;
+    }
+
+    private int getPlacing(JSONObject groupScores, String username) {
+        int placing = 0;
+        for (int i = 0; i < groupScores.names().length(); i++) {
+            try {
+                if (!groupScores.names().getString(i).isEmpty()) {
+                    String name = groupScores.names().getString(i);
+                    if (name.equals(username)) {
+                        placing = i + 1;
+                        break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return placing;
     }
     ////////////////////////////////////////////////////////////////////////////
 
