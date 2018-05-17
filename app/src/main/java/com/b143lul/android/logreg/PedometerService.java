@@ -13,6 +13,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -35,10 +36,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
+import static android.os.SystemClock.uptimeMillis;
 import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
+import static java.lang.Math.round;
 
 
 public class PedometerService extends Service implements SensorEventListener {
@@ -61,6 +65,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private String updateURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateStudent.php";
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
+    private final String updateSecondsURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateExerciseTime.php";
 
     String scoreText;
 
@@ -79,6 +84,13 @@ public class PedometerService extends Service implements SensorEventListener {
     private static boolean launchEnd;
 
     String CHANNEL_ID = "randchannellul";
+
+    Handler timerHandler = new Handler();
+    int tempTime = 0;
+    boolean timerStarted = false;
+    final String SECONDS_OF_EXERCISE_KEY_SHARED_PREF = "secondsofexercise";
+    long startStepTime;
+    CountDownTimer countDownTimer;
 
     @Override
     public void onCreate() {
@@ -134,6 +146,8 @@ public class PedometerService extends Service implements SensorEventListener {
 
         // Needs to be done for creating a notification channel
         createNotificationChannel();
+
+
 
         return START_STICKY;
     }
@@ -262,14 +276,60 @@ public class PedometerService extends Service implements SensorEventListener {
                 }
                 // NewStepCounter is the steps total for the session, constantly reset from all over the place
                 newStepCounter = countSteps - stepCounter;
+                Log.i(TAG, "Step counter called.");
             }
 
 
             if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
                 int detectSteps = (int) event.values[0];
-                sharedPreferences.edit().putInt("score", sharedPreferences.getInt("score", 0)).commit();
+                Log.i(TAG, "Step detector called: " + String.valueOf(detectSteps));
+                sharedPreferences.edit().putInt("score", sharedPreferences.getInt("score", 0)+detectSteps).commit();
                 currentStepsDetected += detectSteps; //steps = steps + detectSteps; // This variable will be initialised with the STEP_DETECTOR event value (1), and will be incremented by itself (+1) for as long as steps are detected.
 
+                if (detectSteps == 1) {
+                    if (!timerStarted) {
+                        startStepTime = uptimeMillis();
+                        timerStarted = true;
+                        //stepTimer();
+                    }
+                    if (countDownTimer != null) {
+                        countDownTimer.cancel();
+                    }
+
+                    // Countdown timer for the steptimer to count the amount of time used on exercise but only after 10 seconds of inactivity
+                    countDownTimer = new CountDownTimer(8000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+                        }
+
+                        public void onFinish() {
+                            // After finished
+                            tempTime = (int) Math.floor((uptimeMillis() - startStepTime) / 1000);
+                            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, tempTime - 5).commit();
+                            updateUserSeconds();
+                            Log.i(TAG, "tempTime = " + String.valueOf(tempTime));
+                            timerStarted = false;
+                            makeTrackingStepsNotification();
+                            checkDistanceToNextPlayer();
+                            tempTime = 0;
+                        }
+
+                    }.start();
+
+                    /*  Maybe could have a countdown timer that keeps being called and notification/time spent walking will be saved at finish
+                    new CountDownTimer(30000, 1000) {
+
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        public void onFinish() {
+                            // After finished
+                        }
+
+                    }.start();
+                    */
+                }
             }
 
             Log.v("Service Counter", String.valueOf(newStepCounter));
@@ -282,6 +342,120 @@ public class PedometerService extends Service implements SensorEventListener {
             }
         }
     }
+
+
+
+    /*
+
+    ALL Step Timer Stuff
+
+     */
+    ////////////////////////////////////////////////////////////////////////////
+    private void updateUserSeconds() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, updateSecondsURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        int newSeconds = 0;
+                        try {
+                            JSONObject jObject = new JSONObject(response);
+                            if (jObject.has(SECONDS_OF_EXERCISE_KEY_SHARED_PREF)) {
+                                newSeconds = Integer.parseInt(jObject.getString(SECONDS_OF_EXERCISE_KEY_SHARED_PREF).trim());
+                            } else {
+                                String errormsg = jObject.getString("Error");
+                                Log.e(TAG, errormsg);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        /*
+                        Maybe add a sharedprefs updater idk
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putInt("score", newScore);
+                        editor.commit();
+                        */
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                        //Log.e();
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("id", Integer.toString(id));
+                prams.put("seconds", Integer.toString(sharedPreferences.getInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, 0)));
+
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void makeTrackingStepsNotification() {
+        if (tempTime > 300) {
+            Random rand = new Random();
+            int  n = rand.nextInt(4) + 1;
+            Log.i(TAG, "n is: " + String.valueOf(n));
+            String title;
+            switch (n) {
+                case 1:
+                    title = "Good stuff!";
+                    launchTrackingStepsNotification(title);
+                    break;
+                case 2:
+                    title = "Nice!";
+                    launchTrackingStepsNotification(title);
+                    break;
+                case 3:
+                    title = "Wow!";
+                    launchTrackingStepsNotification(title);
+                    break;
+                case 4:
+                    title = "You've been going ham!";
+                    launchTrackingStepsNotification(title);
+                    break;
+                default:
+                    title = "Nice!";
+                    launchTrackingStepsNotification(title);
+                    break;
+            }
+            //50 is the maximum and the 1 is our minimum
+        }
+    }
+
+    private void launchTrackingStepsNotification(String title) {
+        Intent intent = new Intent(this, Splash_Screen.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.trac_logo)
+                .setContentTitle(title)
+                .setContentText("We recorded " + String.valueOf(round(tempTime/60)) + " minutes of exercise.  Keep going!")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(createID(), mBuilder.build());
+    }
+
+    private void checkDistanceToNextPlayer() {
+
+    }
+    ////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {

@@ -530,7 +530,7 @@ public class TrackMap extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-    void getGroupInfo(final String txtGroupCode) {
+    private void getGroupInfo(final String txtGroupCode) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, JoinGroupURL,
                 new Response.Listener<String>() {
                     @Override
