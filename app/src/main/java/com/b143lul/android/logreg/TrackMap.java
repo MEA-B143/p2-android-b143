@@ -422,6 +422,7 @@ public class TrackMap extends AppCompatActivity {
                         IntentForfeit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
                         IntentForfeit.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(IntentForfeit);
+                        stopService(new Intent(TrackMap.this, PedometerService.class));
                         finish();
                     }
                 },

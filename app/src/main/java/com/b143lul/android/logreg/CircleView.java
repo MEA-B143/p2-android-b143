@@ -28,7 +28,7 @@ public class CircleView extends View {
     }
     public void init(Context context) {
         paint1 = new Paint();
-        paint1.setColor(Color.BLUE);
+        paint1.setColor(getResources().getColor(android.R.color.holo_blue_light));
         setWillNotDraw(false);
         sharedPreferences = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
@@ -43,7 +43,7 @@ public class CircleView extends View {
                             paint1.setColor(Color.RED);
                             userscore = Integer.parseInt(groupScores.getString(groupScores.names().getString(i)).split(",")[1]);
                         } else {
-                            paint1.setColor(Color.BLUE);
+                            paint1.setColor(getResources().getColor(R.color.lightBlue));
                             // Get all the values that aren't yours to paint the circles.
                             String name = groupScores.names().getString(i);
                             userscore = Integer.parseInt(groupScores.getString(name));
@@ -63,7 +63,7 @@ public class CircleView extends View {
             }
             try {
                 int yourScore = groupScores.getInt(localUsername);
-                paint1.setColor(Color.RED);
+                paint1.setColor(getResources().getColor(R.color.orange));
                 paint1.setTextAlign(Paint.Align.CENTER);
                 paint1.setTextSize(40);
                 localUsername = localUsername.toUpperCase();
