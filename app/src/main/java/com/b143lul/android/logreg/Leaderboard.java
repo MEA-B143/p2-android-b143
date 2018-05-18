@@ -191,7 +191,7 @@ public class Leaderboard extends AppCompatActivity {
             TextView tvSteps = (TextView)view.findViewById(R.id.tv_steps);
             TextView tvPlacement = (TextView)view.findViewById(R.id.tv_placement);
 
-            tvName.setText(nameArr[i]);
+            tvName.setText(nameArr[i].toUpperCase());
             tvSteps.setText(scoreArr[i] + " steps");
             tvPlacement.setText(1+i +".");
             return view;
