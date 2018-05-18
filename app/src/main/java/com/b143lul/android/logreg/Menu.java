@@ -28,6 +28,12 @@ public class Menu extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_menu);
 
@@ -49,6 +55,7 @@ public class Menu extends AppCompatActivity {
                                  public void onClick(View v) {
                                      if(nameOfClass.equals("TrackMap")) {
                                          Intent IntentTrack = new Intent(Menu.this, TrackMap.class);
+                                         IntentTrack.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                         startActivity(IntentTrack);
                                      } else {
                                          finish();
@@ -61,6 +68,7 @@ public class Menu extends AppCompatActivity {
             public void onClick(View v) {
                     Intent IntentProfile = new Intent(Menu.this, MyProfile.class);
                     IntentProfile.putExtra("nameOfClass", nameOfClass);
+                    IntentProfile.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(IntentProfile);
 
             }
@@ -72,6 +80,7 @@ public class Menu extends AppCompatActivity {
                 if(nameOfClass.equals("TrackMap")) {
                     Intent IntentLeaderboard = new Intent(Menu.this, Leaderboard.class);
                     IntentLeaderboard.putExtra("nameOfClass", nameOfClass);
+                    IntentLeaderboard.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(IntentLeaderboard);
                 } else {
                     Toast.makeText(Menu.this, "Leaderboard is only accessible in a challenge.", Toast.LENGTH_SHORT).show();
@@ -85,6 +94,7 @@ public class Menu extends AppCompatActivity {
             public void onClick(View v) {
                 Intent IntentSettings = new Intent(Menu.this, SettingsScreen.class);
                 IntentSettings.putExtra("nameOfClass", nameOfClass);
+                IntentSettings.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(IntentSettings);
             }
         });
@@ -122,6 +132,7 @@ public class Menu extends AppCompatActivity {
         sharedPreferences.commit();
         Intent IntentLogout = new Intent(Menu.this, Login.class);
         IntentLogout.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        IntentLogout.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(IntentLogout);
         finish();
     }

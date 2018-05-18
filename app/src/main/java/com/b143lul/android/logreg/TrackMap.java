@@ -81,6 +81,12 @@ public class TrackMap extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_track_map);
 
         BtnForfeit = (Button)findViewById(R.id.btn_forfeit);
@@ -111,6 +117,7 @@ public class TrackMap extends AppCompatActivity {
                 String className = "TrackMap";
                 Intent IntentMenu = new Intent(TrackMap.this, Menu.class);
                 IntentMenu.putExtra("className", className);
+                IntentMenu.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(IntentMenu);
             }
         });
@@ -177,7 +184,9 @@ public class TrackMap extends AppCompatActivity {
         if (code.equals("none")) {
             // Not in a group.
             Intent groupJoinScreen = new Intent(getApplicationContext(), CreateJoinClass.class);
+            groupJoinScreen.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(groupJoinScreen);
+            finish();
         } else {
             Log.e(TAG, code);
             SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
@@ -223,6 +232,7 @@ public class TrackMap extends AppCompatActivity {
                                     handler.removeCallbacksAndMessages(null);
                                     Intent launchEnd = new Intent(getApplicationContext(), WinScreen.class);
                                     launchEnd.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                    launchEnd.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                     startActivity(launchEnd);
                                     finish();
                                 }
@@ -363,6 +373,7 @@ public class TrackMap extends AppCompatActivity {
         isServiceStopped = true;
         Intent launchWinScreen = new Intent(TrackMap.this, WinScreen.class);
         launchWinScreen.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        launchWinScreen.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(launchWinScreen);
         finish();
     }
@@ -408,13 +419,17 @@ public class TrackMap extends AppCompatActivity {
                         handler.removeCallbacksAndMessages(null);
                         Intent IntentForfeit = new Intent(TrackMap.this, CreateJoinClass.class);
                         IntentForfeit.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                        IntentForfeit.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
+                        IntentForfeit.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                         startActivity(IntentForfeit);
+                        finish();
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         error.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "Stable connection could not be made", Toast.LENGTH_LONG);
                     }
                 }) {
             @Override
@@ -603,6 +618,7 @@ public class TrackMap extends AppCompatActivity {
 
         getGroupParticipants();
         startGetScores();
+        getServerGroupCode();
         registerReceiver(broadcastReceiver, new IntentFilter(PedometerService.BROADCAST_ACTION));
     }
 

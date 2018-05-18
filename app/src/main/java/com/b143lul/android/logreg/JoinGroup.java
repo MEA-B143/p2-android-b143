@@ -45,6 +45,12 @@ public class JoinGroup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_join_group);
 
         edit_groupcode = (EditText) findViewById(R.id.etEnterGC);
@@ -65,6 +71,7 @@ public class JoinGroup extends AppCompatActivity {
                 String className = "JoinGroup";
                 Intent IntentMenu = new Intent(JoinGroup.this, Menu.class);
                 IntentMenu.putExtra("className", className);
+                IntentMenu.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(IntentMenu);
 
             }
@@ -124,6 +131,7 @@ public class JoinGroup extends AppCompatActivity {
 
                                 Intent goMap = new Intent(JoinGroup.this, TrackMap.class);
                                 goMap.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                goMap.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(goMap);
                                 finish();
                             }

@@ -44,6 +44,12 @@ public class ChallengeDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_challenge_details);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -60,6 +66,7 @@ public class ChallengeDetails extends AppCompatActivity {
                String className = "ChallengeDetails";
                Intent IntentMenu = new Intent(ChallengeDetails.this, Menu.class);
                IntentMenu.putExtra("className", className);
+               IntentMenu.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                startActivity(IntentMenu);
            }
        });
@@ -118,6 +125,7 @@ public class ChallengeDetails extends AppCompatActivity {
                                 editor.putString("groupname", challengeName + "aa");
                                 editor.commit();
                                 Intent IntentGroupCode = new Intent(ChallengeDetails.this, createdGroupCode.class);
+                                IntentGroupCode.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                                 startActivity(IntentGroupCode);
                             }
                         }

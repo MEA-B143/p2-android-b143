@@ -16,6 +16,12 @@ public class CreateJoinClass extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_create_join_class);
         createButton = (Button)findViewById(R.id.create);
         joinButton = (Button) findViewById(R.id.joinbutton);
@@ -27,7 +33,9 @@ public class CreateJoinClass extends AppCompatActivity {
                 String className = "CreateJoinClass";
                 Intent IntentMenu = new Intent(CreateJoinClass.this, Menu.class);
                 IntentMenu.putExtra("className", className);
+                IntentMenu.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(IntentMenu);
+                finish();
             }
         });
 
@@ -35,6 +43,7 @@ public class CreateJoinClass extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent goMapSelection = new Intent(CreateJoinClass.this, MapSelection.class);
+                goMapSelection.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(goMapSelection);
             }
         });
@@ -42,6 +51,7 @@ public class CreateJoinClass extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent joinGroup = new Intent(CreateJoinClass.this, JoinGroup.class);
+                joinGroup.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(joinGroup);
             }
         });

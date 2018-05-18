@@ -39,6 +39,12 @@ public class createdGroupCode extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_createdgroupcode);
         crGroupCode = (TextView) findViewById(R.id.groupcode);
         btn_LetsGo = (FloatingActionButton) findViewById(R.id.btnLetsGo);
@@ -54,6 +60,7 @@ public class createdGroupCode extends AppCompatActivity {
                 String className = "createdGroupCode";
                 Intent IntentMenu = new Intent(createdGroupCode.this, Menu.class);
                 IntentMenu.putExtra("className", className);
+                IntentMenu.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(IntentMenu);
             }
         });
@@ -64,6 +71,7 @@ public class createdGroupCode extends AppCompatActivity {
             public void onClick(View view) {
                 Intent IntentTrackMap = new Intent(createdGroupCode.this, TrackMap.class);
                 IntentTrackMap.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                IntentTrackMap.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(IntentTrackMap);
                 finish();
             }

@@ -222,6 +222,7 @@ public class PedometerService extends Service implements SensorEventListener {
         // Create an explicit intent for an Activity in your app
         Intent intent = new Intent(this, WinScreen.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -299,7 +300,7 @@ public class PedometerService extends Service implements SensorEventListener {
                     }
 
                     // Countdown timer for the steptimer to count the amount of time used on exercise but only after 10 seconds of inactivity
-                    countDownTimer = new CountDownTimer(8000, 1000) {
+                    countDownTimer = new CountDownTimer(10000, 1000) {
 
                         public void onTick(long millisUntilFinished) {
                         }
@@ -311,7 +312,7 @@ public class PedometerService extends Service implements SensorEventListener {
                             updateUserSeconds();
                             Log.i(TAG, "tempTime = " + String.valueOf(tempTime));
                             timerStarted = false;
-                            if (tempTime > 300) {
+                            if (tempTime > 60) {
                                 // If you walk for more than 5 minutes
                                 makeTrackingStepsNotification();
                                 //Random rand = new Random();
@@ -438,7 +439,7 @@ public class PedometerService extends Service implements SensorEventListener {
 
     private void launchTrackingStepsNotification(String title) {
         Intent intent = new Intent(this, Splash_Screen.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.trac_logo)
@@ -509,7 +510,7 @@ public class PedometerService extends Service implements SensorEventListener {
     private void ohDamnNearbyNotification(String title, String message) {
         // Might switch over to launchTrackingStepsNotification(String title) idk... I thought that this made more sense and the app is like 3MB so it's not like we're tryna save space
         Intent intent = new Intent(this, Splash_Screen.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.trac_logo)
