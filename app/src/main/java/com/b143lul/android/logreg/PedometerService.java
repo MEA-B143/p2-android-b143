@@ -495,7 +495,7 @@ public class PedometerService extends Service implements SensorEventListener {
                 String[] splitNextOpponentInfo = nextPlayer.trim().split(",");
                 String theirName = splitNextOpponentInfo[0];
                 int stepsDifference = Integer.parseInt(splitNextOpponentInfo[1].trim());
-                if (stepsDifference < 500) {
+                if (stepsDifference < 1500) {
                     String title = "Overtake your friend!";
                     String message = "You're only " + String.valueOf(stepsDifference) + " steps away from reaching " + theirName.toUpperCase() + "!  Try overtake 'em!";
                     ohDamnNearbyNotification(title, message);
