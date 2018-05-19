@@ -68,6 +68,7 @@ public class PedometerService extends Service implements SensorEventListener {
     private final String completedURL = "http://b143servertesting.gearhostpreview.com/Update/EndRace.php";
     private final String updateSecondsURL = "http://b143servertesting.gearhostpreview.com/Update/UpdateExerciseTime.php";
     private final String getGroupParticipantsURL = "http://b143servertesting.gearhostpreview.com/GroupCodes/getGroupParticipants.php";
+    private final String receiveURL = "http://b143servertesting.gearhostpreview.com/GetVals/GetField.php";
 
     String scoreText;
 
@@ -148,10 +149,46 @@ public class PedometerService extends Service implements SensorEventListener {
 
         // Needs to be done for creating a notification channel
         createNotificationChannel();
-
+        getUserSeconds();
 
 
         return START_STICKY;
+    }
+
+    private void getUserSeconds() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, receiveURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onGetUserSecondsResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG,Log.getStackTraceString(error));
+                        // Print any errors to the console.
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("id", Integer.toString(id));
+                prams.put("field", "secondsofexercise");
+
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void onGetUserSecondsResponse(String response) {
+        int seconds = Integer.parseInt(response.split(",")[0]);
+        int currentTime = sharedPreferences.getInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, 0);
+        if (seconds > currentTime) {
+            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, seconds).apply();
+        }
     }
 
     private void sendRaceCompleteToServer() {
@@ -636,6 +673,7 @@ public class PedometerService extends Service implements SensorEventListener {
             if (!serviceStopped) { // Only allow the repeating timer while service is running (once service is stopped the flag state will change and the code inside the conditional statement here will not execute).
                 // Call the method that updates score on the server..
                 changeScore(newStepCounter);
+                updateUserSeconds();
                 // Call "handler.postDelayed" again, after a specified delay (of a minute).
                 Log.d(TAG, Integer.toString(newStepCounter));
                 handler2.postDelayed(this, 10000);
