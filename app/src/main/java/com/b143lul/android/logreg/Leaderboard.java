@@ -3,9 +3,9 @@ package com.b143lul.android.logreg;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -25,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
@@ -50,6 +49,12 @@ public class Leaderboard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_leaderboard);
         SharedPreferences sharedPreferences = Leaderboard.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         X = (ImageButton) findViewById(R.id.x);
@@ -186,7 +191,7 @@ public class Leaderboard extends AppCompatActivity {
             TextView tvSteps = (TextView)view.findViewById(R.id.tv_steps);
             TextView tvPlacement = (TextView)view.findViewById(R.id.tv_placement);
 
-            tvName.setText(nameArr[i]);
+            tvName.setText(nameArr[i].toUpperCase());
             tvSteps.setText(scoreArr[i] + " steps");
             tvPlacement.setText(1+i +".");
             return view;

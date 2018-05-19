@@ -50,6 +50,12 @@ public class Login extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_login);
         //editTextEmail=(EditText)findViewById(R.id.editText_email);
         editTextUsername = (EditText) findViewById(R.id.editText_username);
@@ -74,6 +80,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intentSignUp=new Intent(Login.this,Signup.class);
+                intentSignUp.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intentSignUp);
             }
         });
@@ -195,6 +202,7 @@ public class Login extends AppCompatActivity {
         if (code.equals("none")) {
             // Not in a group.
             Intent groupJoinScreen = new Intent(Login.this, CreateJoinClass.class);
+            groupJoinScreen.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(groupJoinScreen);
             finish();
         } else {
@@ -205,6 +213,7 @@ public class Login extends AppCompatActivity {
             editor.putInt("groupcode", Integer.parseInt(code.trim()));
             editor.commit();
             Intent launchMap = new Intent(Login.this, TrackMap.class);
+            launchMap.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(launchMap);
             finish();
         }

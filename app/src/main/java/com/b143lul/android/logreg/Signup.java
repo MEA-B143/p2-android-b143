@@ -42,6 +42,12 @@ public class Signup extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
+            // Activity was brought to front and not created,
+            // Thus finishing this will get us to the last viewed activity
+            finish();
+            return;
+        }
         setContentView(R.layout.activity_signup);
         edit_username = (EditText) findViewById(R.id.id_username);
         edit_email = (EditText) findViewById(R.id.id_email);
@@ -58,6 +64,7 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intentLogin=new Intent(Signup.this,Login.class);
+                intentLogin.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(intentLogin);
             }
         });
@@ -100,6 +107,7 @@ public class Signup extends AppCompatActivity {
                 super.onPostExecute(s);
                 loading.dismiss();
                 Intent groupJoinScreen = new Intent(Signup.this, Login.class);
+                groupJoinScreen.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 startActivity(groupJoinScreen);
                 finish();
             }
