@@ -91,7 +91,7 @@ public class PedometerService extends Service implements SensorEventListener {
     Handler timerHandler = new Handler();
     int tempTime = 0;
     boolean timerStarted = false;
-    final String SECONDS_OF_EXERCISE_KEY_SHARED_PREF = "secondsofexercise";
+    final static String SECONDS_OF_EXERCISE_KEY_SHARED_PREF = "secondsofexercise";
     long startStepTime;
     CountDownTimer countDownTimer;
 

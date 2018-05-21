@@ -38,6 +38,7 @@ import java.util.Map;
 import static com.b143lul.android.logreg.Login.ID_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.LOGGEDIN_SHARED_PREF;
 import static com.b143lul.android.logreg.Login.SHARED_PREF_NAME;
+import static com.b143lul.android.logreg.PedometerService.SECONDS_OF_EXERCISE_KEY_SHARED_PREF;
 
 public class TrackMap extends AppCompatActivity {
     private int id;
@@ -147,6 +148,42 @@ public class TrackMap extends AppCompatActivity {
         getGroupParticipants();
         startGetScores();
 
+    }
+
+    private void getUserSeconds() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, receiveURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        onGetUserSecondsResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e(TAG,Log.getStackTraceString(error));
+                        // Print any errors to the console.
+                    }
+                }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> prams = new HashMap<>();
+                prams.put("id", Integer.toString(id));
+                prams.put("field", SECONDS_OF_EXERCISE_KEY_SHARED_PREF);
+
+                return prams;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void onGetUserSecondsResponse(String response) {
+        int seconds = Integer.parseInt(response.split(",")[0]);
+        int currentTime = sharedPreferences.getInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, 0);
+        if (seconds > currentTime) {
+            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, seconds).apply();
+        }
     }
 
     private void getServerGroupCode() {
