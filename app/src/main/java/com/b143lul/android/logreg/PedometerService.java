@@ -641,7 +641,7 @@ public class PedometerService extends Service implements SensorEventListener {
                         editor.putInt("score", newScore);
                         editor.commit();
                         currentStepsDetected = 0;
-                        stepCounter = 0;
+                        //stepCounter = 0;
                         newStepCounter = 0;
 
                         if (launchEnd) {
@@ -676,7 +676,7 @@ public class PedometerService extends Service implements SensorEventListener {
                 changeScore(newStepCounter);
                 updateUserSeconds();
                 // Call "handler.postDelayed" again, after a specified delay (of a minute).
-                Log.d(TAG, Integer.toString(newStepCounter));
+                Log.d(TAG, "newStepCounter: " + Integer.toString(newStepCounter));
                 handler2.postDelayed(this, 10000);
             }
         }
@@ -727,7 +727,6 @@ public class PedometerService extends Service implements SensorEventListener {
     public static void setNewStepCounter(int value) {
         newStepCounter = value;
         currentStepsDetected = 0;
-        stepCounter = 0;
     }
 
     public static void setLaunchEnd(boolean value) {
