@@ -77,6 +77,8 @@ public class TrackMap extends AppCompatActivity {
     private TextView steps;
     /////////////////////////////
 
+    RequestQueue requestQueue;
+
 
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
@@ -89,6 +91,8 @@ public class TrackMap extends AppCompatActivity {
             return;
         }
         setContentView(R.layout.activity_track_map);
+
+        requestQueue = Volley.newRequestQueue(this);
 
         BtnForfeit = (Button)findViewById(R.id.btn_forfeit);
         BtnForfeit.setOnClickListener(new View.OnClickListener() {
@@ -175,7 +179,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -213,7 +216,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -298,7 +300,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -381,7 +382,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -439,7 +439,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -479,7 +478,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -580,7 +578,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
@@ -624,7 +621,6 @@ public class TrackMap extends AppCompatActivity {
                 return prams;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
     }
 
