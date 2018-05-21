@@ -148,7 +148,7 @@ public class TrackMap extends AppCompatActivity {
         checkGroupCompleted();
 
         checkEndReachedLoop();
-
+        getUserSeconds();
         getGroupParticipants();
         startGetScores();
 
