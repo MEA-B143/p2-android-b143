@@ -33,11 +33,14 @@ public class MyProfile extends AppCompatActivity {
     TextView usernameName;
     TextView stepAmount;
     TextView gamesAmount;
+    TextView exerciseTime;
     ImageButton btn_back;
     ImageButton X;
     int FLAG_ACTIVITY_CLEAR_TOP;
     private JSONObject yourScore;
     private int id;
+    float secondsexercise;
+    int minutesExercise;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,11 +55,15 @@ public class MyProfile extends AppCompatActivity {
         usernameName = (TextView) findViewById(R.id.usernameName);
         stepAmount = (TextView) findViewById(R.id.amountOfSteps);
         gamesAmount = (TextView) findViewById(R.id.amountOfGames);
+        exerciseTime = (TextView) findViewById(R.id.exerciseTime);
         X = (ImageButton) findViewById(R.id.x);
         final SharedPreferences sharedPreferences = MyProfile.this.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         username_Name = sharedPreferences.getString("username", "username");
         usernameName.setText(username_Name);
         gamesAmount.setText("  " + 0);
+        secondsexercise = sharedPreferences.getInt("secondsofexercise", 0);
+        minutesExercise = (int) secondsexercise/60;
+        exerciseTime.setText(String.valueOf("  " + minutesExercise + "  min"));
         //Bundle bundle=getIntent().getExtras();
         Intent intent = getIntent();
         final String nameOfClass = intent.getExtras().getString("nameOfClass");
