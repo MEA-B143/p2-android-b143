@@ -3,6 +3,9 @@
     package="com.b143lul.android.logreg">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED">
+    </uses-permission>
+    <uses-permission android:name="android.permission." />
 
     <uses-feature
         android:name="@string/step_detector"
@@ -68,6 +71,15 @@
 
         <activity android:name=".WinScreen"
             android:screenOrientation="portrait"></activity>
+        <receiver android:name=".BootBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
