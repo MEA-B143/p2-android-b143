@@ -346,7 +346,7 @@ public class PedometerService extends Service implements SensorEventListener {
                             // After finished
                             tempTime = (int) Math.floor((uptimeMillis() - startStepTime) / 1000);
                             int previousSeconds = sharedPreferences.getInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, 0);
-                            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, previousSeconds + (tempTime - 20)).commit();
+                            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, previousSeconds + (tempTime - 30)).commit();
                             updateUserSeconds();
                             Log.i(TAG, "tempTime = " + String.valueOf(tempTime));
                             timerStarted = false;
