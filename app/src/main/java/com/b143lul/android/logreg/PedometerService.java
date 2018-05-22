@@ -337,7 +337,7 @@ public class PedometerService extends Service implements SensorEventListener {
                     }
 
                     // Countdown timer for the steptimer to count the amount of time used on exercise but only after 10 seconds of inactivity
-                    countDownTimer = new CountDownTimer(10000, 1000) {
+                    countDownTimer = new CountDownTimer(30000, 1000) {
 
                         public void onTick(long millisUntilFinished) {
                         }
@@ -346,7 +346,7 @@ public class PedometerService extends Service implements SensorEventListener {
                             // After finished
                             tempTime = (int) Math.floor((uptimeMillis() - startStepTime) / 1000);
                             int previousSeconds = sharedPreferences.getInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, 0);
-                            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, previousSeconds + (tempTime - 5)).commit();
+                            sharedPreferences.edit().putInt(SECONDS_OF_EXERCISE_KEY_SHARED_PREF, previousSeconds + (tempTime - 20)).commit();
                             updateUserSeconds();
                             Log.i(TAG, "tempTime = " + String.valueOf(tempTime));
                             timerStarted = false;
