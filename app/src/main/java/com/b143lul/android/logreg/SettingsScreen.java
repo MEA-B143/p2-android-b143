@@ -87,7 +87,7 @@ public class SettingsScreen extends AppCompatActivity {
             }
         });
 
-
+        switch1.setChecked(sharedPreferences.getBoolean("notifications", true));
         switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -98,7 +98,7 @@ public class SettingsScreen extends AppCompatActivity {
                     notifications.setText("Switch notifications on");
                     editor.commit();
                 } else {
-                    editor.putBoolean("notification", false);
+                    editor.putBoolean("notifications", false);
                     notifications.setText("Switch notifcations off");
                     editor.commit();
                 }

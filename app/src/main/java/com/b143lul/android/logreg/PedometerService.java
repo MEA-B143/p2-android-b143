@@ -274,7 +274,9 @@ public class PedometerService extends Service implements SensorEventListener {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(createID(), mBuilder.build());
+        if (sharedPreferences.getBoolean("notifications", true)) {
+            notificationManager.notify(createID(), mBuilder.build());
+        }
     }
 
     private int createID(){
@@ -491,7 +493,9 @@ public class PedometerService extends Service implements SensorEventListener {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(createID(), mBuilder.build());
+        if (sharedPreferences.getBoolean("notifications", true)) {
+            notificationManager.notify(createID(), mBuilder.build());
+        }
     }
 
     private void checkDistanceToNextPlayer() {
@@ -562,7 +566,9 @@ public class PedometerService extends Service implements SensorEventListener {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(createID(), mBuilder.build());
+        if (sharedPreferences.getBoolean("notifications", true)) {
+            notificationManager.notify(createID(), mBuilder.build());
+        }
     }
 
     private String getDistanceToNextPlayer(JSONObject groupScores, String username) {
