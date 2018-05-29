@@ -337,7 +337,7 @@ public class PedometerService extends Service implements SensorEventListener {
                     }
 
                     // Countdown timer for the steptimer to count the amount of time used on exercise but only after 10 seconds of inactivity
-                    countDownTimer = new CountDownTimer(30000, 1000) {
+                    countDownTimer = new CountDownTimer(60000, 1000) {
 
                         public void onTick(long millisUntilFinished) {
                         }
@@ -350,7 +350,7 @@ public class PedometerService extends Service implements SensorEventListener {
                             updateUserSeconds();
                             Log.i(TAG, "tempTime = " + String.valueOf(tempTime));
                             timerStarted = false;
-                            if (tempTime > 60) {
+                            if (tempTime > 300) {
                                 // If you walk for more than 5 minutes
                                 makeTrackingStepsNotification();
                                 //Random rand = new Random();
