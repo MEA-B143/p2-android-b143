@@ -135,5 +135,6 @@ public class Menu extends AppCompatActivity {
         IntentLogout.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(IntentLogout);
         finish();
+        stopService(new Intent(getApplicationContext(), PedometerService.class));
     }
 }
